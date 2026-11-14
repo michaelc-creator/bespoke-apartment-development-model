@@ -110,14 +110,15 @@
   }
 
   /* ---------- sitework & drainage (Bespoke add-on) ---------- */
-  var SW_BASIS = { CY: 'per cubic yard', Acre: 'per acre', Pond: 'per pond (lump sum)', LF: 'per linear foot', SF: 'per square foot', LS: 'lump sum' };
+  var SW_BASIS = { CY: 'per cubic yard', Acre: 'per acre', Pond: 'per pond (lump sum)', LF: 'per linear foot', SF: 'per square foot', Space: 'per space', LS: 'lump sum' };
+  var SW_QTY = { CY: 'CY', Acre: 'acres', Pond: 'ponds', LF: 'LF', SF: 'SF', Space: 'spaces' };
   function siteworkHTML() {
     var sw = S.sitework;
     var rows = sw.items.map(function (it, j) {
       var basis = it.key === 'pond'
         ? '<select data-sw="' + j + '" data-k="basis" aria-label="Pond cost basis"><option value="Acre"' + (it.basis === 'Acre' ? ' selected' : '') + '>per acre</option><option value="Pond"' + (it.basis === 'Pond' ? ' selected' : '') + '>per pond</option></select>'
         : esc(SW_BASIS[it.basis]);
-      var qtyLbl = { CY: 'CY', Acre: 'acres', Pond: 'ponds', LF: 'LF', SF: 'SF' }[it.basis];
+      var qtyLbl = SW_QTY[it.basis];
       var qty = it.basis === 'LS' ? '<td class="n fixed" data-l="Quantity">1</td>' : '<td class="n" data-l="Quantity (' + qtyLbl + ')"><input data-sw="' + j + '" data-k="qty" inputmode="decimal" value="' + (it.qty != null ? n0(it.qty) : '') + '" aria-label="' + esc(it.name) + ' quantity (' + qtyLbl + ')"></td>';
       return '<tr><td class="lbl">' + esc(it.name) + '</td><td class="n" data-l="Unit cost ($)"><input data-sw="' + j + '" data-k="cost" inputmode="decimal" value="' + (it.cost != null ? n0(it.cost) : '') + '" aria-label="' + esc(it.name) + ' unit cost"></td><td data-l="Basis">' + basis + '</td>' + qty + '<td class="n" data-l="Line total" data-swt="' + j + '">—</td></tr>';
     }).join('');
@@ -328,7 +329,7 @@
       rowsB += '<tr class="grp"><td colspan="7">' + c[1] + '</td></tr>';
       if (c[0] === 'site') {
         var sw = B.sitework, swL = ls[0];
-        sw.items.forEach(function (it) { rowsB += tr([esc(it.name) + (it.basis === 'LS' ? ' (lump sum)' : ' (' + n0(it.qty) + ' ' + it.basis + ' × $' + n0(it.cost) + ')'), 'M' + swL.start + '–' + swL.end, swL.method, money(it.total / u), '$' + (it.total / nra).toFixed(2), money(it.total), pct(it.total / tot, 1)]); });
+        sw.items.forEach(function (it) { rowsB += tr([esc(it.name) + (it.basis === 'LS' ? ' (lump sum)' : ' (' + n0(it.qty) + ' ' + (SW_QTY[it.basis] || it.basis) + ' × $' + n0(it.cost) + ')'), 'M' + swL.start + '–' + swL.end, swL.method, money(it.total / u), '$' + (it.total / nra).toFixed(2), money(it.total), pct(it.total / tot, 1)]); });
         rowsB += tr(['Contingency (' + pct(sw.contPct, 1) + ' of ' + money(sw.subtotal) + ')', 'M' + swL.start + '–' + swL.end, swL.method, money(sw.contingency / u), '$' + (sw.contingency / nra).toFixed(2), money(sw.contingency), pct(sw.contingency / tot, 1)]);
       } else ls.forEach(function (L) { rowsB += line(L); });
       rowsB += tr(['Total ' + c[1].toLowerCase(), '', '', money(s / u), '$' + (s / nra).toFixed(2), money(s), pct(s / tot, 1)], 'sub');
@@ -381,6 +382,7 @@
     ALL.forEach(function (f) { fset(f, s, null); });
     s.unitMix = s.unitMix.map(function () { return { name: '', units: null, sf: null, freeLeaseUp: null, freeStab: null, rent: null }; });
     s.opex.forEach(function (o) { o.amount = null; o.fixed = null; });
+    s.sitework.items.push({ key: 'parking', name: 'Parking lot surface', basis: 'Space', cost: 0, qty: 0 });
     s.sitework.items.forEach(function (it) { it.cost = null; if (it.basis !== 'LS') it.qty = null; });
     s.sitework.contPct = null;
     return s;
@@ -477,8 +479,33 @@
   }
   var rz = null; window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (R) renderCharts(); else ['chBudget', 'chOps', 'chLoan', 'chWf'].forEach(blankChart); }, 120); });
   $('yr').textContent = new Date().getFullYear();
-  S = blankState();
+  /* full input set -> page state; sitework lines are matched to the page's lines by key */
+  function normalize(obj) {
+    var s = blankState();
+    Object.keys(obj).forEach(function (k) { if (k !== 'sitework') s[k] = clone(obj[k]); });
+    var sw = obj.sitework || {};
+    if (sw.contPct != null) s.sitework.contPct = sw.contPct;
+    (sw.items || []).forEach(function (src) {
+      var it = s.sitework.items.filter(function (x) { return x.key === src.key; })[0]; if (!it) return;
+      if (src.cost != null) it.cost = src.cost;
+      if (src.qty != null && it.basis !== 'LS') it.qty = src.qty;
+      if (SW_BASIS[src.basis] && src.basis !== 'LS' && it.basis !== 'LS') it.basis = src.basis;
+    });
+    return s;
+  }
+  /* optional input set in the URL fragment: #s=<base64url JSON> (fragment is never sent to the server) */
+  function fromHash() {
+    var m = /^#s=([A-Za-z0-9_\-]+)/.exec(location.hash || ''); if (!m) return null;
+    try {
+      var b = m[1].replace(/-/g, '+').replace(/_/g, '/'); while (b.length % 4) b += '=';
+      var bin = atob(b), bytes = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      var obj = JSON.parse(new TextDecoder().decode(bytes));
+      return obj && typeof obj === 'object' ? normalize(obj) : null;
+    } catch (e) { return null; }
+  }
+  S = fromHash() || blankState();
   buildInputs(); recalc();
+  window.addEventListener('hashchange', function () { S = fromHash() || blankState(); buildInputs(); recalc(); });
   /* test hook: load a full input set (used by the QA harness, not by the page) */
-  window.__acre = { get state() { return S; }, get result() { return R; }, load: function (obj) { S = clone(obj); buildInputs(); recalc(); } };
+  window.__acre = { get state() { return S; }, get result() { return R; }, load: function (obj) { S = normalize(obj); buildInputs(); recalc(); } };
 })();
