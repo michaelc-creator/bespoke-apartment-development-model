@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Bespoke Underwriting Apartment Development Model</title>
-<meta name="description" content="Ground-up apartment development underwriting in the browser: budget, construction loan, lease-up, operations, sale and LP/GP waterfall. Based on the A.CRE Apartment Development Model by Adventures in CRE.">
+<meta name="description" content="Ground-up apartment development underwriting in the browser: budget, construction loan, lease-up, operations, sale and LP/GP waterfall.">
 <link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap">
@@ -42,8 +42,8 @@
     </div>
     <div class="stack">
       <div class="card input-bar">
-        <p>Default values are the <b>A.CRE sample inputs</b> that ship with the A.CRE Apartment Development Model v3.0 (300 units, Jan 2026 start). They are an illustration, not a real deal. Fields you change are marked <span class="est edited">Edited</span>.</p>
-        <button class="btn primary" id="resetBtn" type="button">Reset to A.CRE sample inputs</button>
+        <p>Fields you change are marked <span class="est edited">Edited</span>.</p>
+        <button class="btn primary" id="resetBtn" type="button">Reset inputs</button>
       </div>
       <div id="inputGroups" class="stack"></div>
       <div class="card"><div class="card-h"><h3>Unit mix</h3><span class="note" id="umNote"></span></div><div class="tw scroll"><table class="t" id="unitMix"></table></div></div>
@@ -94,7 +94,7 @@
 
 <footer class="foot">
   <div class="w">
-    <p><b>Credit.</b> Based on the <a href="https://www.adventuresincre.com/apartment-development-model/" target="_blank" rel="noopener">A.CRE Apartment Development Model</a> by Adventures in CRE (v3.0, author Spencer Burton). The calculations are a JavaScript port of that workbook, and the default inputs are its sample inputs. Use is subject to the A.CRE license: <a href="LICENSE.txt">LICENSE.txt</a>. A copy of the workbook's <a href="version.html">Version tab</a> is included, as the license requires.</p>
+    <p>Based on the <a href="https://www.adventuresincre.com/apartment-development-model/" target="_blank" rel="noopener">A.CRE Apartment Development Model</a> by Adventures in CRE · <a href="LICENSE.txt">License</a> · <a href="version.html">Version tab</a></p>
     <p><b>What is not included.</b> Mezzanine debt, floating-rate construction debt, the retail module, the detailed operating-expense and detailed lease-up tabs, detail-method budget lines, the double (co-GP) promote, and the residual land value tool.</p>
     <p>For illustration and education only. Not investment, tax, legal or lending advice. Check every output against your own underwriting before relying on it.</p>
     <p>© <span id="yr"></span> Bespoke Underwriting</p>

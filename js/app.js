@@ -68,7 +68,7 @@
       { p: 'mgmtFeePct', label: 'Management fee', f: '%', min: 0, max: 0.08, step: 0.0025, hint: '% of effective gross revenue' },
       { p: 'insurance', label: 'Insurance (annual)', f: '$', min: 0, max: 1000000, step: 1000 },
       { p: 'propertyTax', label: 'Property tax (stabilized, annual)', f: '$', min: 0, max: 3000000, step: 1000 },
-      { p: 'saleYearTax', label: 'Sale-year property tax', f: '$', min: 0, max: 3000000, step: 1000, hint: 'Separate workbook input' },
+      { p: 'saleYearTax', label: 'Sale-year property tax', f: '$', min: 0, max: 3000000, step: 1000, hint: 'Not linked to property tax above' },
       { p: 'otherCapex', label: 'Capital expenditures (annual)', f: '$', min: 0, max: 500000, step: 1000 }
     ] },
     { title: 'Valuation and sale', fields: [
@@ -99,7 +99,7 @@
   }
   function parseIn(f, t) { var v = parseFloat(String(t).replace(/[^0-9.\-]/g, '')); if (!isFinite(v)) return null; return f.f === '%' ? v / 100 : v; }
 
-  function chip(edited) { return '<span class="est' + (edited ? ' edited' : '') + '">' + (edited ? 'Edited' : 'A.CRE sample') + '</span>'; }
+  function chip(edited) { return edited ? '<span class="est edited">Edited</span>' : ''; }
   function fieldHTML(f, i) {
     var id = 'f' + i, v = fget(f, S), lab = '<label for="' + id + '">' + esc(f.label) + '<span data-chip="' + i + '">' + chip(!same(v, fget(f, D))) + '</span></label>', box;
     if (f.f === 'sel') box = '<div class="box"><select id="' + id + '" data-i="' + i + '">' + f.opts.map(function (o) { return '<option value="' + esc(String(o[0])) + '"' + (String(o[0]) === String(v) ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></div>';
@@ -203,7 +203,7 @@
 
   /* ---------- KPI tiles ---------- */
   var KPIS = [
-    { k: 'totalCost', t: 'Total Project Cost', f: money, s: function (r) { return money(r.kpis.costPerUnit) + ' / unit'; }, d: 'Land, hard and soft costs plus capitalized construction interest and the lease-up operating shortfall (A.CRE "Total Project Cost").' },
+    { k: 'totalCost', t: 'Total Project Cost', f: money, s: function (r) { return money(r.kpis.costPerUnit) + ' / unit'; }, d: 'Land, hard and soft costs plus capitalized construction interest and the lease-up operating shortfall.' },
     { k: 'loan', t: 'Construction Loan', f: money, s: function (r) { return pct(r.sources.ltcActual, 1) + ' loan-to-cost'; }, d: 'Construction loan commitment = loan-to-cost × total project cost. Equity is solved so that equity + loan = total cost, including the interest the loan itself carries.' },
     { k: 'yocUntrended', t: 'Yield on Cost', f: function (v) { return pct(v); }, s: function () { return 'Untrended NOI / cost'; }, d: 'Untrended (today\'s rents and expenses) stabilized NOI divided by total project cost.' },
     { k: 'spreadUntrended', t: 'Development Spread', f: bps, s: function (r) { return 'vs. ' + pct(r.inputs.capRateToday) + ' market cap'; }, d: 'Untrended yield on cost minus today\'s market cap rate, in basis points. The margin the development earns over buying a stabilized asset.' },
