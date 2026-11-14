@@ -20,6 +20,15 @@
 
   /* ---------- input definitions (A.CRE input cells in comments) ---------- */
   var tEnd = { get: function (s) { return s.timing.construction[1]; }, set: function (s, v) { v = v == null ? null : Math.max(1, Math.round(v)); ['construction', 'otherHard', 'cm', 'devFee', 'sitework'].forEach(function (k) { s.timing[k][1] = v; }); } };
+  /* soft-cost lines that make up the A.CRE 'Marketing and Leasing' line (engine: I.softItems + I.softContPct) */
+  var SOFT_ITEMS = [
+    { key: 'impact', name: 'City Impact Fees', short: 'City Impact Fees', narrow: 'Impact Fees' },
+    { key: 'utility', name: 'Sewer & Water Capacity Charges', short: 'Sewer & Water Capacity', narrow: 'Sewer/Water' },
+    { key: 'school', name: 'School Fees', short: 'School Fees', narrow: 'School Fees' },
+    { key: 'rtcip', name: 'Regional Transportation Fee (RTCIP)', short: 'Transportation Fee', narrow: 'RTCIP' },
+    { key: 'marketing', name: 'Marketing and Leasing', short: 'Marketing and Leasing', narrow: 'Marketing' }
+  ];
+  var SOFT_NARROW = { soft_cont: 'Soft Cont.' }; SOFT_ITEMS.forEach(function (x) { SOFT_NARROW['soft_' + x.key] = x.narrow; });
   var GROUPS = [
     { title: 'Timing', fields: [
       { p: 'startDate', label: 'Analysis start date', f: 'date' },
@@ -36,7 +45,12 @@
       { p: 'closingCosts', label: 'Land closing costs', f: '$', min: 0, max: 2000000, step: 5000 },
       { p: 'aePct', label: 'Architecture & engineering', f: '%', min: 0, max: 0.15, step: 0.0025, slider: true, hint: '% of hard costs' },
       { p: 'cmPct', label: 'Construction management', f: '%', min: 0, max: 0.10, step: 0.0025, hint: '% of hard costs' },
-      { p: 'marketing', label: 'Marketing and leasing', f: '$', min: 0, max: 1000000, step: 5000 },
+      { opt: true, p: 'softItems.0.amount', label: 'City impact fees', f: '$', min: 0, max: 30000000, step: 5000 },
+      { opt: true, p: 'softItems.1.amount', label: 'Sewer & water capacity charges', f: '$', min: 0, max: 20000000, step: 5000 },
+      { opt: true, p: 'softItems.2.amount', label: 'School fees', f: '$', min: 0, max: 10000000, step: 5000 },
+      { opt: true, p: 'softItems.3.amount', label: 'Regional transportation fee (RTCIP)', f: '$', min: 0, max: 10000000, step: 5000 },
+      { p: 'softItems.4.amount', label: 'Marketing and leasing', f: '$', min: 0, max: 5000000, step: 5000 },
+      { opt: true, p: 'softContPct', label: 'Soft-cost contingency', f: '%', min: 0, max: 0.15, step: 0.0025, hint: '% of A&E, construction management, fees and marketing' },
       { p: 'devFeePct', label: 'Development fee', f: '%', min: 0, max: 0.08, step: 0.0025, slider: true, hint: '% of land, hard and soft costs' },
       { opt: true, p: 'financingFees', label: 'Financing fees', f: '$', min: 0, max: 2000000, step: 5000 }
     ] },
@@ -229,7 +243,7 @@
 
   function chartBudget() {
     var b = box('chBudget'), B = R.budget, narrow = b.w < 440;
-    var rows = B.lines.map(function (L) { return { n: L.name, v: L.amount, c: L.group === 'site' ? C.site : L.cat === 'land' ? C.b3 : L.cat === 'hard' ? C.blue : C.b2 }; });
+    var rows = B.lines.map(function (L) { return { n: L.group === 'mkt' ? (narrow ? SOFT_NARROW[L.key] || L.short || L.name : L.short || L.name) : L.name, v: L.amount, c: L.group === 'site' ? C.site : L.cat === 'land' ? C.b3 : L.cat === 'hard' ? C.blue : C.b2 }; });
     rows.push({ n: 'Capitalized Interest', v: B.interestReserve, c: C.b4 }, { n: 'Operating Shortfall', v: B.shortfall, c: C.b4 });
     if (B.financingFees) rows.push({ n: 'Financing Fees', v: B.financingFees, c: C.b4 });
     if (narrow) rows.forEach(function (r) { r.n = r.n.replace('Architecture & Engineering', 'A&E').replace('Construction Management', 'Constr. Mgmt').replace('Marketing and Leasing', 'Marketing').replace('Construction Costs', 'Construction').replace('Capitalized Interest', 'Cap. Interest').replace('Operating Shortfall', 'Op. Shortfall').replace('Sitework and Drainage', 'Site & Drainage').replace('Other Hard Costs', 'Other Hard').replace('Development Fee', 'Dev. Fee').replace('Closing Costs', 'Closing').replace('Land Costs', 'Land').replace('Financing Fees', 'Fin. Fees'); });
@@ -323,7 +337,7 @@
     $('srcTot').textContent = money(Sx.equity + Sx.loan); $('useTot').textContent = money(tot);
 
     var nra = R.nra, rowsB = '', cats = [['land', 'Land'], ['hard', 'Hard costs'], ['site', 'Sitework and drainage'], ['soft', 'Soft costs']];
-    function line(L) { return tr([esc(L.name), L.start === L.end ? 'M' + L.start : 'M' + L.start + '–' + L.end, L.method, money(L.amount / u), '$' + (L.amount / nra).toFixed(2), money(L.amount), pct(L.amount / tot, 1)]); }
+    function line(L) { return tr([esc(L.key === 'soft_cont' ? L.name + ' (' + pct(L.contPct, 1) + ' of ' + money(L.base) + ')' : L.name), L.start === L.end ? 'M' + L.start : 'M' + L.start + '–' + L.end, L.method, money(L.amount / u), '$' + (L.amount / nra).toFixed(2), money(L.amount), pct(L.amount / tot, 1)]); }
     cats.forEach(function (c) {
       var ls = B.lines.filter(function (L) { return c[0] === 'site' ? L.group === 'site' : L.cat === c[0] && L.group !== 'site'; }), s = ls.reduce(function (a, L) { return a + L.amount; }, 0);
       rowsB += '<tr class="grp"><td colspan="7">' + c[1] + '</td></tr>';
@@ -379,6 +393,7 @@
   /* ---------- blank start: every input empty until the user fills it ---------- */
   function blankState() {
     var s = A.defaults();
+    delete s.marketing; s.softItems = SOFT_ITEMS.map(function (x) { return { key: x.key, name: x.name, short: x.short, amount: null }; }); s.softContPct = null;
     ALL.forEach(function (f) { fset(f, s, null); });
     s.unitMix = s.unitMix.map(function () { return { name: '', units: null, sf: null, freeLeaseUp: null, freeStab: null, rent: null }; });
     s.opex.forEach(function (o) { o.amount = null; o.fixed = null; });
@@ -454,7 +469,7 @@
     $('tUses').innerHTML = th(['Use', 'Amount', '% of total', 'Per unit']) + '<tbody>' + rows(['Land and closing', 'Hard costs (incl. sitework and drainage)', 'Soft costs (incl. development fee)', 'Capitalized interest', 'Operating shortfall', 'Total uses'], 3, { 'Total uses': 'tot' }) + '</tbody>';
     var swNames = S.sitework.items.map(function (it) { return it.name; });
     $('tBudget').innerHTML = '<thead><tr><th>Line item</th><th class="n">Timing</th><th class="n">Method</th><th class="n">Per unit</th><th class="n">Per NRSF</th><th class="n">Amount</th><th class="n">% of total</th></tr></thead><tbody>' +
-      rows(['#Land', 'Land Costs', 'Closing Costs', 'Total land', '#Hard costs', 'Construction Costs', 'Other Hard Costs', 'Total hard costs', '#Sitework and drainage'].concat(swNames, ['Contingency', 'Total sitework and drainage', '#Soft costs', 'Architecture & Engineering', 'Construction Management', 'Marketing and Leasing', 'Development Fee', 'Total soft costs', '#Financing carry', 'Capitalized interest', 'Operating shortfall (lease-up)', 'Financing fees', 'Total project cost']), 6,
+      rows(['#Land', 'Land Costs', 'Closing Costs', 'Total land', '#Hard costs', 'Construction Costs', 'Other Hard Costs', 'Total hard costs', '#Sitework and drainage'].concat(swNames, ['Contingency', 'Total sitework and drainage', '#Soft costs', 'Architecture & Engineering', 'Construction Management'].concat(SOFT_ITEMS.map(function (x) { return x.name; }), ['Soft-Cost Contingency', 'Development Fee', 'Total soft costs', '#Financing carry', 'Capitalized interest', 'Operating shortfall (lease-up)', 'Financing fees', 'Total project cost'])), 6,
         { 'Total land': 'sub', 'Total hard costs': 'sub', 'Total sitework and drainage': 'sub', 'Total soft costs': 'sub', 'Total project cost': 'tot' }) + '</tbody>';
     $('tAnnual').innerHTML = th(['$', 'Year 0', 'Year 1', 'Year 2', 'Total']) + '<tbody>' +
       rows(['#Development', 'Land', 'Hard costs', 'Soft costs', 'Financing carry', 'Total project cost', '#Operations', 'Rental income', 'Other income', 'Vacancy and credit loss', 'Effective gross revenue', 'Operating expenses', 'Net operating income', 'Capital expenditures', 'Cash flow from operations', '#Capital', 'Net sale proceeds', 'Equity contributions', 'Loan draws (incl. capitalized interest)', 'Unlevered cash flow', 'Levered cash flow'], 4,
@@ -481,7 +496,10 @@
   /* full input set -> page state; sitework lines are matched to the page's lines by key */
   function normalize(obj) {
     var s = blankState();
-    Object.keys(obj).forEach(function (k) { if (k !== 'sitework') s[k] = clone(obj[k]); });
+    Object.keys(obj).forEach(function (k) { if (k !== 'sitework' && k !== 'softItems' && k !== 'marketing') s[k] = clone(obj[k]); });
+    /* soft-cost lines matched by key; an older single 'marketing' amount loads into the marketing and leasing line */
+    if (obj.softItems) obj.softItems.forEach(function (src) { var it = s.softItems.filter(function (x) { return x.key === src.key; })[0]; if (it && src.amount != null) it.amount = src.amount; });
+    else if (obj.marketing != null) { s.softItems.forEach(function (it) { it.amount = it.key === 'marketing' ? obj.marketing : 0; }); if (obj.softContPct == null) s.softContPct = 0; }
     var sw = obj.sitework || {};
     if (sw.contPct != null) s.sitework.contPct = sw.contPct;
     (sw.items || []).forEach(function (src) {
@@ -503,7 +521,7 @@
     } catch (e) { return null; }
   }
   /* default deal: Sample Apartment Development (380 units). A #s= input set in the URL replaces it. */
-  var DEFAULT_INPUTS = {"startDate":"2028-05-01","landAcres":14.13,"gba":338375,"parkingStructured":0,"parkingSurface":812,"buildings":15,"stories":3,"landPrice":0,"closingCosts":0,"constructionPerUnit":222615.13157894736,"otherHardPct":0.17177264655222313,"sitework":{"contPct":0.1,"items":[{"key":"fill","basis":"CY","cost":28.55,"qty":78200},{"key":"parking","basis":"Space","cost":7000,"qty":812},{"key":"pond","basis":"Acre","cost":0,"qty":0},{"key":"convey","basis":"LF","cost":0,"qty":0},{"key":"wq","basis":"Space","cost":0,"qty":812},{"key":"offsite","basis":"LS","cost":0,"qty":1}]},"aePct":0.05,"cmPct":0.0375,"marketing":17508304.490771838,"devFeePct":0.03,"financingFees":911180.1585923466,"timing":{"land":[0,0],"closing":[0,0],"construction":[1,26],"sitework":[1,26],"otherHard":[1,26],"ae":[1,6],"cm":[1,26],"marketing":[1,2],"devFee":[1,26],"financingFees":[1,1]},"methods":{"construction":"S-Curve","otherHard":"S-Curve","sitework":"S-Curve"},"scurveSteepness":6,"ltc":0.6,"constRate":0.075,"leaseUpIncomeToInterest":1,"permOn":false,"permSizing":"Construction Debt","permLtv":0.6,"permRate":0.065,"permIO":true,"permAmortYears":30,"permFeePct":0.01,"rentGrowth":0.03,"preLeased":0.1,"leasePace":20,"leaseTerm":12,"unitMix":[{"name":"1BR (647 sf)","units":85,"sf":647,"freeLeaseUp":1.380897583429229,"freeStab":0,"rent":2400},{"name":"2BR (1,000 sf)","units":129,"sf":1000,"freeLeaseUp":1.380897583429229,"freeStab":0,"rent":3000},{"name":"3BR (1,253 sf)","units":66,"sf":1253,"freeLeaseUp":1.380897583429229,"freeStab":0,"rent":3550},{"name":"1BR (572 sf)","units":48,"sf":572,"freeLeaseUp":0,"freeStab":0,"rent":1837.63},{"name":"2BR (738 sf)","units":26,"sf":738,"freeLeaseUp":0,"freeStab":0,"rent":2161.34},{"name":"3BR (963 sf)","units":26,"sf":963,"freeLeaseUp":0,"freeStab":0,"rent":2518.08}],"nonRevenueUnits":0,"otherIncomeGrowth":0.03,"rubs":420000,"otherIncomePctOfRent":0,"parkingPerSpaceMo":0,"parkingOccupancy":0,"vacancy":0.05,"creditLoss":0,"vacancyBasis":"Total Potential Income","expenseGrowth":0.03,"opex":[{"key":"opex","name":"Operating expenses (excl. tax, incl. reserves)","amount":2503975,"fixed":1}],"mgmtFeePct":0,"insurance":0,"insuranceFixed":1,"propertyTax":1838767.6327064007,"taxRamp":[0.5,0.75,1],"miscReservesPerUnit":0,"otherCapex":0,"capRateToday":0.0525,"exitCap":0.0525,"sellingCosts":0.05,"saleYearTax":1954654.3298377115,"gpShare":0.1,"prefHurdle":0.09,"tiers":[{"hurdle":0.12,"promote":0.15},{"hurdle":0.15,"promote":0.3}],"topPromote":0.4,"catchUp":true,"aumFeePct":0.004,"aumBase":"Project Cost","devFeeToGP":false};
+  var DEFAULT_INPUTS = {"startDate":"2028-05-01","landAcres":14.13,"gba":338375,"parkingStructured":0,"parkingSurface":812,"buildings":15,"stories":3,"landPrice":0,"closingCosts":0,"constructionPerUnit":222615.13157894736,"otherHardPct":0.17177264655222313,"sitework":{"contPct":0.1,"items":[{"key":"fill","basis":"CY","cost":28.55,"qty":78200},{"key":"parking","basis":"Space","cost":7000,"qty":812},{"key":"pond","basis":"Acre","cost":0,"qty":0},{"key":"convey","basis":"LF","cost":0,"qty":0},{"key":"wq","basis":"Space","cost":0,"qty":812},{"key":"offsite","basis":"LS","cost":0,"qty":1}]},"aePct":0.05,"cmPct":0.0375,"softItems":[{"key":"impact","amount":8440000},{"key":"utility","amount":4498060},{"key":"school","amount":1820457.5},{"key":"rtcip","amount":1181754.4},{"key":"marketing","amount":285000}],"softContPct":0.05,"devFeePct":0.03,"financingFees":911180.1585923466,"timing":{"land":[0,0],"closing":[0,0],"construction":[1,26],"sitework":[1,26],"otherHard":[1,26],"ae":[1,6],"cm":[1,26],"marketing":[1,2],"devFee":[1,26],"financingFees":[1,1]},"methods":{"construction":"S-Curve","otherHard":"S-Curve","sitework":"S-Curve"},"scurveSteepness":6,"ltc":0.6,"constRate":0.075,"leaseUpIncomeToInterest":1,"permOn":false,"permSizing":"Construction Debt","permLtv":0.6,"permRate":0.065,"permIO":true,"permAmortYears":30,"permFeePct":0.01,"rentGrowth":0.03,"preLeased":0.1,"leasePace":20,"leaseTerm":12,"unitMix":[{"name":"1BR (647 sf)","units":85,"sf":647,"freeLeaseUp":1.380897583429229,"freeStab":0,"rent":2400},{"name":"2BR (1,000 sf)","units":129,"sf":1000,"freeLeaseUp":1.380897583429229,"freeStab":0,"rent":3000},{"name":"3BR (1,253 sf)","units":66,"sf":1253,"freeLeaseUp":1.380897583429229,"freeStab":0,"rent":3550},{"name":"1BR (572 sf)","units":48,"sf":572,"freeLeaseUp":0,"freeStab":0,"rent":1837.63},{"name":"2BR (738 sf)","units":26,"sf":738,"freeLeaseUp":0,"freeStab":0,"rent":2161.34},{"name":"3BR (963 sf)","units":26,"sf":963,"freeLeaseUp":0,"freeStab":0,"rent":2518.08}],"nonRevenueUnits":0,"otherIncomeGrowth":0.03,"rubs":420000,"otherIncomePctOfRent":0,"parkingPerSpaceMo":0,"parkingOccupancy":0,"vacancy":0.05,"creditLoss":0,"vacancyBasis":"Total Potential Income","expenseGrowth":0.03,"opex":[{"key":"opex","name":"Operating expenses (excl. tax, incl. reserves)","amount":2503975,"fixed":1}],"mgmtFeePct":0,"insurance":0,"insuranceFixed":1,"propertyTax":1838767.6327064007,"taxRamp":[0.5,0.75,1],"miscReservesPerUnit":0,"otherCapex":0,"capRateToday":0.0525,"exitCap":0.0525,"sellingCosts":0.05,"saleYearTax":1954654.3298377115,"gpShare":0.1,"prefHurdle":0.09,"tiers":[{"hurdle":0.12,"promote":0.15},{"hurdle":0.15,"promote":0.3}],"topPromote":0.4,"catchUp":true,"aumFeePct":0.004,"aumBase":"Project Cost","devFeeToGP":false};
   S = fromHash() || normalize(DEFAULT_INPUTS);
   buildInputs(); recalc();
   window.addEventListener('hashchange', function () { S = fromHash() || normalize(DEFAULT_INPUTS); buildInputs(); recalc(); });

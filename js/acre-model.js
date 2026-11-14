@@ -121,7 +121,20 @@
     var hard = construction + otherHard + sitework;
     var land = I.landPrice + I.closingCosts;
     var ae = hard * I.aePct, cm = hard * I.cmPct;
-    var devFee = (ae + cm + I.marketing + hard + land) * I.devFeePct; /* I42 = SUM(I38:I41,I35,I29)*3% */
+    /* Bespoke add-on: the A.CRE 'Marketing and Leasing' line can be entered as separate soft-cost lines
+       (I.softItems: fixed $ amounts, plus I.softContPct of A&E + CM + those lines). They share the marketing
+       timing, so monthly cash flows match one line of the same total. Without softItems the A.CRE line is used. */
+    var softLines, mktTot;
+    if (I.softItems && I.softItems.length) {
+      softLines = I.softItems.map(function (it) { return { key: 'soft_' + it.key, tk: 'marketing', cat: 'soft', group: 'mkt', name: it.name, short: it.short, amount: +it.amount || 0 }; });
+      var softBase = ae + cm + softLines.reduce(function (a, L) { return a + L.amount; }, 0);
+      softLines.push({ key: 'soft_cont', tk: 'marketing', cat: 'soft', group: 'mkt', name: 'Soft-Cost Contingency', short: 'Soft Contingency', amount: softBase * (+I.softContPct || 0), contPct: +I.softContPct || 0, base: softBase });
+      mktTot = softLines.reduce(function (a, L) { return a + L.amount; }, 0);
+    } else {
+      softLines = [{ key: 'marketing', cat: 'soft', name: 'Marketing and Leasing', amount: I.marketing }];
+      mktTot = I.marketing;
+    }
+    var devFee = (ae + cm + mktTot + hard + land) * I.devFeePct; /* I42 = SUM(I38:I41,I35,I29)*3% */
     var lines = [
       { key: 'land', cat: 'land', name: 'Land Costs', amount: I.landPrice },
       { key: 'closing', cat: 'land', name: 'Closing Costs', amount: I.closingCosts },
@@ -130,12 +143,12 @@
       { key: 'sitework', cat: 'hard', group: 'site', name: 'Sitework and Drainage', amount: sitework },
       { key: 'ae', cat: 'soft', name: 'Architecture & Engineering', amount: ae },
       { key: 'cm', cat: 'soft', name: 'Construction Management', amount: cm },
-      { key: 'marketing', cat: 'soft', name: 'Marketing and Leasing', amount: I.marketing },
       { key: 'devFee', cat: 'soft', name: 'Development Fee', amount: devFee }
     ];
+    Array.prototype.splice.apply(lines, [lines.length - 1, 0].concat(softLines));
     var constructionEnd = 0;
     lines.forEach(function (L) {
-      var t = I.timing[L.key], s = t[0], e = t[1], n = e - s + 1, method = (I.methods[L.key] || 'Straight-Line');
+      var tk = L.tk || L.key, t = I.timing[tk], s = t[0], e = t[1], n = e - s + 1, method = (I.methods[tk] || 'Straight-Line');
       L.start = s; L.end = e; L.method = method; L.m = zeros();
       constructionEnd = Math.max(constructionEnd, e);
       if (method === 'S-Curve') {
@@ -368,7 +381,7 @@
 
     M.inputs = I; M.units = units; M.nra = nra; M.dates = dates; M.N = N;
     M.timing = { constructionEnd: constructionEnd, opBegin: opBegin, stab: stab, stabOk: stabOk, sale: sale, end: end, permFund: permFund, constPayoff: constPayoff };
-    M.budget = { lines: lines, land: land, hard: hard, sitework: { items: swItems, subtotal: swSub, contPct: +sw.contPct || 0, contingency: swCont, total: sitework }, soft: ae + cm + I.marketing + devFee, devFee: devFee, preFinancing: devCostTot, interestReserve: sum(F.reserve), shortfall: sum(F.shortfall), financingFees: finFeeTot, carry: sum(F.reserve) + sum(F.shortfall) + finFeeTot, total: totalCost };
+    M.budget = { lines: lines, land: land, hard: hard, sitework: { items: swItems, subtotal: swSub, contPct: +sw.contPct || 0, contingency: swCont, total: sitework }, soft: ae + cm + mktTot + devFee, marketing: mktTot, devFee: devFee, preFinancing: devCostTot, interestReserve: sum(F.reserve), shortfall: sum(F.shortfall), financingFees: finFeeTot, carry: sum(F.reserve) + sum(F.shortfall) + finFeeTot, total: totalCost };
     M.sources = { equity: E, loan: loan, ltcActual: loan / totalCost, iterations: it, grossInterest: sum(F.intGross.slice(0, constPayoff + 1)), interestFromOps: sum(F.intPaid.slice(0, constPayoff + 1)) };
     M.perm = { on: I.permOn, amount: permAmt, payment: permPay, payoff: permPayoff, ltv: permAmt / Tr.value, ltc: permAmt / totalCost };
     M.monthly = { leased: leased, gross: gross, conc: conc, ltl: ltl, nonrev: nonrev, rentInc: rentInc, other: other, tpi: tpi, vac: vac, cl: cl, egr: egr, opexTot: opexTot, mgmt: mgmt, tax: tax, noi: noi, capex: capex, cfo: cfo, devCost: devCost, landM: landM, hardM: hardM, softM: softM, eqDraw: F.eqDraw, debt: F.debt, intGross: F.intGross, intPaid: F.intPaid, reserve: F.reserve, shortfall: F.shortfall, constDraw: constDraw, loanBal: loanBal, unlev: unlev, lev: lev, opexItems: opexItems, otherItems: otherItems };
