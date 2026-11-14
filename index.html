@@ -41,10 +41,6 @@
       <div><span class="eyebrow">Step 1</span><h2><span class="pill">Inputs</span>Project <span class="accent">assumptions</span></h2></div>
     </div>
     <div class="stack">
-      <div class="card input-bar">
-        <p>Fields you change are marked <span class="est edited">Edited</span>.</p>
-        <button class="btn primary" id="resetBtn" type="button">Reset inputs</button>
-      </div>
       <div id="inputGroups" class="stack"></div>
       <div class="card"><div class="card-h"><h3>Unit mix</h3><span class="note" id="umNote"></span></div><div class="tw scroll"><table class="t" id="unitMix"></table></div></div>
       <div class="card"><div class="card-h"><h3>Operating expenses (annual, untrended)</h3><span class="note">% fixed during lease-up</span></div><div class="tw scroll"><table class="t" id="opexTbl"></table></div></div>
@@ -58,7 +54,6 @@
     </div>
     <div class="kpis" id="kpis"></div>
     <p class="kpi-def" id="kpiDef"></p>
-    <p class="warn" id="warn" hidden></p>
   </section>
 
   <!-- 3. Charts -->

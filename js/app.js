@@ -1,7 +1,7 @@
 /* Bespoke Underwriting — Apartment Development Model UI. Engine: js/acre-model.js (port of the A.CRE Apartment Development Model v3.0). */
 (function () {
   'use strict';
-  var A = window.ACREModel, D = A.defaults(), S = A.defaults(), R = null, selKpi = 'leveredIrr';
+  var A = window.ACREModel, D = A.defaults(), S = null, R = null, selKpi = 'leveredIrr';
   var $ = function (id) { return document.getElementById(id); };
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
   function get(o, p) { return p.split('.').reduce(function (a, k) { return a == null ? a : a[k]; }, o); }
@@ -9,16 +9,16 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
   /* ---------- formatting ---------- */
-  function n0(v) { return isFinite(v) ? Math.round(v).toLocaleString('en-US') : '–'; }
-  function money(v) { if (!isFinite(v)) return '–'; var s = '$' + n0(Math.abs(v)); return v < -0.5 ? '(' + s + ')' : s; }
-  function moneyC(v) { if (!isFinite(v)) return '–'; var a = Math.abs(v), s = a >= 1e9 ? (a / 1e9).toFixed(2) + 'B' : a >= 1e6 ? (a / 1e6).toFixed(a >= 1e8 ? 0 : 1) + 'M' : a >= 1e3 ? (a / 1e3).toFixed(0) + 'K' : a.toFixed(0); return (v < 0 ? '-$' : '$') + s; }
-  function pct(v, d) { return isFinite(v) ? (v * 100).toFixed(d == null ? 2 : d) + '%' : '–'; }
-  function x2(v) { return isFinite(v) ? v.toFixed(2) + 'x' : '–'; }
-  function bps(v) { return isFinite(v) ? Math.round(v) + ' bps' : '–'; }
+  function n0(v) { return isFinite(v) ? Math.round(v).toLocaleString('en-US') : '—'; }
+  function money(v) { if (!isFinite(v)) return '—'; var s = '$' + n0(Math.abs(v)); return v < -0.5 ? '(' + s + ')' : s; }
+  function moneyC(v) { if (!isFinite(v)) return '—'; var a = Math.abs(v), s = a >= 1e9 ? (a / 1e9).toFixed(2) + 'B' : a >= 1e6 ? (a / 1e6).toFixed(a >= 1e8 ? 0 : 1) + 'M' : a >= 1e3 ? (a / 1e3).toFixed(0) + 'K' : a.toFixed(0); return (v < 0 ? '-$' : '$') + s; }
+  function pct(v, d) { return isFinite(v) ? (v * 100).toFixed(d == null ? 2 : d) + '%' : '—'; }
+  function x2(v) { return isFinite(v) ? v.toFixed(2) + 'x' : '—'; }
+  function bps(v) { return isFinite(v) ? Math.round(v) + ' bps' : '—'; }
   function cls(v) { return v < -0.5 ? ' neg' : ''; }
 
   /* ---------- input definitions (A.CRE input cells in comments) ---------- */
-  var tEnd = { get: function (s) { return s.timing.construction[1]; }, set: function (s, v) { v = Math.max(1, Math.round(v)); ['construction', 'otherHard', 'cm', 'devFee', 'sitework'].forEach(function (k) { s.timing[k][1] = v; }); } };
+  var tEnd = { get: function (s) { return s.timing.construction[1]; }, set: function (s, v) { v = v == null ? null : Math.max(1, Math.round(v)); ['construction', 'otherHard', 'cm', 'devFee', 'sitework'].forEach(function (k) { s.timing[k][1] = v; }); } };
   var GROUPS = [
     { title: 'Timing', fields: [
       { p: 'startDate', label: 'Analysis start date', f: 'date' },
@@ -37,39 +37,39 @@
       { p: 'cmPct', label: 'Construction management', f: '%', min: 0, max: 0.10, step: 0.0025, hint: '% of hard costs' },
       { p: 'marketing', label: 'Marketing and leasing', f: '$', min: 0, max: 1000000, step: 5000 },
       { p: 'devFeePct', label: 'Development fee', f: '%', min: 0, max: 0.08, step: 0.0025, slider: true, hint: '% of land, hard and soft costs' },
-      { p: 'financingFees', label: 'Financing fees', f: '$', min: 0, max: 2000000, step: 5000 }
+      { opt: true, p: 'financingFees', label: 'Financing fees', f: '$', min: 0, max: 2000000, step: 5000 }
     ] },
     { title: 'Construction loan and permanent loan', fields: [
       { p: 'ltc', label: 'Construction loan-to-cost', f: '%', min: 0, max: 0.85, step: 0.005, slider: true },
       { p: 'constRate', label: 'Construction interest rate', f: '%', min: 0.02, max: 0.15, step: 0.0025, slider: true },
       { p: 'permOn', label: 'Permanent loan', f: 'sel', opts: [[false, 'Off'], [true, 'On']] },
-      { p: 'permLtv', label: 'Perm loan LTV', f: '%', min: 0, max: 0.8, step: 0.005, hint: 'Used when sizing on value' },
-      { p: 'permSizing', label: 'Perm loan sizing', f: 'sel', opts: [['Construction Debt', 'Refinance construction loan'], ['LTV', 'Loan-to-value']] },
-      { p: 'permRate', label: 'Perm interest rate (IO)', f: '%', min: 0.02, max: 0.12, step: 0.0025 },
-      { p: 'permFeePct', label: 'Perm loan fee', f: '%', min: 0, max: 0.03, step: 0.0025 }
+      { optPermOff: true, p: 'permLtv', label: 'Perm loan LTV', f: '%', min: 0, max: 0.8, step: 0.005, hint: 'Used when sizing on value' },
+      { optPermOff: true, p: 'permSizing', label: 'Perm loan sizing', f: 'sel', opts: [['Construction Debt', 'Refinance construction loan'], ['LTV', 'Loan-to-value']] },
+      { optPermOff: true, p: 'permRate', label: 'Perm interest rate (IO)', f: '%', min: 0.02, max: 0.12, step: 0.0025 },
+      { optPermOff: true, p: 'permFeePct', label: 'Perm loan fee', f: '%', min: 0, max: 0.03, step: 0.0025 }
     ] },
     { title: 'Lease-up and revenue', fields: [
       { p: 'rentGrowth', label: 'Rent growth (annual)', f: '%', min: -0.02, max: 0.08, step: 0.0025, slider: true },
       { p: 'preLeased', label: 'Pre-leased at opening', f: '%', min: 0, max: 1, step: 0.01 },
       { p: 'leasePace', label: 'Lease-up pace', f: 'n', min: 1, max: 100, step: 1, slider: true, unit: 'units / mo' },
       { p: 'leaseTerm', label: 'Lease term', f: 'n', min: 6, max: 24, step: 1, unit: 'months' },
-      { p: 'nonRevenueUnits', label: 'Non-revenue units', f: 'n', min: 0, max: 50, step: 1, unit: 'units' },
-      { p: 'rubs', label: 'RUBS income (annual)', f: '$', min: 0, max: 2000000, step: 5000 },
-      { p: 'otherIncomePctOfRent', label: 'Other income', f: '%', min: 0, max: 0.15, step: 0.0025, hint: '% of rental income' },
-      { p: 'parkingStructured', label: 'Paid parking spaces', f: 'n', min: 0, max: 2000, step: 1, unit: 'spaces' },
-      { p: 'parkingPerSpaceMo', label: 'Parking rent', f: '$', min: 0, max: 500, step: 5, unit: '/ space / mo' },
-      { p: 'parkingOccupancy', label: 'Parking occupancy', f: '%', min: 0, max: 1, step: 0.01 },
-      { p: 'otherIncomeGrowth', label: 'Other income growth', f: '%', min: -0.02, max: 0.08, step: 0.0025 },
+      { opt: true, p: 'nonRevenueUnits', label: 'Non-revenue units', f: 'n', min: 0, max: 50, step: 1, unit: 'units' },
+      { opt: true, p: 'rubs', label: 'RUBS income (annual)', f: '$', min: 0, max: 2000000, step: 5000 },
+      { opt: true, p: 'otherIncomePctOfRent', label: 'Other income', f: '%', min: 0, max: 0.15, step: 0.0025, hint: '% of rental income' },
+      { opt: true, p: 'parkingStructured', label: 'Paid parking spaces', f: 'n', min: 0, max: 2000, step: 1, unit: 'spaces' },
+      { opt: true, p: 'parkingPerSpaceMo', label: 'Parking rent', f: '$', min: 0, max: 500, step: 5, unit: '/ space / mo' },
+      { opt: true, p: 'parkingOccupancy', label: 'Parking occupancy', f: '%', min: 0, max: 1, step: 0.01 },
+      { opt: true, p: 'otherIncomeGrowth', label: 'Other income growth', f: '%', min: -0.02, max: 0.08, step: 0.0025 },
       { p: 'vacancy', label: 'Stabilized vacancy', f: '%', min: 0, max: 0.2, step: 0.0025, slider: true },
-      { p: 'creditLoss', label: 'Credit loss', f: '%', min: 0, max: 0.05, step: 0.0025 }
+      { opt: true, p: 'creditLoss', label: 'Credit loss', f: '%', min: 0, max: 0.05, step: 0.0025 }
     ] },
     { title: 'Operating expenses and capex', fields: [
       { p: 'expenseGrowth', label: 'Expense growth (annual)', f: '%', min: -0.02, max: 0.08, step: 0.0025, slider: true },
       { p: 'mgmtFeePct', label: 'Management fee', f: '%', min: 0, max: 0.08, step: 0.0025, hint: '% of effective gross revenue' },
-      { p: 'insurance', label: 'Insurance (annual)', f: '$', min: 0, max: 1000000, step: 1000 },
+      { opt: true, p: 'insurance', label: 'Insurance (annual)', f: '$', min: 0, max: 1000000, step: 1000 },
       { p: 'propertyTax', label: 'Property tax (stabilized, annual)', f: '$', min: 0, max: 3000000, step: 1000 },
       { p: 'saleYearTax', label: 'Sale-year property tax', f: '$', min: 0, max: 3000000, step: 1000, hint: 'Not linked to property tax above' },
-      { p: 'otherCapex', label: 'Capital expenditures (annual)', f: '$', min: 0, max: 500000, step: 1000 }
+      { opt: true, p: 'otherCapex', label: 'Capital expenditures (annual)', f: '$', min: 0, max: 500000, step: 1000 }
     ] },
     { title: 'Valuation and sale', fields: [
       { p: 'capRateToday', label: 'Market cap rate today', f: '%', min: 0.03, max: 0.10, step: 0.0005, slider: true },
@@ -84,28 +84,27 @@
       { p: 'tiers.1.hurdle', label: 'IRR hurdle 3', f: '%', min: 0, max: 0.4, step: 0.0025 },
       { p: 'tiers.1.promote', label: 'Promote above hurdle 2', f: '%', min: 0, max: 0.6, step: 0.0025 },
       { p: 'topPromote', label: 'Promote above hurdle 3', f: '%', min: 0, max: 0.7, step: 0.0025 },
-      { p: 'aumFeePct', label: 'Asset management fee', f: '%', min: 0, max: 0.02, step: 0.0005, hint: '% of total project cost / yr, paid after stabilization' }
+      { opt: true, p: 'aumFeePct', label: 'Asset management fee', f: '%', min: 0, max: 0.02, step: 0.0005, hint: '% of total project cost / yr, paid after stabilization' }
     ] }
   ];
   var ALL = []; GROUPS.forEach(function (g) { (g.hard || []).concat(g.fields).forEach(function (f) { ALL.push(f); }); });
   function fget(f, s) { return f.acc ? f.acc.get(s) : get(s, f.p); }
   function fset(f, s, v) { if (f.acc) f.acc.set(s, v); else set(s, f.p, v); }
-  function same(a, b) { return typeof a === 'number' && typeof b === 'number' ? Math.abs(a - b) < 1e-9 * Math.max(1, Math.abs(b)) : a === b; }
   function fmtIn(f, v) {
+    if (v == null || v === '') return '';
     if (f.f === '$') return n0(v);
     if (f.f === '%') return String(+(v * 100).toFixed(4));
     if (f.f === 'n') return String(v);
     return String(v);
   }
-  function parseIn(f, t) { var v = parseFloat(String(t).replace(/[^0-9.\-]/g, '')); if (!isFinite(v)) return null; return f.f === '%' ? v / 100 : v; }
+  function parseIn(f, t) { if (String(t).trim() === '') return null; var v = parseFloat(String(t).replace(/[^0-9.\-]/g, '')); if (!isFinite(v)) return null; return f.f === '%' ? v / 100 : v; }
 
-  function chip(edited) { return edited ? '<span class="est edited">Edited</span>' : ''; }
   function fieldHTML(f, i) {
-    var id = 'f' + i, v = fget(f, S), lab = '<label for="' + id + '">' + esc(f.label) + '<span data-chip="' + i + '">' + chip(!same(v, fget(f, D))) + '</span></label>', box;
-    if (f.f === 'sel') box = '<div class="box"><select id="' + id + '" data-i="' + i + '">' + f.opts.map(function (o) { return '<option value="' + esc(String(o[0])) + '"' + (String(o[0]) === String(v) ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></div>';
-    else if (f.f === 'date') box = '<div class="box"><input type="text" id="' + id + '" data-i="' + i + '" value="' + esc(v) + '" inputmode="numeric" placeholder="YYYY-MM-DD"></div>';
+    var id = 'f' + i, v = fget(f, S), lab = '<label for="' + id + '">' + esc(f.label) + '</label>', box;
+    if (f.f === 'sel') box = '<div class="box"><select id="' + id + '" data-i="' + i + '"><option value=""' + (v == null ? ' selected' : '') + '></option>' + f.opts.map(function (o) { return '<option value="' + esc(String(o[0])) + '"' + (v != null && String(o[0]) === String(v) ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></div>';
+    else if (f.f === 'date') box = '<div class="box"><input type="text" id="' + id + '" data-i="' + i + '" value="' + esc(v == null ? '' : v) + '" inputmode="numeric" placeholder="YYYY-MM-DD"></div>';
     else box = '<div class="box">' + (f.f === '$' ? '<span class="unit" style="margin:0 4px 0 0">$</span>' : '') + '<input type="text" id="' + id + '" data-i="' + i + '" inputmode="decimal" value="' + esc(fmtIn(f, v)) + '">' + (f.f === '%' ? '<span class="unit">%</span>' : f.unit ? '<span class="unit">' + esc(f.unit) + '</span>' : '') + '</div>';
-    var sl = f.slider ? '<input type="range" data-r="' + i + '" min="' + f.min + '" max="' + f.max + '" step="' + f.step + '" value="' + v + '" aria-label="' + esc(f.label) + ' slider">' : '';
+    var sl = f.slider ? '<input type="range" data-r="' + i + '" min="' + f.min + '" max="' + f.max + '" step="' + f.step + '" value="' + (v == null ? f.min : v) + '" aria-label="' + esc(f.label) + ' slider">' : '';
     var hint = f.hint ? '<div class="hint">' + esc(f.hint) + '</div>' : '';
     return '<div class="fld">' + lab + box + sl + hint + '</div>';
   }
@@ -119,14 +118,14 @@
         ? '<select data-sw="' + j + '" data-k="basis" aria-label="Pond cost basis"><option value="Acre"' + (it.basis === 'Acre' ? ' selected' : '') + '>per acre</option><option value="Pond"' + (it.basis === 'Pond' ? ' selected' : '') + '>per pond</option></select>'
         : esc(SW_BASIS[it.basis]);
       var qtyLbl = { CY: 'CY', Acre: 'acres', Pond: 'ponds', LF: 'LF', SF: 'SF' }[it.basis];
-      var qty = it.basis === 'LS' ? '<td class="n fixed" data-l="Quantity">1</td>' : '<td class="n" data-l="Quantity (' + qtyLbl + ')"><input data-sw="' + j + '" data-k="qty" inputmode="decimal" placeholder="0" value="' + (it.qty ? n0(it.qty) : '') + '" aria-label="' + esc(it.name) + ' quantity (' + qtyLbl + ')"></td>';
-      return '<tr><td class="lbl">' + esc(it.name) + '</td><td class="n" data-l="Unit cost ($)"><input data-sw="' + j + '" data-k="cost" inputmode="decimal" placeholder="$0" value="' + (it.cost ? n0(it.cost) : '') + '" aria-label="' + esc(it.name) + ' unit cost"></td><td data-l="Basis">' + basis + '</td>' + qty + '<td class="n" data-l="Line total" data-swt="' + j + '">$0</td></tr>';
+      var qty = it.basis === 'LS' ? '<td class="n fixed" data-l="Quantity">1</td>' : '<td class="n" data-l="Quantity (' + qtyLbl + ')"><input data-sw="' + j + '" data-k="qty" inputmode="decimal" value="' + (it.qty != null ? n0(it.qty) : '') + '" aria-label="' + esc(it.name) + ' quantity (' + qtyLbl + ')"></td>';
+      return '<tr><td class="lbl">' + esc(it.name) + '</td><td class="n" data-l="Unit cost ($)"><input data-sw="' + j + '" data-k="cost" inputmode="decimal" value="' + (it.cost != null ? n0(it.cost) : '') + '" aria-label="' + esc(it.name) + ' unit cost"></td><td data-l="Basis">' + basis + '</td>' + qty + '<td class="n" data-l="Line total" data-swt="' + j + '">—</td></tr>';
     }).join('');
-    return '<div class="subp" id="siteworkPanel"><div class="subp-h"><h4>Sitework and Drainage</h4><span class="est">Zero defaults</span></div>' +
+    return '<div class="subp" id="siteworkPanel"><div class="subp-h"><h4>Sitework and Drainage</h4></div>' +
       '<div class="tw"><table class="t swt"><thead><tr><th>Line</th><th class="n">Unit cost ($)</th><th>Basis</th><th class="n">Quantity</th><th class="n">Line total</th></tr></thead><tbody>' + rows +
-      '<tr class="sub"><td class="lbl" colspan="4">Subtotal</td><td class="n" data-l="Subtotal" id="swSub">$0</td></tr>' +
-      '<tr class="cont"><td class="lbl" colspan="2">Sitework and drainage contingency</td><td colspan="2" data-l="Rate"><span class="inl"><input data-swc="1" inputmode="decimal" value="' + +(sw.contPct * 100).toFixed(4) + '" aria-label="Contingency rate">% of subtotal</span></td><td class="n" data-l="Contingency" id="swCont">$0</td></tr>' +
-      '<tr class="tot"><td class="lbl" colspan="4">Sitework and drainage total</td><td class="n" data-l="Category total" id="swTot">$0</td></tr></tbody></table></div></div>';
+      '<tr class="sub"><td class="lbl" colspan="4">Subtotal</td><td class="n" data-l="Subtotal" id="swSub">—</td></tr>' +
+      '<tr class="cont"><td class="lbl" colspan="2">Sitework and drainage contingency</td><td colspan="2" data-l="Rate"><span class="inl"><input data-swc="1" inputmode="decimal" value="' + (sw.contPct != null ? +(sw.contPct * 100).toFixed(4) : '') + '" aria-label="Contingency rate">% of subtotal</span></td><td class="n" data-l="Contingency" id="swCont">—</td></tr>' +
+      '<tr class="tot"><td class="lbl" colspan="4">Sitework and drainage total</td><td class="n" data-l="Category total" id="swTot">—</td></tr></tbody></table></div></div>';
   }
 
   function buildInputs() {
@@ -145,10 +144,10 @@
   function buildUnitMix() {
     var h = '<thead><tr><th>Unit type</th><th class="n">Units</th><th class="n">Avg SF</th><th class="n">Rent / mo</th><th class="n">Rent / SF</th><th class="n">Free mo. lease-up</th><th class="n">Free mo. stabilized</th></tr></thead><tbody>';
     S.unitMix.forEach(function (u, j) {
-      h += '<tr><td><input class="txt" data-um="' + j + '" data-k="name" value="' + esc(u.name) + '" aria-label="Unit type"></td>' +
-        ['units', 'sf', 'rent'].map(function (k) { return '<td class="n"><input data-um="' + j + '" data-k="' + k + '" inputmode="decimal" value="' + n0(u[k]) + '" aria-label="' + k + '"></td>'; }).join('') +
+      h += '<tr><td><input class="txt" data-um="' + j + '" data-k="name" value="' + esc(u.name || '') + '" aria-label="Unit type"></td>' +
+        ['units', 'sf', 'rent'].map(function (k) { return '<td class="n"><input data-um="' + j + '" data-k="' + k + '" inputmode="decimal" value="' + (u[k] != null ? n0(u[k]) : '') + '" aria-label="' + k + '"></td>'; }).join('') +
         '<td class="n" data-rpsf="' + j + '"></td>' +
-        ['freeLeaseUp', 'freeStab'].map(function (k) { return '<td class="n"><input data-um="' + j + '" data-k="' + k + '" inputmode="decimal" value="' + u[k] + '" aria-label="' + k + '"></td>'; }).join('') + '</tr>';
+        ['freeLeaseUp', 'freeStab'].map(function (k) { return '<td class="n"><input data-um="' + j + '" data-k="' + k + '" inputmode="decimal" value="' + (u[k] != null ? u[k] : '') + '" aria-label="' + k + '"></td>'; }).join('') + '</tr>';
     });
     h += '<tr class="tot"><td>Total / average</td><td class="n" id="umU"></td><td class="n" id="umSf"></td><td class="n" id="umR"></td><td class="n" id="umRsf"></td><td></td><td></td></tr></tbody>';
     $('unitMix').innerHTML = h;
@@ -156,13 +155,10 @@
   function buildOpex() {
     var h = '<thead><tr><th>Expense</th><th class="n">Annual ($)</th><th class="n">% fixed</th><th class="n">Per unit</th></tr></thead><tbody>';
     S.opex.forEach(function (o, j) {
-      h += '<tr><td class="lbl">' + esc(o.name) + '</td><td class="n"><input data-ox="' + j + '" data-k="amount" inputmode="decimal" value="' + n0(o.amount) + '" aria-label="' + esc(o.name) + ' amount"></td><td class="n"><input data-ox="' + j + '" data-k="fixed" inputmode="decimal" value="' + +(o.fixed * 100).toFixed(2) + '" aria-label="' + esc(o.name) + ' percent fixed"></td><td class="n" data-opu="' + j + '"></td></tr>';
+      h += '<tr><td class="lbl">' + esc(o.name) + '</td><td class="n"><input data-ox="' + j + '" data-k="amount" inputmode="decimal" value="' + (o.amount != null ? n0(o.amount) : '') + '" aria-label="' + esc(o.name) + ' amount"></td><td class="n"><input data-ox="' + j + '" data-k="fixed" inputmode="decimal" value="' + (o.fixed != null ? +(o.fixed * 100).toFixed(2) : '') + '" aria-label="' + esc(o.name) + ' percent fixed"></td><td class="n" data-opu="' + j + '"></td></tr>';
     });
     h += '<tr class="tot"><td>Total (before mgmt, insurance, tax)</td><td class="n" id="oxT"></td><td></td><td class="n" id="oxU"></td></tr></tbody>';
     $('opexTbl').innerHTML = h;
-  }
-  function refreshChips() {
-    ALL.forEach(function (f, i) { var el = document.querySelector('[data-chip="' + i + '"]'); if (el) el.innerHTML = chip(!same(fget(f, S), fget(f, D))); });
   }
 
   /* ---------- events ---------- */
@@ -173,32 +169,31 @@
     if (d.i != null) {
       var f = ALL[+d.i];
       if (f.f === 'sel') return;
-      if (f.f === 'date') { if (/^\d{4}-\d{2}-\d{2}$/.test(t.value) && !isNaN(Date.parse(t.value))) { set(S, f.p, t.value); refreshChips(); schedule(); } return; }
-      var v = parseIn(f, t.value); if (v == null) return;
-      fset(f, S, v); var r = document.querySelector('[data-r="' + d.i + '"]'); if (r) r.value = v;
-      refreshChips(); schedule();
+      if (f.f === 'date') { set(S, f.p, /^\d{4}-\d{2}-\d{2}$/.test(t.value) && !isNaN(Date.parse(t.value)) ? t.value : null); schedule(); return; }
+      var v = parseIn(f, t.value); if (v == null && t.value.trim() !== '') return;
+      fset(f, S, v); var r = document.querySelector('[data-r="' + d.i + '"]'); if (r) r.value = v == null ? f.min : v;
+      schedule();
     } else if (d.r != null) {
       var f2 = ALL[+d.r], v2 = +t.value; fset(f2, S, v2);
       var inp = $('f' + d.r); if (inp) inp.value = fmtIn(f2, v2);
-      refreshChips(); schedule();
+      schedule();
     } else if (d.um != null) {
-      var u = S.unitMix[+d.um]; if (d.k === 'name') u.name = t.value; else { var x = parseFloat(t.value.replace(/[^0-9.\-]/g, '')); if (!isFinite(x)) return; u[d.k] = x; }
+      var u = S.unitMix[+d.um]; if (d.k === 'name') u.name = t.value; else { var x = parseFloat(t.value.replace(/[^0-9.\-]/g, '')); u[d.k] = isFinite(x) ? x : null; }
       schedule();
     } else if (d.ox != null) {
-      var o = S.opex[+d.ox], y = parseFloat(t.value.replace(/[^0-9.\-]/g, '')); if (!isFinite(y)) return; o[d.k] = d.k === 'fixed' ? y / 100 : y; schedule();
+      var o = S.opex[+d.ox], y = parseFloat(t.value.replace(/[^0-9.\-]/g, '')); o[d.k] = !isFinite(y) ? null : d.k === 'fixed' ? y / 100 : y; schedule();
     } else if (d.sw != null && d.k !== 'basis') {
-      var z = parseFloat(t.value.replace(/[^0-9.\-]/g, '')); S.sitework.items[+d.sw][d.k] = isFinite(z) ? z : 0; schedule();
+      var z = parseFloat(t.value.replace(/[^0-9.\-]/g, '')); S.sitework.items[+d.sw][d.k] = isFinite(z) ? z : null; schedule();
     } else if (d.swc != null) {
-      var c = parseFloat(t.value.replace(/[^0-9.\-]/g, '')); S.sitework.contPct = isFinite(c) ? c / 100 : 0; schedule();
+      var c = parseFloat(t.value.replace(/[^0-9.\-]/g, '')); S.sitework.contPct = isFinite(c) ? c / 100 : null; schedule();
     }
   });
   document.addEventListener('change', function (e) {
     var t = e.target, d = t.dataset;
-    if (d.i != null && ALL[+d.i].f === 'sel') { var f = ALL[+d.i]; var v = f.opts.filter(function (o) { return String(o[0]) === t.value; })[0][0]; set(S, f.p, v); refreshChips(); schedule(); }
+    if (d.i != null && ALL[+d.i].f === 'sel') { var f = ALL[+d.i]; var hit = f.opts.filter(function (o) { return String(o[0]) === t.value; })[0]; set(S, f.p, hit ? hit[0] : null); schedule(); }
     if (d.sw != null && d.k === 'basis') { S.sitework.items[+d.sw].basis = t.value; buildInputs(); recalc(); }
-    if (t.tagName === 'INPUT' && t.type === 'text' && d.i != null && ALL[+d.i].f === '$') t.value = n0(fget(ALL[+d.i], S));
+    if (t.tagName === 'INPUT' && t.type === 'text' && d.i != null && ALL[+d.i].f === '$') t.value = fmtIn(ALL[+d.i], fget(ALL[+d.i], S));
   });
-  $('resetBtn').addEventListener('click', function () { S = A.defaults(); buildInputs(); recalc(); });
   $('menuBtn').addEventListener('click', function () { var sb = $('sitebar'), o = sb.classList.toggle('open'); this.setAttribute('aria-expanded', o); });
 
   /* ---------- KPI tiles ---------- */
@@ -370,42 +365,120 @@
       tr(['Promote tiers', '', '', '', W.promotes.map(function (p) { return pct(p, 0); }).join(' / ')]) + '</tbody>';
 
     function sens(id, key, vals, label) {
-      var res = A.sensitivity(S, R, key, vals);
+      var res = A.sensitivity(X, R, key, vals);
       $(id).innerHTML = th([label, 'Spread (sale)', 'Lev. IRR', 'Lev. EMx', 'LP IRR']) + '<tbody>' + res.map(function (r) {
-        var base = Math.abs(r.value - S[key]) < 1e-9; return tr([pct(r.value), bps(r.spread), pct(r.irr), x2(r.emx), pct(r.lpIrr)], base ? 'hl' : '');
+        var base = Math.abs(r.value - X[key]) < 1e-9; return tr([pct(r.value), bps(r.spread), pct(r.irr), x2(r.emx), pct(r.lpIrr)], base ? 'hl' : '');
       }).join('') + '</tbody>';
     }
-    var ec = S.exitCap, vc = S.vacancy;
+    var ec = X.exitCap, vc = X.vacancy;
     sens('tSensCap', 'exitCap', [-0.0075, -0.005, -0.0025, 0, 0.0025].map(function (d) { return +(ec + d).toFixed(6); }), 'Exit cap');
     sens('tSensVac', 'vacancy', [-0.02, 0, 0.02, 0.04, 0.06].map(function (d) { return +Math.max(0, vc + d).toFixed(6); }), 'Vacancy');
   }
 
+  /* ---------- blank start: every input empty until the user fills it ---------- */
+  function blankState() {
+    var s = A.defaults();
+    ALL.forEach(function (f) { fset(f, s, null); });
+    s.unitMix = s.unitMix.map(function () { return { name: '', units: null, sf: null, freeLeaseUp: null, freeStab: null, rent: null }; });
+    s.opex.forEach(function (o) { o.amount = null; o.fixed = null; });
+    s.sitework.items.forEach(function (it) { it.cost = null; if (it.basis !== 'LS') it.qty = null; });
+    s.sitework.contPct = null;
+    return s;
+  }
+  function blank(v) { return v == null || v === '' || (typeof v === 'number' && !isFinite(v)); }
+  /* complete engine input, or null while anything required is still blank */
+  function buildInput() {
+    var x = clone(S), ok = true;
+    ALL.forEach(function (f) {
+      if (!blank(fget(f, x))) return;
+      if (f.opt || (f.optPermOff && x.permOn === false)) fset(f, x, f.f === 'sel' ? f.opts[0][0] : 0); else ok = false;
+    });
+    var rows = [];
+    x.unitMix.forEach(function (u, k) {
+      var any = ['units', 'sf', 'rent', 'freeLeaseUp', 'freeStab'].some(function (q) { return !blank(u[q]); });
+      if (!any) return;
+      if (blank(u.units) || blank(u.sf) || blank(u.rent)) ok = false;
+      rows.push({ name: u.name || ('Unit type ' + (k + 1)), units: +u.units || 0, sf: +u.sf || 0, rent: +u.rent || 0, freeLeaseUp: +u.freeLeaseUp || 0, freeStab: +u.freeStab || 0 });
+    });
+    x.unitMix = rows;
+    if (!rows.length || rows.reduce(function (a, u) { return a + u.units; }, 0) <= 0) ok = false;
+    x.opex.forEach(function (o) { if (blank(o.amount)) { o.amount = 0; o.fixed = blank(o.fixed) ? 0 : o.fixed; } else if (blank(o.fixed)) ok = false; });
+    x.sitework.items.forEach(function (it) { it.cost = blank(it.cost) ? 0 : it.cost; it.qty = blank(it.qty) ? 0 : it.qty; });
+    if (blank(x.sitework.contPct)) x.sitework.contPct = 0;
+    if (x.timing.marketing[0] > x.timing.marketing[1] || x.timing.ae[1] < 1) ok = false;
+    return ok ? x : null;
+  }
+
   function renderInputCalcs() {
-    var B = R.budget, sw = B.sitework;
-    $('hardTot').textContent = money(B.hard);
-    sw.items.forEach(function (it, j) { var c = document.querySelector('[data-swt="' + j + '"]'); if (c) c.textContent = money(it.total); });
-    $('swSub').textContent = money(sw.subtotal); $('swCont').textContent = money(sw.contingency); $('swTot').textContent = money(sw.total);
-    var U = 0, SF = 0, RT = 0;
-    S.unitMix.forEach(function (u, j) { U += +u.units; SF += u.units * u.sf; RT += u.units * u.rent; var c = document.querySelector('[data-rpsf="' + j + '"]'); if (c) c.textContent = '$' + (u.sf ? u.rent / u.sf : 0).toFixed(2); });
-    $('umU').textContent = n0(U); $('umSf').textContent = U ? n0(SF / U) : '–'; $('umR').textContent = U ? money(RT / U) : '–'; $('umRsf').textContent = SF ? '$' + (RT / SF).toFixed(2) : '–';
-    $('umNote').textContent = n0(U) + ' units · ' + n0(SF) + ' NRSF';
-    var T = 0; S.opex.forEach(function (o, j) { T += +o.amount; var c = document.querySelector('[data-opu="' + j + '"]'); if (c) c.textContent = U ? money(o.amount / U) : '–'; });
-    $('oxT').textContent = money(T); $('oxU').textContent = U ? money(T / U) : '–';
+    var D_ = '—', sw = S.sitework, sub = 0, anySw = false;
+    sw.items.forEach(function (it, j) {
+      var c = document.querySelector('[data-swt="' + j + '"]'), has = !blank(it.cost) && (it.basis === 'LS' || !blank(it.qty));
+      var t = has ? it.cost * (it.basis === 'LS' ? 1 : it.qty) : 0; if (has) { sub += t; anySw = true; }
+      if (c) c.textContent = has ? money(t) : D_;
+    });
+    var cont = anySw && !blank(sw.contPct) ? sub * sw.contPct : 0;
+    $('swSub').textContent = anySw ? money(sub) : D_;
+    $('swCont').textContent = anySw && !blank(sw.contPct) ? money(cont) : D_;
+    $('swTot').textContent = anySw ? money(sub + cont) : D_;
+    var U = 0, SF = 0, RT = 0, complete = 0;
+    S.unitMix.forEach(function (u, j) {
+      var c = document.querySelector('[data-rpsf="' + j + '"]'), ok = !blank(u.units) && !blank(u.sf) && !blank(u.rent);
+      if (ok) { U += +u.units; SF += u.units * u.sf; RT += u.units * u.rent; complete++; }
+      if (c) c.textContent = !blank(u.sf) && !blank(u.rent) && u.sf ? '$' + (u.rent / u.sf).toFixed(2) : D_;
+    });
+    $('umU').textContent = U ? n0(U) : D_; $('umSf').textContent = U ? n0(SF / U) : D_; $('umR').textContent = U ? money(RT / U) : D_; $('umRsf').textContent = SF ? '$' + (RT / SF).toFixed(2) : D_;
+    $('umNote').textContent = U ? n0(U) + ' units · ' + n0(SF) + ' NRSF' : '';
+    var T = 0, anyO = false; S.opex.forEach(function (o, j) { var c = document.querySelector('[data-opu="' + j + '"]'), has = !blank(o.amount); if (has) { T += +o.amount; anyO = true; } if (c) c.textContent = has && U ? money(o.amount / U) : D_; });
+    $('oxT').textContent = anyO ? money(T) : D_; $('oxU').textContent = anyO && U ? money(T / U) : D_;
+    var cpu = S.constructionPerUnit, oh = S.otherHardPct;
+    $('hardTot').textContent = U && !blank(cpu) && !blank(oh) ? money(U * cpu * (1 + oh) + sub + cont) : D_;
+  }
+
+  /* ---------- empty state for outputs ---------- */
+  function blankChart(id) { var b = box(id), out = ''; for (var k = 0; k <= 4; k++) { var y = 18 + (b.h - 44) * k / 4; out += el('line', { x1: 52, x2: b.w - 6, y1: y, y2: y, class: 'grid' }); } out += el('text', { x: b.w / 2, y: b.h / 2 + 6, 'text-anchor': 'middle', style: 'font-size:22px' }, '—'); svg(b, out); }
+  function renderBlank() {
+    var E = '—';
+    $('kpis').innerHTML = KPIS.map(function (q) { return '<button type="button" class="kpi' + (q.k === selKpi ? ' sel' : '') + '" data-kpi="' + q.k + '" aria-pressed="' + (q.k === selKpi) + '"><span class="k">' + q.t + '</span><span class="v">' + E + '</span><span class="s">&nbsp;</span></button>'; }).join('');
+    var q = KPIS.filter(function (x) { return x.k === selKpi; })[0];
+    $('kpiDef').innerHTML = '<b>' + q.t + ':</b> ' + esc(q.d);
+    ['chBudget', 'chOps', 'chLoan', 'chWf'].forEach(blankChart);
+    ['c1v', 'c2v', 'c3v', 'c4v', 'srcTot', 'useTot'].forEach(function (id) { $(id).textContent = E; });
+    $('budNote').textContent = '';
+    legend('lgBudget', [['Land', C.b3], ['Hard costs', C.blue], ['Sitework and drainage', C.site], ['Soft costs', C.b2], ['Financing carry', C.b4]]);
+    legend('lgOps', [['Effective gross revenue', C.b3], ['Operating expenses', C.b2], ['Net operating income', C.blue]]);
+    legend('lgLoan', [['Loan balance incl. capitalized interest', C.b2]]);
+    legend('lgWf', [['LP distributions', C.blue], ['GP distributions (co-invest share, promote, AUM fee)', C.b3]]);
+    function rows(labels, n, clsMap) { return labels.map(function (l) { if (l.charAt(0) === '#') return '<tr class="grp"><td colspan="' + (n + 1) + '">' + l.slice(1) + '</td></tr>'; var c = (clsMap || {})[l] || ''; var cells = [l]; for (var i = 0; i < n; i++) cells.push(E); return tr(cells, c); }).join(''); }
+    $('tSources').innerHTML = th(['Source', 'Amount', '% of total', 'Per unit']) + '<tbody>' + rows(['LP equity', 'GP equity', 'Total equity', 'Construction loan', 'Total sources'], 3, { 'Total equity': 'sub', 'Total sources': 'tot' }) + '</tbody>';
+    $('tUses').innerHTML = th(['Use', 'Amount', '% of total', 'Per unit']) + '<tbody>' + rows(['Land and closing', 'Hard costs (incl. sitework and drainage)', 'Soft costs (incl. development fee)', 'Capitalized interest', 'Operating shortfall', 'Total uses'], 3, { 'Total uses': 'tot' }) + '</tbody>';
+    var swNames = S.sitework.items.map(function (it) { return it.name; });
+    $('tBudget').innerHTML = '<thead><tr><th>Line item</th><th class="n">Timing</th><th class="n">Method</th><th class="n">Per unit</th><th class="n">Per NRSF</th><th class="n">Amount</th><th class="n">% of total</th></tr></thead><tbody>' +
+      rows(['#Land', 'Land Costs', 'Closing Costs', 'Total land', '#Hard costs', 'Construction Costs', 'Other Hard Costs', 'Total hard costs', '#Sitework and drainage'].concat(swNames, ['Contingency', 'Total sitework and drainage', '#Soft costs', 'Architecture & Engineering', 'Construction Management', 'Marketing and Leasing', 'Development Fee', 'Total soft costs', '#Financing carry', 'Capitalized interest', 'Operating shortfall (lease-up)', 'Financing fees', 'Total project cost']), 6,
+        { 'Total land': 'sub', 'Total hard costs': 'sub', 'Total sitework and drainage': 'sub', 'Total soft costs': 'sub', 'Total project cost': 'tot' }) + '</tbody>';
+    $('tAnnual').innerHTML = th(['$', 'Year 0', 'Year 1', 'Year 2', 'Total']) + '<tbody>' +
+      rows(['#Development', 'Land', 'Hard costs', 'Soft costs', 'Financing carry', 'Total project cost', '#Operations', 'Rental income', 'Other income', 'Vacancy and credit loss', 'Effective gross revenue', 'Operating expenses', 'Net operating income', 'Capital expenditures', 'Cash flow from operations', '#Capital', 'Net sale proceeds', 'Equity contributions', 'Loan draws (incl. capitalized interest)', 'Unlevered cash flow', 'Levered cash flow'], 4,
+        { 'Total project cost': 'sub', 'Effective gross revenue': 'sub', 'Net operating income': 'sub', 'Unlevered cash flow': 'tot', 'Levered cash flow': 'tot' }) + '</tbody>';
+    $('tVal').innerHTML = th(['', 'Untrended', 'Trended', 'Sale']) + '<tbody>' + rows(['Net operating income', 'Cap rate', 'Value', 'Yield on cost', 'Development spread', 'Net sale proceeds'], 3, { 'Yield on cost': 'sub' }) + '</tbody>';
+    $('tRet').innerHTML = th(['', 'Unlevered', 'Levered', 'LP', 'GP']) + '<tbody>' + rows(['Capital invested', 'Profit', 'Equity multiple', 'IRR', 'Asset mgmt fee (monthly)', 'Promote tiers'], 4, { 'Equity multiple': 'sub', 'IRR': 'sub' }) + '</tbody>';
+    var five = [E, E, E, E, E];
+    $('tSensCap').innerHTML = th(['Exit cap', 'Spread (sale)', 'Lev. IRR', 'Lev. EMx', 'LP IRR']) + '<tbody>' + rows(five, 4) + '</tbody>';
+    $('tSensVac').innerHTML = th(['Vacancy', 'Spread (sale)', 'Lev. IRR', 'Lev. EMx', 'LP IRR']) + '<tbody>' + rows(five, 4) + '</tbody>';
   }
 
   function renderCharts() { chartBudget(); chartOps(); chartLoan(); chartWf(); }
+  var X = null; /* last complete engine input (used by the sensitivity tables) */
   function recalc() {
-    var units = S.unitMix.reduce(function (a, u) { return a + (+u.units || 0); }, 0);
-    if (units <= 0) { $('warn').hidden = false; $('warn').textContent = 'Enter at least one unit in the unit mix.'; return; }
-    try { R = A.run(S); } catch (err) { $('warn').hidden = false; $('warn').textContent = 'These inputs could not be calculated: ' + err.message; return; }
-    var w = [];
-    if (!R.timing.stabOk) w.push('The property never reaches 100% leased within the 132-month grid, so returns are not meaningful.');
-    if (!isFinite(R.returns.levered.irr)) w.push('Levered IRR is undefined for these inputs.');
-    $('warn').hidden = !w.length; $('warn').textContent = w.join(' ');
-    renderInputCalcs(); renderKpis(); renderCharts(); renderTables();
+    renderInputCalcs();
+    X = buildInput(); R = null;
+    if (X) { try { R = A.run(X); } catch (err) { R = null; } }
+    if (R && (!R.timing.stabOk || !isFinite(R.budget.total) || !isFinite(R.sources.loan))) R = null;
+    if (!R) { renderBlank(); return; }
+    renderKpis(); renderCharts(); renderTables();
   }
-  var rz = null; window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (R) renderCharts(); }, 120); });
+  var rz = null; window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (R) renderCharts(); else ['chBudget', 'chOps', 'chLoan', 'chWf'].forEach(blankChart); }, 120); });
   $('yr').textContent = new Date().getFullYear();
+  S = blankState();
   buildInputs(); recalc();
-  window.__acre = { get state() { return S; }, get result() { return R; } };
+  /* test hook: load a full input set (used by the QA harness, not by the page) */
+  window.__acre = { get state() { return S; }, get result() { return R; }, load: function (obj) { S = clone(obj); buildInputs(); recalc(); } };
 })();
