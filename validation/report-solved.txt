@@ -1,0 +1,40 @@
+Scalar checks:
+Total project cost I53                    61066250.56        61066251.63 rel 1.76e-8
+Equity I56                                 21373187.7        21373182.77 rel 2.30e-7
+Construction loan I57                     39693062.86        39693068.86 rel 1.51e-7
+Capitalized interest I69                  4740627.173        4740628.246 rel 2.26e-7
+Op shortfall I70                          349861.3851        349861.3851 rel 0.00e+0
+Gross const. interest I203                10398921.07        10398922.76 rel 1.62e-7
+Stabilization month D89                            33                 33 rel 0.00e+0
+Sale month D151                                    45                 45 rel 0.00e+0
+Untrended NOI G183                        4119616.893        4119616.893 rel 0.00e+0
+Trended NOI H183                          4182874.776        4182874.776 rel 0.00e+0
+Sale NOI I183                             4296184.476        4296184.476 rel 0.00e+0
+Untrended value G196                      78468893.19        78468893.19 rel 0.00e+0
+Trended value H196                        74472547.94        74472547.94 rel 0.00e+0
+Sale value I196                           74716251.76        74716251.76 rel 0.00e+0
+Net sale E195                             73595507.99        73595507.99 rel 0.00e+0
+YoC untrended G221                        0.067461435      0.06746143381 rel 1.76e-8
+YoC trended H221                        0.06849732442      0.06849732322 rel 1.76e-8
+YoC sale I221                           0.07035284526      0.07035284403 rel 1.76e-8
+Spread untrended G223 (bps)                 149.61435        149.6143381 rel 7.92e-8
+Spread trended H223                       123.3065776        123.3065655 rel 9.76e-8
+Spread sale I223                          128.5284526        128.5284403 rel 9.61e-8
+Unlevered EMx G217                        1.417873783        1.417873783 rel 3.13e-16
+Unlevered IRR H217                       0.1215992571        0.121599263 rel 4.85e-8
+Unlevered profit I217                     23537001.34        23537001.34 rel 9.50e-16
+Levered EMx G218                          1.614699148        1.614699211 rel 3.87e-8
+Levered IRR H218                         0.1472257607       0.1472257674 rel 4.53e-8
+Levered profit I218                       13138080.27        13138078.58 rel 1.29e-7
+LP contributions D229                     19235868.93         19235864.5 rel 2.30e-7
+LP profit E229                            10589622.74        10589621.18 rel 1.48e-7
+LP ROI G229                               0.550514395       0.5505144403 rel 8.23e-8
+LP EMx H229                               1.550514395         1.55051444 rel 2.92e-8
+LP IRR I229                              0.1338215693       0.1338215768 rel 5.64e-8
+GP contributions D230                      2137318.77        2137318.277 rel 2.30e-7
+GP profit E230                            2548457.524        2548457.402 rel 4.78e-8
+GP EMx H230                               2.192361926        2.192362143 rel 9.92e-8
+GP IRR I230                               0.254185098       0.2541851223 rel 9.55e-8
+Perm amount I80 (perm off)                40094002.89        40094008.95 rel 1.51e-7
+AUM fee/mo E227                           20355.41685        20355.41721 rel 1.76e-8
+worst rel diff 2.30e-7 iterations 12 LTC 0.65

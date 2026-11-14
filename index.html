@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Bespoke Underwriting Apartment Development Model</title>
+<meta name="description" content="Ground-up apartment development underwriting in the browser: budget, construction loan, lease-up, operations, sale and LP/GP waterfall. Based on the A.CRE Apartment Development Model by Adventures in CRE.">
+<link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<header class="sitebar" id="sitebar">
+  <div class="w sitebar-in">
+    <a class="brand" href="https://bespokeunderwriting.com/"><img src="icons/bu-mark.png" alt="" width="40" height="40">Bespoke Underwriting</a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="https://bespokeunderwriting.com/">Home</a>
+      <a href="./" aria-current="page">Apartment Model</a>
+      <a href="https://bespokeunderwriting.com/whitepaper/">White Paper</a>
+      <a href="https://bespokeunderwriting.com/#pricing">Pricing</a>
+      <a href="https://bespokeunderwriting.com/#faq">FAQ</a>
+      <a href="https://bespokeunderwriting.com/#contact">Contact</a>
+    </nav>
+    <a class="cta" href="https://bespokeunderwriting.com/#contact">Get in touch</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main class="w">
+  <section class="hero">
+    <h1>Bespoke Underwriting <span class="accent">Apartment Development Model</span></h1>
+    <p class="lede">Ground-up multifamily development underwriting: development budget, construction loan and capitalized interest, lease-up, operations, sale, and the LP/GP waterfall. Every output recalculates as you edit an input.</p>
+    <div class="credit">Based on the <a href="https://www.adventuresincre.com/apartment-development-model/" target="_blank" rel="noopener">A.CRE Apartment Development Model</a> by Adventures in CRE</div>
+  </section>
+
+  <!-- 1. Inputs -->
+  <section class="sec" id="inputs">
+    <div class="sec-head">
+      <div><span class="eyebrow">Step 1</span><h2><span class="pill">Inputs</span>Project <span class="accent">assumptions</span></h2></div>
+    </div>
+    <div class="stack">
+      <div class="card input-bar">
+        <p>Default values are the <b>A.CRE sample inputs</b> that ship with the A.CRE Apartment Development Model v3.0 (300 units, Jan 2026 start). They are an illustration, not a real deal. Fields you change are marked <span class="est edited">Edited</span>.</p>
+        <button class="btn primary" id="resetBtn" type="button">Reset to A.CRE sample inputs</button>
+      </div>
+      <div id="inputGroups" class="stack"></div>
+      <div class="card"><div class="card-h"><h3>Unit mix</h3><span class="note" id="umNote"></span></div><div class="tw scroll"><table class="t" id="unitMix"></table></div></div>
+      <div class="card"><div class="card-h"><h3>Operating expenses (annual, untrended)</h3><span class="note">% fixed during lease-up</span></div><div class="tw scroll"><table class="t" id="opexTbl"></table></div></div>
+    </div>
+  </section>
+
+  <!-- 2. KPIs -->
+  <section class="sec" id="results">
+    <div class="sec-head">
+      <div><span class="eyebrow">Step 2</span><h2><span class="pill">Results</span>Key <span class="accent">metrics</span></h2></div>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <p class="kpi-def" id="kpiDef"></p>
+    <p class="warn" id="warn" hidden></p>
+  </section>
+
+  <!-- 3. Charts -->
+  <section class="sec" id="charts">
+    <div class="sec-head"><div><span class="eyebrow">Step 3</span><h2><span class="pill">Charts</span>Budget, operations <span class="accent">and capital</span></h2></div></div>
+    <div class="charts">
+      <div class="card chart-card"><div class="card-h"><h3>Development Budget</h3><span class="v" id="c1v"></span></div><div class="chart" id="chBudget"></div><div class="legend" id="lgBudget"></div></div>
+      <div class="card chart-card"><div class="card-h"><h3>Annual Operations</h3><span class="v" id="c2v"></span></div><div class="chart" id="chOps"></div><div class="legend" id="lgOps"></div></div>
+      <div class="card chart-card"><div class="card-h"><h3>Construction Loan Balance</h3><span class="v" id="c3v"></span></div><div class="chart" id="chLoan"></div><div class="legend" id="lgLoan"></div></div>
+      <div class="card chart-card"><div class="card-h"><h3>Waterfall Distributions</h3><span class="v" id="c4v"></span></div><div class="chart" id="chWf"></div><div class="legend" id="lgWf"></div></div>
+    </div>
+  </section>
+
+  <!-- 4. Tables -->
+  <section class="sec" id="tables">
+    <div class="sec-head"><div><span class="eyebrow">Step 4</span><h2><span class="pill">Tables</span>Detail <span class="accent">schedules</span></h2></div></div>
+    <div class="stack">
+      <div class="pair">
+        <div class="card"><div class="card-h"><h3>Sources</h3><span class="v" id="srcTot"></span></div><div class="tw scroll"><table class="t" id="tSources"></table></div></div>
+        <div class="card"><div class="card-h"><h3>Uses</h3><span class="v" id="useTot"></span></div><div class="tw scroll"><table class="t" id="tUses"></table></div></div>
+      </div>
+      <div class="card"><div class="card-h"><h3>Development budget</h3><span class="note" id="budNote"></span></div><div class="tw scroll"><table class="t" id="tBudget"></table></div></div>
+      <div class="card"><div class="card-h"><h3>Annual cash flow</h3><span class="note">Year 0 = closing; year 1 = months 1–12; final year runs to the sale month</span></div><div class="tw scroll"><table class="t" id="tAnnual"></table></div></div>
+      <div class="card"><div class="card-h"><h3>Valuation and yields</h3><span class="note">NOI basis</span></div><div class="tw scroll"><table class="t" id="tVal"></table></div></div>
+      <div class="card"><div class="card-h"><h3>Returns</h3><span class="note">Property and partnership</span></div><div class="tw scroll"><table class="t" id="tRet"></table></div></div>
+      <div class="pair">
+        <div class="card"><div class="card-h"><h3>Sensitivity: exit cap rate</h3><span class="note">Equity held at base case</span></div><div class="tw scroll"><table class="t tight" id="tSensCap"></table></div></div>
+        <div class="card"><div class="card-h"><h3>Sensitivity: vacancy</h3><span class="note">Equity held at base case</span></div><div class="tw scroll"><table class="t tight" id="tSensVac"></table></div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="w">
+    <p><b>Credit.</b> Based on the <a href="https://www.adventuresincre.com/apartment-development-model/" target="_blank" rel="noopener">A.CRE Apartment Development Model</a> by Adventures in CRE (v3.0, author Spencer Burton). The calculations are a JavaScript port of that workbook, and the default inputs are its sample inputs. Use is subject to the A.CRE license: <a href="LICENSE.txt">LICENSE.txt</a>. A copy of the workbook's <a href="version.html">Version tab</a> is included, as the license requires.</p>
+    <p><b>What is not included.</b> Mezzanine debt, floating-rate construction debt, the retail module, the detailed operating-expense and detailed lease-up tabs, detail-method budget lines, the double (co-GP) promote, and the residual land value tool.</p>
+    <p>For illustration and education only. Not investment, tax, legal or lending advice. Check every output against your own underwriting before relying on it.</p>
+    <p>© <span id="yr"></span> Bespoke Underwriting</p>
+  </div>
+</footer>
+<script src="js/acre-model.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
