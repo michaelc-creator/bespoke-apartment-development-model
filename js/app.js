@@ -10,6 +10,7 @@
 
   /* ---------- formatting ---------- */
   function n0(v) { return isFinite(v) ? Math.round(v).toLocaleString('en-US') : '—'; }
+  function numIn(v) { return v == null || !isFinite(v) ? '' : (+v).toLocaleString('en-US', { maximumFractionDigits: 2 }); }
   function money(v) { if (!isFinite(v)) return '—'; var s = '$' + n0(Math.abs(v)); return v < -0.5 ? '(' + s + ')' : s; }
   function moneyC(v) { if (!isFinite(v)) return '—'; var a = Math.abs(v), s = a >= 1e9 ? (a / 1e9).toFixed(2) + 'B' : a >= 1e6 ? (a / 1e6).toFixed(a >= 1e8 ? 0 : 1) + 'M' : a >= 1e3 ? (a / 1e3).toFixed(0) + 'K' : a.toFixed(0); return (v < 0 ? '-$' : '$') + s; }
   function pct(v, d) { return isFinite(v) ? (v * 100).toFixed(d == null ? 2 : d) + '%' : '—'; }
@@ -92,7 +93,7 @@
   function fset(f, s, v) { if (f.acc) f.acc.set(s, v); else set(s, f.p, v); }
   function fmtIn(f, v) {
     if (v == null || v === '') return '';
-    if (f.f === '$') return n0(v);
+    if (f.f === '$') return numIn(v);
     if (f.f === '%') return String(+(v * 100).toFixed(4));
     if (f.f === 'n') return String(v);
     return String(v);
@@ -119,8 +120,8 @@
         ? '<select data-sw="' + j + '" data-k="basis" aria-label="Pond cost basis"><option value="Acre"' + (it.basis === 'Acre' ? ' selected' : '') + '>per acre</option><option value="Pond"' + (it.basis === 'Pond' ? ' selected' : '') + '>per pond</option></select>'
         : esc(SW_BASIS[it.basis]);
       var qtyLbl = SW_QTY[it.basis];
-      var qty = it.basis === 'LS' ? '<td class="n fixed" data-l="Quantity">1</td>' : '<td class="n" data-l="Quantity (' + qtyLbl + ')"><input data-sw="' + j + '" data-k="qty" inputmode="decimal" value="' + (it.qty != null ? n0(it.qty) : '') + '" aria-label="' + esc(it.name) + ' quantity (' + qtyLbl + ')"></td>';
-      return '<tr><td class="lbl">' + esc(it.name) + '</td><td class="n" data-l="Unit cost ($)"><input data-sw="' + j + '" data-k="cost" inputmode="decimal" value="' + (it.cost != null ? n0(it.cost) : '') + '" aria-label="' + esc(it.name) + ' unit cost"></td><td data-l="Basis">' + basis + '</td>' + qty + '<td class="n" data-l="Line total" data-swt="' + j + '">—</td></tr>';
+      var qty = it.basis === 'LS' ? '<td class="n fixed" data-l="Quantity">1</td>' : '<td class="n" data-l="Quantity (' + qtyLbl + ')"><input data-sw="' + j + '" data-k="qty" inputmode="decimal" value="' + numIn(it.qty) + '" aria-label="' + esc(it.name) + ' quantity (' + qtyLbl + ')"></td>';
+      return '<tr><td class="lbl">' + esc(it.name) + '</td><td class="n" data-l="Unit cost ($)"><input data-sw="' + j + '" data-k="cost" inputmode="decimal" value="' + numIn(it.cost) + '" aria-label="' + esc(it.name) + ' unit cost"></td><td data-l="Basis">' + basis + '</td>' + qty + '<td class="n" data-l="Line total" data-swt="' + j + '">—</td></tr>';
     }).join('');
     return '<div class="subp" id="siteworkPanel"><div class="subp-h"><h4>Sitework and Drainage</h4></div>' +
       '<div class="tw"><table class="t swt"><thead><tr><th>Line</th><th class="n">Unit cost ($)</th><th>Basis</th><th class="n">Quantity</th><th class="n">Line total</th></tr></thead><tbody>' + rows +
@@ -146,9 +147,9 @@
     var h = '<thead><tr><th>Unit type</th><th class="n">Units</th><th class="n">Avg SF</th><th class="n">Rent / mo</th><th class="n">Rent / SF</th><th class="n">Free mo. lease-up</th><th class="n">Free mo. stabilized</th></tr></thead><tbody>';
     S.unitMix.forEach(function (u, j) {
       h += '<tr><td><input class="txt" data-um="' + j + '" data-k="name" value="' + esc(u.name || '') + '" aria-label="Unit type"></td>' +
-        ['units', 'sf', 'rent'].map(function (k) { return '<td class="n"><input data-um="' + j + '" data-k="' + k + '" inputmode="decimal" value="' + (u[k] != null ? n0(u[k]) : '') + '" aria-label="' + k + '"></td>'; }).join('') +
+        ['units', 'sf', 'rent'].map(function (k) { return '<td class="n"><input data-um="' + j + '" data-k="' + k + '" inputmode="decimal" value="' + numIn(u[k]) + '" aria-label="' + k + '"></td>'; }).join('') +
         '<td class="n" data-rpsf="' + j + '"></td>' +
-        ['freeLeaseUp', 'freeStab'].map(function (k) { return '<td class="n"><input data-um="' + j + '" data-k="' + k + '" inputmode="decimal" value="' + (u[k] != null ? u[k] : '') + '" aria-label="' + k + '"></td>'; }).join('') + '</tr>';
+        ['freeLeaseUp', 'freeStab'].map(function (k) { return '<td class="n"><input data-um="' + j + '" data-k="' + k + '" inputmode="decimal" value="' + numIn(u[k]) + '" aria-label="' + k + '"></td>'; }).join('') + '</tr>';
     });
     h += '<tr class="tot"><td>Total / average</td><td class="n" id="umU"></td><td class="n" id="umSf"></td><td class="n" id="umR"></td><td class="n" id="umRsf"></td><td></td><td></td></tr></tbody>';
     $('unitMix').innerHTML = h;
@@ -156,7 +157,7 @@
   function buildOpex() {
     var h = '<thead><tr><th>Expense</th><th class="n">Annual ($)</th><th class="n">% fixed</th><th class="n">Per unit</th></tr></thead><tbody>';
     S.opex.forEach(function (o, j) {
-      h += '<tr><td class="lbl">' + esc(o.name) + '</td><td class="n"><input data-ox="' + j + '" data-k="amount" inputmode="decimal" value="' + (o.amount != null ? n0(o.amount) : '') + '" aria-label="' + esc(o.name) + ' amount"></td><td class="n"><input data-ox="' + j + '" data-k="fixed" inputmode="decimal" value="' + (o.fixed != null ? +(o.fixed * 100).toFixed(2) : '') + '" aria-label="' + esc(o.name) + ' percent fixed"></td><td class="n" data-opu="' + j + '"></td></tr>';
+      h += '<tr><td class="lbl">' + esc(o.name) + '</td><td class="n"><input data-ox="' + j + '" data-k="amount" inputmode="decimal" value="' + numIn(o.amount) + '" aria-label="' + esc(o.name) + ' amount"></td><td class="n"><input data-ox="' + j + '" data-k="fixed" inputmode="decimal" value="' + (o.fixed != null ? +(o.fixed * 100).toFixed(2) : '') + '" aria-label="' + esc(o.name) + ' percent fixed"></td><td class="n" data-opu="' + j + '"></td></tr>';
     });
     h += '<tr class="tot"><td>Total (before mgmt, insurance, tax)</td><td class="n" id="oxT"></td><td></td><td class="n" id="oxU"></td></tr></tbody>';
     $('opexTbl').innerHTML = h;
