@@ -151,3 +151,5 @@ table.t td.fixed{color:var(--mute)}
 @media(max-width:640px){table.swt tr.tot{background:rgba(53,155,197,.10)}table.swt tr.tot td{background:transparent}}
 table.swt .inl input,.inl input{width:64px;min-width:64px;flex:0 0 64px}
 table.t.tight th,table.t.tight td{padding-left:10px;padding-right:10px}
+#chBudget{flex:1 1 auto;height:auto;min-height:340px}
+@media(max-width:900px){#chBudget{min-height:300px}}
