@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Bespoke Underwriting Parking Lot Site Evaluation Model</title>
+<meta name="description" content="Parking lot site evaluation in the browser for College Park Rd Lots 1 & 2, Conway SC: site yield under transmission easements, total project cost, revenue by season, NOI, yield on cost, payback, IRR and max land price.">
+<link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap">
+<style>
+/* Styles copied from css/miami_condo_rental_model.css so this page stands alone, plus a few parking-lot additions at the end. */
+/* Bespoke Underwriting — Miami Beach condo rental model. Standalone stylesheet: visual tokens copied from css/app.css so this page does not depend on the apartment model files. */
+:root{--bg:#101211;--card:#171918;--card2:#1c1f1e;--in:#121413;--blue:#359BC5;--blue2:#6CC0E0;--blue3:#A9DCEF;--blue4:#D6EEF7;--orange:#FDAD3F;--orange2:#E8952A;--line:rgba(255,255,255,.08);--soft:rgba(255,255,255,.62);--mute:rgba(255,255,255,.42);--g:clamp(16px,4vw,56px);--r:16px}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html,body{margin:0;background:var(--bg);color:#fff;overflow-x:hidden}
+body{font:400 15px/1.5 "Switzer",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--blue2);text-decoration:none}a:hover{text-decoration:underline}
+.w{max-width:1200px;margin:0 auto;padding:0 var(--g)}
+.sitebar{position:sticky;top:0;z-index:20;background:rgba(16,18,17,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.sitebar-in{display:flex;align-items:center;justify-content:space-between;height:72px;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;color:#fff;font-weight:500;font-size:17px;white-space:nowrap}.brand:hover{text-decoration:none}
+.brand img{width:40px;height:40px;border-radius:50%}
+.nav{display:flex;gap:28px;font-size:14px}.nav a{color:rgba(255,255,255,.86)}.nav a[aria-current]{color:#fff;font-weight:500}
+.cta{background:var(--blue);color:#fff;border-radius:10px;padding:9px 16px;font-size:14px;font-weight:500;white-space:nowrap}.cta:hover{text-decoration:none;filter:brightness(1.08)}
+.menu-btn{display:none;background:none;border:0;padding:8px;cursor:pointer}.menu-btn span{display:block;width:22px;height:2px;background:#fff;margin:5px 0;border-radius:2px}
+@media(max-width:900px){.nav{display:none;position:absolute;top:72px;left:0;right:0;flex-direction:column;gap:0;background:#141615;border-bottom:1px solid var(--line);padding:8px var(--g) 16px}.nav a{padding:10px 0}.sitebar.open .nav{display:flex}.menu-btn{display:block}.cta{display:none}}
+/* hero */
+.hero{text-align:center;padding:64px 0 40px}
+.hero h1{font:500 clamp(30px,3.2vw + 14px,54px)/1.1 "Switzer",sans-serif;letter-spacing:-.03em;margin:0 auto;max-width:15em}
+.hero h1 .accent{background:linear-gradient(90deg,#359BC5,#A9DCEF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{color:var(--soft);font-size:17px;line-height:1.55;max-width:40em;margin:18px auto 0}
+.credit{margin:18px auto 0;display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;font-size:13.5px;color:var(--soft);background:rgba(53,155,197,.10);border:1px solid rgba(53,155,197,.28);border-radius:999px;padding:7px 16px}
+.credit a{color:var(--blue3);font-weight:500}
+/* section heads */
+.sec{margin:0 0 56px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:0 0 20px;flex-wrap:wrap}
+.sec-head h2{font:500 clamp(24px,1.4vw + 16px,34px)/1.15 "Switzer",sans-serif;letter-spacing:-.02em;margin:0}
+.sec-head h2 .accent{color:var(--blue2)}
+.eyebrow{display:block;color:var(--blue2);font-size:13px;margin:0 0 6px}
+.pill{display:inline-flex;align-items:center;background:var(--blue);color:#fff;border-radius:999px;font-size:12px;font-weight:500;padding:4px 12px;margin-right:12px;vertical-align:4px}
+/* cards */
+.card{background:var(--card);border-radius:var(--r);box-shadow:0 12px 32px rgba(0,0,0,.30);padding:22px;min-width:0}
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:0 0 14px;margin:0 0 16px;border-bottom:1px solid var(--line)}
+.card-h h3{font:500 16px/1.3 "Switzer",sans-serif;margin:0}
+.card-h .v{font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+.card-h .note{color:var(--mute);font-size:12.5px}
+.stack{display:grid;gap:20px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
+.pair>.card{display:flex;flex-direction:column}
+@media(max-width:900px){.pair{grid-template-columns:1fr}}
+/* inputs */
+.est{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;font:500 10.5px/1.4 "Switzer",sans-serif;letter-spacing:.03em;color:var(--blue3);background:rgba(53,155,197,.14);vertical-align:1px;white-space:nowrap}
+.est.edited{color:#1a1206;background:var(--orange)}
+.fields{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:20px}
+@media(max-width:1100px){.fields{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:820px){.fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.fields{grid-template-columns:1fr}}
+.fld{padding:12px 0 14px;border-bottom:1px solid var(--line);min-width:0;display:flex;flex-direction:column}
+.fld label{font-size:13px;color:rgba(255,255,255,.82);margin:0 0 8px;display:flex;align-items:center;flex-wrap:wrap;row-gap:4px;min-height:22px}
+.fld .box{display:flex;align-items:center;background:var(--in);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:0 12px;height:44px}
+.fld .box:focus-within{border-color:var(--blue)}
+.fld input[type=text],.fld select{flex:1 1 auto;min-width:0;width:100%;background:transparent;border:0;color:#fff;font:500 16px/1 "Switzer",sans-serif;font-variant-numeric:tabular-nums;outline:none;height:42px}
+.fld select{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,#fff 50%),linear-gradient(135deg,#fff 50%,transparent 50%);background-position:calc(100% - 10px) 19px,calc(100% - 5px) 19px;background-size:5px 5px;background-repeat:no-repeat;padding-right:18px}
+.fld select option{background:#1c1f1e;color:#fff}
+.fld .unit{color:var(--mute);font-size:14px;margin-left:6px;white-space:nowrap}
+.fld .calc{font:500 16px/44px "Switzer",sans-serif;font-variant-numeric:tabular-nums;color:#fff;height:44px}
+.fld .hint{color:var(--mute);font-size:12px;margin-top:6px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:22px;background:transparent;margin:8px 0 0;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:6px;background:linear-gradient(90deg,#359BC5,#A9DCEF);opacity:.85}
+input[type=range]::-moz-range-track{height:6px;border-radius:6px;background:linear-gradient(90deg,#359BC5,#A9DCEF)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid #359BC5;margin-top:-7px;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid #359BC5}
+input[type=range]:focus-visible{outline:2px solid #359BC5;outline-offset:2px}
+.btn{background:transparent;border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:10px;padding:9px 16px;font:500 13.5px/1 "Switzer",sans-serif;cursor:pointer}
+.btn:hover{border-color:var(--blue2)}
+.btn.primary{background:var(--blue);border-color:var(--blue)}
+.input-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.input-bar p{margin:0;color:var(--soft);font-size:13.5px;max-width:52em}
+/* tables (rounded, blue header) */
+.tw{border:1px solid rgba(255,255,255,.10);border-radius:14px;overflow:hidden;flex:1 1 auto}
+.tw.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.t{width:100%;border-collapse:separate;border-spacing:0;font-variant-numeric:tabular-nums;font-size:14px}
+table.t th{background:var(--blue);color:#fff;font-weight:500;text-align:left;padding:11px 14px;white-space:nowrap;font-size:13px}
+table.t th.n,table.t td.n{text-align:right}
+table.t td{padding:10px 14px;border-top:1px solid var(--line);white-space:nowrap}
+table.t tr:first-child td{border-top:0}
+table.t tr.tot td{font-weight:600;background:rgba(53,155,197,.10)}
+table.t tr.sub td{font-weight:500;color:var(--blue3)}
+table.t tr.grp td{color:var(--blue2);font-size:12px;letter-spacing:.04em;text-transform:uppercase;background:rgba(255,255,255,.02)}
+table.t td.lbl{white-space:normal;min-width:140px}
+table.t tr.hl td{background:rgba(253,173,63,.12)}
+table.t input{width:100%;min-width:64px;background:var(--in);border:1px solid rgba(255,255,255,.08);border-radius:8px;color:#fff;font:500 14px/1 "Switzer",sans-serif;font-variant-numeric:tabular-nums;padding:8px 10px;text-align:right;outline:none}
+table.t input.txt{text-align:left;min-width:120px}
+table.t input:focus{border-color:var(--blue)}
+.neg{color:#F2A0A0}
+/* KPI tiles */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px 16px;text-align:left;color:#fff;cursor:pointer;font:inherit;min-width:0;box-shadow:0 12px 32px rgba(0,0,0,.25);transition:border-color .15s,background .15s}
+.kpi:hover{border-color:rgba(53,155,197,.55)}
+.kpi .k{display:block;font-size:13px;color:rgba(255,255,255,.80);margin:0 0 6px}
+.kpi .v{display:block;font-size:clamp(17px,1vw + 10px,22px);font-weight:500;color:var(--blue2);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi .s{display:block;font-size:11.5px;color:var(--mute);margin-top:4px}
+.kpi.sel{background:var(--orange);border-color:var(--orange2);box-shadow:0 12px 32px rgba(253,173,63,.18)}
+.kpi.sel .k,.kpi.sel .v,.kpi.sel .s{color:#1a1206}
+.kpi-def{margin:14px 0 0;color:var(--soft);font-size:13.5px;min-height:1.5em}
+.kpi-def b{color:#fff;font-weight:500}
+.foot{border-top:1px solid var(--line);margin-top:24px;padding:28px 0 48px;color:var(--soft);font-size:13px;line-height:1.6}
+.foot p{margin:0 0 10px;max-width:70em}
+.foot a{color:var(--blue3)}
+.warn{color:var(--orange);font-size:13px;margin:10px 0 0}
+/* condo-model additions */
+.kpis.k5{grid-template-columns:repeat(4,minmax(0,1fr))}
+.fld .tog{display:flex;gap:8px}
+.fld .tog button{flex:1;height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:var(--in);color:#fff;font:500 14px/1 "Switzer",sans-serif;cursor:pointer}
+.fld .tog button[aria-pressed=true]{background:var(--blue);border-color:var(--blue)}
+.fld.off{opacity:.4}
+.assump{color:var(--soft);font-size:13px;margin:0;line-height:1.55}
+.assump b{color:#fff;font-weight:500}
+@media(max-width:640px){table.t td,table.t th{padding:9px 10px;font-size:13px}table.t td.lbl{min-width:120px}}
+/* charts */
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:900px){.charts{grid-template-columns:1fr}}
+.chart-card{display:flex;flex-direction:column}
+.chart{flex:1 1 auto;min-height:320px;position:relative}
+.chart svg{display:block;width:100%;height:100%;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;font-size:12.5px;color:var(--soft)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+svg text{fill:rgba(255,255,255,.62);font-family:"Switzer",sans-serif;font-size:11.5px}
+svg .vl{fill:#fff;font-weight:500}
+svg .grid{stroke:rgba(255,255,255,.07)}
+svg .axis{stroke:rgba(255,255,255,.18)}
+/* footer */
+.fld label{min-height:40px;align-content:flex-end;align-items:flex-end}
+.chart{flex:none;height:340px;min-height:0}
+.legend{min-height:42px;align-content:flex-start}
+@media(max-width:900px){.chart{height:300px}.legend{min-height:0}}
+/* parking-lot additions */
+.pairin{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pairin .box{padding:0 10px}
+.fld .case{color:var(--blue2);font-size:11.5px;font-weight:500;margin-right:6px}
+.kpi .v{white-space:normal;overflow:visible;line-height:1.25}
+.kpi .v i{font-style:normal;color:var(--mute);font-weight:400}
+.kpi.sel .v i{color:rgba(26,18,6,.6)}
+.facts{margin:0;padding:0;list-style:none}
+.facts li{padding:9px 0;border-top:1px solid var(--line);color:var(--soft);font-size:13.5px;line-height:1.5}
+.facts li:first-child{border-top:0;padding-top:0}
+.facts li b{color:#fff;font-weight:500}
+.tag{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;font:500 10.5px/1.5 "Switzer",sans-serif;letter-spacing:.03em;color:#1a1206;background:var(--orange);vertical-align:1px}
+</style>
+</head>
+<body>
+<header class="sitebar" id="sitebar">
+  <div class="w sitebar-in">
+    <a class="brand" href="https://bespokeunderwriting.com/"><img src="icons/bu-mark.png" alt="" width="40" height="40">Bespoke Underwriting</a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="https://bespokeunderwriting.com/">Home</a>
+      <a href="./">Apartment Model</a>
+      <a href="miami_condo_rental_model.html">Condo Rental Model</a>
+      <a href="parking_lot_site_model.html" aria-current="page">Parking Lot</a>
+      <a href="https://bespokeunderwriting.com/whitepaper/">White Paper</a>
+      <a href="https://bespokeunderwriting.com/#pricing">Pricing</a>
+      <a href="https://bespokeunderwriting.com/#contact">Contact</a>
+    </nav>
+    <a class="cta" href="https://bespokeunderwriting.com/#contact">Get in touch</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main class="w">
+  <section class="hero">
+    <h1>Bespoke Underwriting <span class="accent">Parking Lot Site Evaluation Model</span></h1>
+    <p class="lede">Site evaluation for a surface parking lot on College Park Rd Lots 1 &amp; 2 in Conway, SC, near Coastal Carolina University, where Santee Cooper transmission easements cover most of the land. It covers site yield, total project cost, revenue by season, operating expenses, NOI, payback, IRR and the land price the deal can support, in a low case (50 spaces at $5 / day) and a high case (80 spaces at $10 / day). Every output recalculates as you edit an input.</p>
+  </section>
+
+  <!-- 1. Inputs -->
+  <section class="sec" id="inputs">
+    <div class="sec-head">
+      <div><span class="eyebrow">Step One</span><h2><span class="pill">Inputs</span>Site <span class="accent">Assumptions</span></h2></div>
+    </div>
+    <div class="stack">
+      <div class="card">
+        <div class="card-h"><h3>Default assumptions</h3><span class="note">College Park Rd Lots 1 &amp; 2, Conway SC</span></div>
+        <div class="input-bar">
+          <p class="assump"><b>Most defaults are starting assumptions, not sourced facts.</b> Sourced: the survey area of 58,857 sf (1.35 ac ±), the buildable envelope of about 10,665 sf outside the easements, and the $225,000 asking price (MLS 2527856, cut from $375,000). Spaces, daily rates, pole count, pond size and area per space are planning estimates. Every input tagged ASSUMPTION is a placeholder to replace with quotes, the survey's net area, the tax-district millage, operator data and site counts before relying on the results. Inputs with Low and High boxes set each case separately; all other inputs apply to both cases.</p>
+          <button type="button" class="btn" id="resetBtn">Reset defaults</button>
+        </div>
+      </div>
+      <div id="inputGroups" class="stack"></div>
+    </div>
+  </section>
+
+  <!-- 2. KPIs -->
+  <section class="sec" id="results">
+    <div class="sec-head">
+      <div><span class="eyebrow">Step Two</span><h2><span class="pill">Results</span>Key <span class="accent">Metrics</span></h2></div>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <p class="kpi-def" id="kpiDef"></p>
+  </section>
+
+  <!-- 3. Charts -->
+  <section class="sec" id="charts">
+    <div class="sec-head"><div><span class="eyebrow">Step Three</span><h2><span class="pill">Charts</span>Cost, Revenue <span class="accent">and Payback</span></h2></div></div>
+    <div class="charts">
+      <div class="card chart-card"><div class="card-h"><h3>Where the Money Goes</h3><span class="v" id="c1v"></span></div><div class="chart" id="chUses"></div></div>
+      <div class="card chart-card"><div class="card-h"><h3>NOI and Cash Flow by Year</h3><span class="v" id="c2v"></span></div><div class="chart" id="chNoi"></div><div class="legend" id="lgNoi"></div></div>
+      <div class="card chart-card"><div class="card-h"><h3>Year-1 Revenue by Season</h3><span class="v" id="c3v"></span></div><div class="chart" id="chRev"></div><div class="legend" id="lgRev"></div></div>
+      <div class="card chart-card"><div class="card-h"><h3>Payback by Land Price</h3><span class="v" id="c4v"></span></div><div class="chart" id="chPb"></div><div class="legend" id="lgPb"></div></div>
+    </div>
+  </section>
+
+  <!-- 4. Tables -->
+  <section class="sec" id="tables">
+    <div class="sec-head"><div><span class="eyebrow">Step Four</span><h2><span class="pill">Tables</span>Detail <span class="accent">Schedules</span></h2></div></div>
+    <div class="stack">
+      <div class="card"><div class="card-h"><h3>Site yield</h3><span class="note">Survey gross area, Santee Cooper clearance</span></div><div class="tw scroll"><table class="t" id="tSite"></table></div></div>
+      <div class="pair">
+        <div class="card"><div class="card-h"><h3>Sources</h3><span class="v" id="srcTot"></span></div><div class="tw scroll"><table class="t" id="tSources"></table></div></div>
+        <div class="card"><div class="card-h"><h3>Uses</h3><span class="v" id="useTot"></span></div><div class="tw scroll"><table class="t" id="tUses"></table></div></div>
+      </div>
+      <div class="card"><div class="card-h"><h3>Operating budget</h3><span class="note">Year 1, stabilized</span></div><div class="tw scroll"><table class="t" id="tBudget"></table></div></div>
+      <div class="card"><div class="card-h"><h3>Annual pro forma</h3><span class="note" id="pfNote"></span></div><div class="tw scroll"><table class="t" id="tAnnual"></table></div></div>
+      <div class="card"><div class="card-h"><h3>Returns</h3><span class="note">5-year hold, pre-tax</span></div><div class="tw scroll"><table class="t" id="tRet"></table></div></div>
+      <div class="pair">
+        <div class="card"><div class="card-h"><h3>Sensitivity: max land price</h3><span class="note">By target payback</span></div><div class="tw scroll"><table class="t tight" id="tSensMax"></table></div></div>
+        <div class="card"><div class="card-h"><h3>Sensitivity: payback (years)</h3><span class="note">By land price</span></div><div class="tw scroll"><table class="t tight" id="tSensPb"></table></div></div>
+      </div>
+      <p class="assump">Quick screen: seasonal gross revenue against land plus paving only. Full pro forma: Year-1 NOI against land with closing costs plus all hard and soft costs. The quick screen makes the deal look far better than the full pro forma, so run both.</p>
+      <div class="pair">
+        <div class="card"><div class="card-h"><h3>Site facts</h3><span class="note">Public records and listing</span></div>
+          <ul class="facts">
+            <li><b>Parcels.</b> PINs 38308020003 and 38308020002 (College Park Lots 1 &amp; 2, Block 8), Conway, SC.</li>
+            <li><b>Last sale.</b> To SEZ Properties LLC, deed Book 4798, Page 3406, recorded April 11, 2024. Reported purchase price $205,000; the county record shows no amount, so confirm it against the deed.</li>
+            <li><b>Listing.</b> Asking $225,000, cut from $375,000. Listed November 19, 2025, with two failed contracts (MLS 2527856).</li>
+            <li><b>Assessor and taxes.</b> $80,000 market value per lot ($160,000 combined). On the December 1, 2026 Horry County delinquent tax sale list.</li>
+            <li><b>Area.</b> Survey: 1.35 ac ± (58,857 sf). Buildable envelope outside the easements: about 10,665 sf (roughly 10,700 sf, 0.24 ac).</li>
+            <li><b>Zoning and flood.</b> City of Conway P (Professional); flood Zone X.</li>
+            <li><b>Easements.</b> 50 ft and 100 ft Santee Cooper rights-of-way on parallel diagonals across both lots. No structures, ponds, fill, fences or retaining walls in the easement. Passenger-car parking only with written consent, lights and signs no taller than 12 ft and outside the wire zone, and 50 ft clearance from towers, guy wires and anchors.</li>
+          </ul>
+        </div>
+        <div class="card"><div class="card-h"><h3>Easement and land value</h3><span class="tag">ESTIMATE</span></div>
+          <ul class="facts">
+            <li><b>Discount vs unrestricted land: about 40-80% (estimate).</b> The $225,000 ask is 28-60% of the estimated fully buildable range.</li>
+            <li><b>If fully buildable: $375,000-$800,000 (estimate).</b> Low end near the original $375,000 list price; high end applies neighboring Professional lots' assessor land rates to the site.</li>
+            <li><b>As parking only: $125,000-$225,000 (estimate).</b> A 10-25% residual on the buildable range up to the current ask.</li>
+            <li><b>Assessor comparison.</b> The subject is carried at $2.62 / sf against $11.88-$13.08 / sf for adjacent Professional-zoned US 501 lots, about 78-80% lower. These are assessor figures, not sales.</li>
+            <li><b>Appraisal practice.</b> When an overhead electric easement changes highest and best use, appraisers often value the encumbered strip at 75-100% of fee (IRWA <i>Right of Way</i>, 2014).</li>
+            <li>These are estimates, not an appraisal. No surface-parking-lot sales were found in Conway or Horry County.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card"><div class="card-h"><h3>Alternative: medical or office pad</h3><span class="note">Not modeled; no figures assumed for returns</span></div>
+        <ul class="facts">
+          <li><b>Zoning.</b> Conway's P district permits offices and medical / dental offices by right. Stand-alone parking needs a special exception (UDO §5.1.33). New buildings may cover at most 30% of the lot.</li>
+          <li><b>Layout.</b> A building would sit on the roughly 10,665 sf pad outside the easements, with its parking in the easement, subject to Santee Cooper's written consent. A realistic footprint is about 4,000-6,000 sf (estimate), depending on whether stormwater goes in an underground vault or a surface basin. Two stories is the cleanest option.</li>
+          <li><b>Asking rents in Conway.</b> General office: $12-$16 / sf / yr NNN. Medical office: $21.60-$32.00 / sf / yr. The $21.60 ask is a fixed monthly rent, and the $32.00 ask is a new turnkey clinic next to Conway Medical Center whose lease type is not disclosed.</li>
+          <li><b>Bottom line at default inputs.</b> At the $225,000 ask, the parking lot is a no-go on the full pro forma. The high case clears a 10% yield on cost but takes 6.6 years to pay back. The best use of the site is likely a medical or office pad outside the easement with parking in the easement.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="w">
+    <p><b>How it works.</b> Year-1 figures drive the key metrics. Usable area = gross area − pole clearance (poles × π × 50 ft²) − stormwater pond − setbacks; spaces = usable area ÷ sf per space, capped at the plan. Revenue = spaces × daily rate × busy days × occupancy by season (academic term, summer / break, events), less collection loss = effective gross revenue (EGR). NOI = EGR − property tax, insurance, maintenance, lighting power, payment app / enforcement, management and reserves. Yield on cost = NOI ÷ total project cost; simple payback = total project cost ÷ NOI. The 5-year hold grows EGR and opex each year and sells at the end of Year 5 on Year-6 NOI ÷ exit cap, less sale costs. Max land price solves for the price that meets the target payback after closing costs, hard costs and soft costs.</p>
+    <p><b>What is not included.</b> Income taxes and depreciation (all returns are pre-tax); the office or medical pad scenario in the buildable envelope (building cost, office parking, pad value or ground rent); and an operator lease structure (fixed rent or a revenue share), since the model is owner-operated as shown.</p>
+    <p>For illustration and education only. Not investment, tax, legal or lending advice. Check every output against your own underwriting before relying on it.</p>
+    <p>© <span id="yr"></span> Bespoke Underwriting</p>
+  </div>
+</footer>
+<script>
+/* Bespoke Underwriting: Parking Lot Site Evaluation Model (calculation engine).
+   Mirrors the Parking Lot Site Evaluation Model workbook formulas (Inputs, Pro Forma, Returns, Sensitivity).
+   Two cases are computed side by side: Low and High. Works in the browser and in Node. */
+(function (root) {
+  'use strict';
+  /* Default inputs from the workbook. Pairs are [low, high]; scalars apply to both cases.
+     Values marked ASSUMPTION in the workbook are placeholders to replace, not sourced facts. */
+  function defaults() {
+    return {
+      gross: 58857, envelope: 10665, poles: [4, 2], pond: [5000, 3000], setback: 0, sfsp: [350, 300], spaces: [50, 80],
+      land: 225000, closePct: 0.02,
+      paving: 150000, storm: 30000, light: 20000, signs: 2500, stripe: 6000, permits: 5000, design: 15000, contPct: 0.10,
+      legal: 5000, survey: 4000, appraisal: 3000, title: 1500, phase1: 2500, encroach: 1000,
+      rate: [5, 10], dAcad: 150, oAcad: 0.75, dSumm: 40, oSumm: 0.50, dEvt: 10, oEvt: 0.75, evtMult: 1.0, coll: 0.03,
+      assess: 0.06, mill: 0.25, ins: 3000, maint: 40, power: 1200, appPct: 0.10, mgmtPct: 0.05, resv: 25,
+      gRev: 0.03, gOpx: 0.03, cap: 0.08, salePct: 0.03, ltc: 0.50, int: 0.075, amort: 20,
+      tYoc: 0.10, tPb: 4
+    };
+  }
+  var POLE_SF = Math.PI * 50 * 50;
+  function pmt(rate, n, pv) { if (pv <= 0) return 0; if (rate === 0) return pv / n; return pv * rate / (1 - Math.pow(1 + rate, -n)); }
+  function balance(rate, n, p, k) { var left = n - k; if (left <= 0) return 0; if (rate === 0) return p * left; return p * (1 - Math.pow(1 + rate, -left)) / rate; }
+  function npv(r, cf) { var s = 0; for (var i = 0; i < cf.length; i++) s += cf[i] / Math.pow(1 + r, i); return s; }
+  function irr(cf) {
+    var pos = cf.some(function (v) { return v > 0; }), neg = cf.some(function (v) { return v < 0; });
+    if (!pos || !neg) return null;
+    var lo = -0.9999, hi = 10, flo = npv(lo, cf), fhi = npv(hi, cf);
+    if (flo * fhi > 0) return null;
+    for (var i = 0; i < 300; i++) { var mid = (lo + hi) / 2, fm = npv(mid, cf); if (Math.abs(fm) < 1e-9) return mid; if (flo * fm < 0) { hi = mid; } else { lo = mid; flo = fm; } }
+    return (lo + hi) / 2;
+  }
+  function pick(I, c) { var o = {}; for (var k in I) o[k] = Array.isArray(I[k]) ? I[k][c] : I[k]; return o; }
+
+  function computeCase(I) {
+    var r = { inputs: I };
+    r.poleArea = I.poles * POLE_SF;
+    r.usable = I.gross - r.poleArea - I.pond - I.setback;
+    r.maxSpaces = I.sfsp > 0 ? Math.floor(r.usable / I.sfsp) : 0;
+    r.spaces = Math.max(0, Math.min(I.spaces, r.maxSpaces));
+    r.envLeft = I.envelope - I.pond;
+    r.land = I.land; r.closing = I.land * I.closePct; r.landTot = r.land + r.closing;
+    r.hardSub = I.paving + I.storm + I.light + I.signs + I.stripe + I.permits + I.design;
+    r.cont = r.hardSub * I.contPct; r.hard = r.hardSub + r.cont;
+    r.soft = I.legal + I.survey + I.appraisal + I.title + I.phase1 + I.encroach;
+    r.tpc = r.landTot + r.hard + r.soft;
+    r.tpcSp = r.spaces ? r.tpc / r.spaces : NaN; r.hardSp = r.spaces ? r.hard / r.spaces : NaN; r.paveSf = r.usable > 0 ? I.paving / r.usable : NaN;
+    r.loan = r.tpc * I.ltc; r.equity = r.tpc - r.loan;
+    r.gpr = r.spaces * I.rate * 365;
+    r.rAcad = r.spaces * I.rate * I.dAcad * I.oAcad;
+    r.rSumm = r.spaces * I.rate * I.dSumm * I.oSumm;
+    r.rEvt = r.spaces * I.rate * I.evtMult * I.dEvt * I.oEvt;
+    r.seas = r.rAcad + r.rSumm + r.rEvt; r.idle = r.seas - r.gpr; r.collLoss = -r.seas * I.coll; r.egr = r.seas + r.collLoss;
+    r.tax = r.tpc * I.assess * I.mill; r.ins = I.ins; r.maint = I.maint * r.spaces; r.power = I.power;
+    r.app = r.egr * I.appPct; r.mgmt = r.egr * I.mgmtPct; r.resv = I.resv * r.spaces;
+    r.opex = r.tax + r.ins + r.maint + r.power + r.app + r.mgmt + r.resv;
+    r.opexRatio = r.egr ? r.opex / r.egr : NaN;
+    r.noi = r.egr - r.opex;
+    /* 5-year hold, exit at end of Year 5 on Year 6 (forward) NOI */
+    var ds = r.loan > 0 ? pmt(I.int, I.amort, r.loan) : 0, rows = [];
+    for (var y = 1; y <= 6; y++) {
+      var e = r.egr * Math.pow(1 + I.gRev, y - 1), x = r.opex * Math.pow(1 + I.gOpx, y - 1);
+      rows.push({ year: y, egr: e, opex: x, noi: e - x });
+    }
+    var sale = rows[5].noi / I.cap * (1 - I.salePct), bal5 = r.loan > 0 ? balance(I.int, I.amort, ds, 5) : 0;
+    var ucf = [-r.tpc], lcf = [-r.equity];
+    for (y = 0; y < 5; y++) {
+      var R = rows[y]; R.sale = y === 4 ? sale : 0; R.ds = ds; R.ucf = R.noi + R.sale; R.payoff = y === 4 ? bal5 : 0; R.lcf = R.noi - ds + R.sale - R.payoff;
+      ucf.push(R.ucf); lcf.push(R.lcf);
+    }
+    rows[5].ds = null;
+    r.proForma = rows; r.debtService = ds; r.loanBal5 = bal5; r.ucf = ucf; r.lcf = lcf;
+    r.yoc = r.tpc ? r.noi / r.tpc : NaN;
+    r.exitValue = sale; r.impliedValue = r.noi / I.cap;
+    r.cocLev = r.equity ? (rows[0].noi - ds) / r.equity : NaN;
+    r.irrU = irr(ucf); r.irrL = irr(lcf);
+    r.multiple = ucf.slice(1).reduce(function (a, b) { return a + b; }, 0) / r.tpc;
+    r.payback = r.noi > 0 ? r.tpc / r.noi : null;
+    r.maxLandPb = Math.max(0, (r.noi * I.tPb - r.hard - r.soft) / (1 + I.closePct));
+    r.maxLandYoc = Math.max(0, (r.noi / I.tYoc - r.hard - r.soft) / (1 + I.closePct));
+    /* Sensitivity: quick screen (seasonal gross revenue vs paving only) and full pro forma */
+    r.quickPb = function (lp) { return r.seas > 0 ? (lp + I.paving) / r.seas : null; };
+    r.fullPb = function (lp) { return r.noi > 0 ? (lp * (1 + I.closePct) + r.hard + r.soft) / r.noi : null; };
+    r.quickMax = function (t) { return Math.max(0, r.seas * t - I.paving); };
+    r.fullMax = function (t) { return Math.max(0, (r.noi * t - r.hard - r.soft) / (1 + I.closePct)); };
+    r.beSpaces = null;
+    return r;
+  }
+  function compute(input) {
+    var I = Object.assign(defaults(), input || {});
+    return { inputs: I, low: computeCase(pick(I, 0)), high: computeCase(pick(I, 1)) };
+  }
+  var API = { defaults: defaults, compute: compute, computeCase: computeCase, pick: pick, irr: irr, POLE_SF: POLE_SF };
+  if (typeof module !== 'undefined' && module.exports) module.exports = API; else root.ParkingLotSiteModel = API;
+})(this);
+</script>
+<script>
+/* Bespoke Underwriting: Parking Lot Site Evaluation Model UI. Layout and styling follow the Miami Beach Condo Rental Model page. */
+(function () {
+  'use strict';
+  var M = window.ParkingLotSiteModel, S = M.defaults(), R = null, selKpi = 'payback';
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function n0(v) { return Math.round(v).toLocaleString('en-US'); }
+  function numIn(v) { return v == null || !isFinite(v) ? '' : (+v).toLocaleString('en-US', { maximumFractionDigits: 3 }); }
+  function money(v) { if (v == null || !isFinite(v)) return '—'; var s = '$' + n0(Math.abs(v)); return v < -0.5 ? '(' + s + ')' : s; }
+  function moneyC(v) { if (!isFinite(v)) return '—'; var a = Math.abs(v), s = a >= 1e6 ? (a / 1e6).toFixed(2) + 'M' : a >= 1e4 ? (a / 1e3).toFixed(0) + 'K' : a >= 1e3 ? (a / 1e3).toFixed(1) + 'K' : a.toFixed(0); return (v < 0 ? '-$' : '$') + s; }
+  function pct(v, d) { return v != null && isFinite(v) ? (v * 100).toFixed(d == null ? 2 : d) + '%' : 'n.m.'; }
+  function yrs(v) { return v != null && isFinite(v) ? v.toFixed(1) + ' yrs' : 'never'; }
+  function sf(v) { return isFinite(v) ? n0(v) + ' sf' : '—'; }
+  function x2(v) { return v != null && isFinite(v) ? v.toFixed(2) + 'x' : 'n.m.'; }
+  function neg(v, s) { return v != null && v < -0.005 ? '<span class="neg">' + s + '</span>' : s; }
+
+  /* ---------- inputs ---------- */
+  var GROUPS = [
+    { title: 'Site and usable area', note: 'Survey: Lots 1 & 2 combined', fields: [
+      { p: 'gross', label: 'Gross site area', f: 'n', unit: 'sf', min: 20000, max: 80000, step: 100, slider: true, hint: 'Survey, 1.35 ac ± (58,857 sf)' },
+      { p: 'envelope', label: 'Buildable envelope outside easements', f: 'n', unit: 'sf', min: 0, max: 30000, step: 100, slider: true, hint: 'Survey outline, about 10,700 sf' },
+      { p: 'poles', label: 'Transmission poles on site', f: 'n', unit: 'poles', pair: true, hint: 'Count; planning estimate, 2-4; each clears π × 50 ft² ≈ 7,854 sf' },
+      { p: 'pond', label: 'Stormwater pond area', f: 'n', unit: 'sf', pair: true, hint: 'sf; planning estimate; must sit outside the easement' },
+      { p: 'setback', label: 'Setbacks and landscape buffers', f: 'n', unit: 'sf', est: true, hint: 'Not yet netted from the survey' },
+      { p: 'sfsp', label: 'Area per space (stall + aisle)', f: 'n', unit: 'sf', pair: true, hint: 'sf per space; planning estimate, 300-350 sf' },
+      { p: 'spaces', label: 'Planned spaces', f: 'n', unit: 'spaces', pair: true, hint: 'Spaces; capped at the computed maximum' }
+    ] },
+    { title: 'Land and hard costs', fields: [
+      { p: 'land', label: 'Land purchase price', f: '$', min: 0, max: 400000, step: 5000, slider: true, hint: 'Asking price (cut from $375,000), MLS 2527856' },
+      { p: 'closePct', label: 'Closing costs', f: '%', est: true, hint: '% of land price' },
+      { p: 'paving', label: 'Paving, base and grading', f: '$', min: 50000, max: 300000, step: 5000, slider: true, hint: 'Planning allowance; check vs SC $2.50-$6.58 / sf' },
+      { p: 'storm', label: 'Stormwater detention / water quality', f: '$', est: true },
+      { p: 'light', label: 'Lighting (max 12 ft, outside wire zone)', f: '$', hint: 'Low end of $20K-$50K planning range' },
+      { p: 'signs', label: 'Signage', f: '$', est: true },
+      { p: 'stripe', label: 'Striping and wheel stops', f: '$', est: true },
+      { p: 'permits', label: 'Permits and fees', f: '$', est: true },
+      { p: 'design', label: 'Design and engineering', f: '$', est: true },
+      { p: 'contPct', label: 'Contingency', f: '%', est: true, hint: '% of hard costs above' }
+    ] },
+    { title: 'Soft costs', fields: [
+      { p: 'legal', label: 'Legal', f: '$', est: true },
+      { p: 'survey', label: 'Survey (boundary, topo, easement)', f: '$', est: true },
+      { p: 'appraisal', label: 'Appraisal', f: '$', est: true },
+      { p: 'title', label: 'Title insurance and search', f: '$', est: true },
+      { p: 'phase1', label: 'Environmental Phase I', f: '$', est: true },
+      { p: 'encroach', label: 'Utility encroachment / consent application', f: '$', est: true }
+    ] },
+    { title: 'Revenue', note: 'Seasonality near Coastal Carolina University (CCU)', fields: [
+      { p: 'rate', label: 'Rate per space per day', f: '$', pair: true, hint: '$ per day; planning estimate, $5-$10' },
+      { p: 'dAcad', label: 'Academic-term busy days', f: 'n', unit: 'days', est: true },
+      { p: 'oAcad', label: 'Occupancy, academic-term days', f: '%', est: true },
+      { p: 'dSumm', label: 'Summer / break busy days', f: 'n', unit: 'days', est: true },
+      { p: 'oSumm', label: 'Occupancy, summer / break days', f: '%', est: true },
+      { p: 'dEvt', label: 'Event days', f: 'n', unit: 'days', est: true },
+      { p: 'oEvt', label: 'Occupancy, event days', f: '%', est: true },
+      { p: 'evtMult', label: 'Event-day rate multiplier', f: 'n', unit: 'x', est: true },
+      { p: 'coll', label: 'Collection loss', f: '%', est: true, hint: '% of revenue (non-payment, refunds)' }
+    ] },
+    { title: 'Operating expenses', fields: [
+      { p: 'assess', label: 'Assessment ratio (SC commercial)', f: '%', est: true, hint: 'Verify with Horry County Assessor' },
+      { p: 'mill', label: 'Millage (decimal; 0.250 = 250 mills)', f: 'n', est: true, hint: 'Use the actual tax-district millage' },
+      { p: 'ins', label: 'Insurance incl. utility-required liability', f: '$', unit: '/ yr', est: true },
+      { p: 'maint', label: 'Maintenance, sweeping, restriping', f: '$', unit: '/ space / yr', est: true },
+      { p: 'power', label: 'Lighting power', f: '$', unit: '/ yr', est: true },
+      { p: 'appPct', label: 'Payment app / enforcement', f: '%', est: true, hint: '% of effective gross revenue' },
+      { p: 'mgmtPct', label: 'Management', f: '%', est: true, hint: '% of effective gross revenue' },
+      { p: 'resv', label: 'Reserves (sealcoat / resurfacing)', f: '$', unit: '/ space / yr', est: true }
+    ] },
+    { title: 'Growth, exit, financing and targets', fields: [
+      { p: 'gRev', label: 'Revenue growth', f: '%', est: true, hint: 'per year' },
+      { p: 'gOpx', label: 'Opex growth', f: '%', est: true, hint: 'per year' },
+      { p: 'cap', label: 'Exit cap rate', f: '%', est: true },
+      { p: 'salePct', label: 'Sale costs at exit', f: '%', est: true },
+      { p: 'ltc', label: 'Loan-to-cost', f: '%', min: 0, max: 0.8, step: 0.05, slider: true, est: true, hint: '0% = all cash' },
+      { p: 'int', label: 'Loan interest rate', f: '%', est: true },
+      { p: 'amort', label: 'Amortization', f: 'n', unit: 'years', est: true },
+      { p: 'tYoc', label: 'Target yield on cost', f: '%', hint: 'Your hurdle (placeholder)' },
+      { p: 'tPb', label: 'Target payback', f: 'n', unit: 'years', hint: 'Sweet spot 3-5 years' }
+    ] }
+  ];
+  var ALL = []; GROUPS.forEach(function (g) { g.fields.forEach(function (f) { ALL.push(f); }); });
+  function fmtIn(f, v) { if (v == null || v === '') return ''; if (f.f === '$') return numIn(v); if (f.f === '%') return String(+(v * 100).toFixed(4)); return numIn(v); }
+  function parseIn(f, t) { if (String(t).trim() === '') return null; var v = parseFloat(String(t).replace(/[^0-9.\-]/g, '')); if (!isFinite(v)) return null; return f.f === '%' ? v / 100 : v; }
+  function boxHTML(f, id, v, di, tag) {
+    return '<div class="box">' + (tag ? '<span class="case">' + tag + '</span>' : '') + (f.f === '$' ? '<span class="unit" style="margin:0 4px 0 0">$</span>' : '') + '<input type="text" id="' + id + '" data-i="' + di + '" inputmode="decimal" value="' + esc(fmtIn(f, v)) + '">' + (f.f === '%' ? '<span class="unit">%</span>' : f.unit && !tag ? '<span class="unit">' + esc(f.unit) + '</span>' : '') + '</div>';
+  }
+  function fieldHTML(f, i) {
+    var id = 'f' + i, v = S[f.p], tag = f.est ? '<span class="est">ASSUMPTION</span>' : '';
+    var lab = '<label for="' + id + (f.pair ? 'a' : '') + '">' + esc(f.label) + tag + '</label>', box;
+    if (f.pair) box = '<div class="pairin">' + boxHTML(f, id + 'a', v[0], i + ':0', 'Low') + boxHTML(f, id + 'b', v[1], i + ':1', 'High') + '</div>';
+    else box = boxHTML(f, id, v, i);
+    var sl = f.slider && !f.pair ? '<input type="range" data-r="' + i + '" min="' + f.min + '" max="' + f.max + '" step="' + f.step + '" value="' + v + '" aria-label="' + esc(f.label) + ' slider">' : '';
+    var hint = f.hint ? '<div class="hint">' + esc(f.hint) + '</div>' : '';
+    return '<div class="fld" data-fld="' + i + '">' + lab + box + sl + hint + '</div>';
+  }
+  function buildInputs() {
+    $('inputGroups').innerHTML = GROUPS.map(function (g) {
+      return '<div class="card"><div class="card-h"><h3>' + esc(g.title) + '</h3>' + (g.note ? '<span class="note">' + esc(g.note) + '</span>' : '') + '</div><div class="fields">' + g.fields.map(function (f) { return fieldHTML(f, ALL.indexOf(f)); }).join('') + '</div></div>';
+    }).join('');
+  }
+
+  /* ---------- events ---------- */
+  var tmr = null;
+  function schedule() { clearTimeout(tmr); tmr = setTimeout(recalc, 120); }
+  function setVal(di, v) { var parts = String(di).split(':'), f = ALL[+parts[0]]; if (parts.length > 1) { S[f.p] = S[f.p].slice(); S[f.p][+parts[1]] = v; } else S[f.p] = v; return f; }
+  function getVal(di) { var parts = String(di).split(':'), f = ALL[+parts[0]]; return parts.length > 1 ? S[f.p][+parts[1]] : S[f.p]; }
+  document.addEventListener('input', function (e) {
+    var t = e.target, d = t.dataset;
+    if (d.i != null) {
+      var f = ALL[+String(d.i).split(':')[0]], v = parseIn(f, t.value); if (v == null) return;
+      setVal(d.i, v); var r = document.querySelector('[data-r="' + d.i + '"]'); if (r) r.value = v; schedule();
+    } else if (d.r != null) {
+      var f2 = ALL[+d.r], v2 = +t.value; S[f2.p] = v2; var inp = $('f' + d.r); if (inp) inp.value = fmtIn(f2, v2); schedule();
+    }
+  });
+  document.addEventListener('change', function (e) {
+    var t = e.target, d = t.dataset;
+    if (t.tagName === 'INPUT' && t.type === 'text' && d.i != null) t.value = fmtIn(ALL[+String(d.i).split(':')[0]], getVal(d.i));
+  });
+  $('resetBtn').addEventListener('click', function () { S = M.defaults(); buildInputs(); recalc(); });
+  $('menuBtn').addEventListener('click', function () { var sb = $('sitebar'), o = sb.classList.toggle('open'); this.setAttribute('aria-expanded', o); });
+
+  /* ---------- KPI tiles (low / high) ---------- */
+  function lh(fn) { return fn(R.low) + ' <i>/</i> ' + fn(R.high); }
+  var KPIS = [
+    { k: 'payback', t: 'Simple Payback', v: function () { return lh(function (r) { return r.payback != null ? r.payback.toFixed(1) : 'never'; }) + ' yrs'; }, s: function () { return 'Low / high, vs ' + S.tPb + '-yr target'; }, d: 'Total project cost ÷ Year-1 NOI. Go threshold: 3-5 years. This is the go / no-go test, so it is the highlighted tile.' },
+    { k: 'noi', t: 'Net Operating Income', v: function () { return lh(function (r) { return neg(r.noi, money(r.noi)); }); }, s: function () { return pct(R.low.opexRatio, 1) + ' / ' + pct(R.high.opexRatio, 1) + ' opex ratio'; }, d: 'Year 1: effective gross revenue minus property tax, insurance, maintenance, lighting power, payment app / enforcement, management and reserves. Before debt service.' },
+    { k: 'yoc', t: 'Yield on Cost', v: function () { return lh(function (r) { return pct(r.yoc); }); }, s: function () { return 'on ' + money(R.low.tpc) + (R.low.tpc !== R.high.tpc ? ' / ' + money(R.high.tpc) : '') + ' cost'; }, d: 'Year-1 NOI ÷ total project cost (unlevered). Hurdle placeholder ' + pct(S.tYoc, 0) + '.' },
+    { k: 'coc', t: 'Cash-on-Cash (levered)', v: function () { return lh(function (r) { return neg(r.cocLev, pct(r.cocLev, 1)); }); }, s: function () { return 'on ' + money(R.low.equity) + (R.low.equity !== R.high.equity ? ' / ' + money(R.high.equity) : '') + ' equity'; }, d: '(Year-1 NOI − annual debt service) ÷ equity.' },
+    { k: 'irrU', t: 'Unlevered IRR', v: function () { return lh(function (r) { return neg(r.irrU, pct(r.irrU)); }); }, s: function () { return '5-yr hold, exit cap ' + pct(S.cap, 1); }, d: 'IRR of the Year-0 total project cost, Years 1-5 NOI and Year-5 net sale proceeds (Year-6 NOI ÷ exit cap, less sale costs).' },
+    { k: 'irrL', t: 'Levered IRR', v: function () { return lh(function (r) { return neg(r.irrL, pct(r.irrL, 1)); }); }, s: function () { return 'at ' + pct(S.ltc, 0) + ' loan-to-cost'; }, d: 'IRR of Year-0 equity and levered cash flows, including the loan payoff at exit. n.m. = not meaningful (no positive cash flow).' },
+    { k: 'maxLand', t: 'Max Land Price', v: function () { return lh(function (r) { return money(r.maxLandPb); }); }, s: function () { return 'at ' + S.tPb + '-yr payback vs ' + money(S.land) + ' ask'; }, d: '(Year-1 NOI × target payback − hard costs − soft costs) ÷ (1 + closing %), full pro forma.' },
+    { k: 'tpc', t: 'Total Project Cost', v: function () { return R.low.tpc === R.high.tpc ? money(R.low.tpc) : lh(function (r) { return moneyC(r.tpc); }); }, s: function () { return money(R.low.loan) + ' loan' + (R.low.tpc === R.high.tpc ? ', both cases' : ''); }, d: 'Land and closing + hard costs with contingency + soft costs.' }
+  ];
+  function renderKpis() {
+    $('kpis').innerHTML = KPIS.map(function (q) {
+      return '<button type="button" class="kpi' + (q.k === selKpi ? ' sel' : '') + '" data-kpi="' + q.k + '" aria-pressed="' + (q.k === selKpi) + '"><span class="k">' + q.t + '</span><span class="v">' + q.v() + '</span><span class="s">' + esc(q.s()) + '</span></button>';
+    }).join('');
+    var q = KPIS.filter(function (x) { return x.k === selKpi; })[0];
+    $('kpiDef').innerHTML = '<b>' + q.t + ':</b> ' + esc(q.d) + ' Values read low case / high case.';
+  }
+  $('kpis').addEventListener('click', function (e) { var b = e.target.closest('[data-kpi]'); if (!b) return; selKpi = b.dataset.kpi; renderKpis(); });
+
+  /* ---------- SVG charts ---------- */
+  var C = { blue: '#359BC5', b2: '#6CC0E0', b3: '#A9DCEF', b4: '#D6EEF7', orange: '#FDAD3F', deep: '#1E5C78' };
+  function el(tag, a, txt) { var s = '<' + tag; for (var k in a) s += ' ' + k + '="' + a[k] + '"'; return s + (txt != null ? '>' + esc(txt) + '</' + tag + '>' : '/>'); }
+  function box(id) { var e = $(id); return { e: e, w: Math.max(260, e.clientWidth), h: Math.max(260, e.clientHeight) }; }
+  function svg(b, body) { b.e.innerHTML = '<svg viewBox="0 0 ' + b.w + ' ' + b.h + '" width="' + b.w + '" height="' + b.h + '" role="img">' + body + '</svg>'; }
+  function niceMax(v) { if (v <= 0) return 1; var p = Math.pow(10, Math.floor(Math.log10(v))), m = v / p; return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 2.5 ? 2.5 : m <= 5 ? 5 : 10) * p; }
+  function legend(id, items) { $(id).innerHTML = items.map(function (i) { return '<span><i style="background:' + i[1] + '"></i>' + esc(i[0]) + '</span>'; }).join(''); }
+
+  function chartUses() {
+    var b = box('chUses'), r = R.low, I = S, narrow = b.w < 440;
+    var rows = [
+      { n: 'Land purchase price', s: 'Land', v: r.land, c: C.deep },
+      { n: 'Closing costs', s: 'Closing', v: r.closing, c: C.deep },
+      { n: 'Paving, base and grading', s: 'Paving', v: I.paving, c: C.blue },
+      { n: 'Stormwater', s: 'Stormwater', v: I.storm, c: C.blue },
+      { n: 'Lighting', s: 'Lighting', v: I.light, c: C.blue },
+      { n: 'Signs, striping, permits, design', s: 'Other hard', v: I.signs + I.stripe + I.permits + I.design, c: C.blue },
+      { n: 'Contingency', s: 'Contingency', v: r.cont, c: C.b2 },
+      { n: 'Soft costs', s: 'Soft', v: r.soft, c: C.b3 },
+      { n: 'Total project cost', s: 'Total', v: r.tpc, c: C.orange }
+    ];
+    var lw = narrow ? 84 : 200, vw = narrow ? 60 : 76, x0 = lw, x1 = b.w - vw, mx = Math.max.apply(null, rows.map(function (q) { return Math.abs(q.v); })) || 1;
+    var rh = (b.h - 4) / rows.length, bh = Math.min(18, rh * 0.62), out = '';
+    rows.forEach(function (q, i) {
+      var y = 2 + i * rh + (rh - bh) / 2, w = Math.max(q.v > 0 ? 2 : 0, (x1 - x0 - 8) * Math.abs(q.v) / mx);
+      out += el('text', { x: 0, y: y + bh / 2 + 4 }, narrow ? q.s : q.n);
+      out += el('rect', { x: x0, y: y.toFixed(1), width: w.toFixed(1), height: bh.toFixed(1), rx: 4, fill: q.c });
+      out += el('text', { x: x0 + w + 6, y: y + bh / 2 + 4, class: 'vl' }, narrow ? moneyC(q.v) : money(q.v));
+    });
+    svg(b, out);
+    $('c1v').textContent = 'Total ' + money(r.tpc);
+  }
+  function grouped(id, cats, series, fmtAxis) {
+    var b = box(id), vals = []; cats.forEach(function (c, i) { series.forEach(function (s) { vals.push(s.v[i]); }); });
+    var mxv = Math.max.apply(null, vals.concat([1])), mn = Math.min.apply(null, vals.concat([0]));
+    var stp = niceMax((mxv - mn) / 4), top = Math.ceil(mxv / stp - 1e-9) * stp, bot = mn < 0 ? -Math.ceil(-mn / stp - 1e-9) * stp : 0;
+    var L = 52, Rr = 6, T = 18, Bm = 26, ph = b.h - T - Bm, pw = b.w - L - Rr, y = function (v) { return T + ph * (top - v) / (top - bot); }, out = '';
+    for (var v = bot; v <= top + stp / 2; v += stp) { var yy = y(v); out += el('line', { x1: L, x2: b.w - Rr, y1: yy, y2: yy, class: 'grid' }) + el('text', { x: L - 6, y: yy + 4, 'text-anchor': 'end' }, fmtAxis(Math.abs(v) < 1e-6 ? 0 : v)); }
+    out += el('line', { x1: L, x2: b.w - Rr, y1: y(0), y2: y(0), class: 'axis' });
+    var ns = series.length, gw = pw / Math.max(1, cats.length), bw = Math.min(30, gw * 0.8 / ns);
+    cats.forEach(function (c, i) {
+      var gx = L + gw * i + (gw - bw * ns - 2 * (ns - 1)) / 2;
+      series.forEach(function (s, j) { var v = s.v[i], y1 = y(Math.max(v, 0)), y2 = y(Math.min(v, 0)); out += el('rect', { x: (gx + j * (bw + 2)).toFixed(1), y: y1.toFixed(1), width: bw.toFixed(1), height: Math.max(1, y2 - y1).toFixed(1), rx: 3, fill: s.c }); });
+      out += el('text', { x: L + gw * i + gw / 2, y: b.h - 8, 'text-anchor': 'middle' }, gw < 64 ? c.s : c.n);
+    });
+    svg(b, out);
+  }
+  function chartNoi() {
+    var P0 = R.low.proForma.slice(0, 5), P1 = R.high.proForma.slice(0, 5);
+    grouped('chNoi', P0.map(function (a) { return { n: 'Year ' + a.year, s: 'Y' + a.year }; }), [
+      { v: P0.map(function (a) { return a.noi; }), c: C.b3 }, { v: P1.map(function (a) { return a.noi; }), c: C.blue },
+      { v: P0.map(function (a) { return a.noi - a.ds; }), c: C.deep },
+      { v: P1.map(function (a) { return a.noi - a.ds; }), c: C.orange }
+    ], moneyC);
+    $('c2v').textContent = 'Year-1 NOI ' + moneyC(R.low.noi) + ' / ' + moneyC(R.high.noi);
+    legend('lgNoi', [['NOI, low case', C.b3], ['NOI, high case', C.blue], ['Cash flow after debt, low', C.deep], ['Cash flow after debt, high', C.orange]]);
+  }
+  function chartRev() {
+    var cats = [{ n: 'Academic term', s: 'Term' }, { n: 'Summer / break', s: 'Summer' }, { n: 'Events', s: 'Events' }, { n: 'Collection loss', s: 'Loss' }, { n: 'Effective gross', s: 'EGR' }];
+    var f = function (r) { return [r.rAcad, r.rSumm, r.rEvt, r.collLoss, r.egr]; };
+    grouped('chRev', cats, [{ v: f(R.low), c: C.b3 }, { v: f(R.high), c: C.blue }], moneyC);
+    $('c3v').textContent = 'EGR ' + moneyC(R.low.egr) + ' / ' + moneyC(R.high.egr);
+    legend('lgRev', [['Low case: ' + R.low.spaces + ' spaces at ' + money(S.rate[0]) + ' / day', C.b3], ['High case: ' + R.high.spaces + ' spaces at ' + money(S.rate[1]) + ' / day', C.blue]]);
+  }
+  function chartPb() {
+    var b = box('chPb'), lo = 0, hi = Math.max(400000, S.land * 1.5), cap = 40;
+    var L = 44, Rr = 10, T = 22, Bm = 26, ph = b.h - T - Bm, pw = b.w - L - Rr, out = '';
+    var x = function (v) { return L + pw * (v - lo) / (hi - lo); }, y = function (v) { return T + ph * (1 - Math.min(v, cap) / cap); };
+    out += el('rect', { x: L, y: y(5).toFixed(1), width: pw, height: (y(3) - y(5)).toFixed(1), fill: 'rgba(253,173,63,.12)' });
+    for (var v = 0; v <= cap; v += 10) out += el('line', { x1: L, x2: b.w - Rr, y1: y(v), y2: y(v), class: 'grid' }) + el('text', { x: L - 6, y: y(v) + 4, 'text-anchor': 'end' }, v + 'y');
+    for (var i = 0; i <= 4; i++) { var tv = lo + (hi - lo) * i / 4; out += el('text', { x: x(tv), y: b.h - 8, 'text-anchor': i === 0 ? 'start' : i === 4 ? 'end' : 'middle' }, moneyC(tv)); }
+    [[R.low, C.b3], [R.high, C.blue]].forEach(function (s) {
+      var pts = []; for (var k = 0; k <= 40; k++) { var lp = lo + (hi - lo) * k / 40, p = s[0].fullPb(lp); if (p != null) pts.push(x(lp).toFixed(1) + ',' + y(p).toFixed(1)); }
+      if (pts.length) out += el('polyline', { points: pts.join(' '), fill: 'none', stroke: s[1], 'stroke-width': 2.2 });
+    });
+    var xx = x(S.land), lbl = 'Ask ' + money(S.land), anc = xx + lbl.length * 6.4 > b.w - Rr ? 'end' : 'start';
+    out += el('line', { x1: xx, x2: xx, y1: T - 4, y2: T + ph, stroke: C.orange, 'stroke-dasharray': '4 4' }) + el('text', { x: xx + (anc === 'end' ? -5 : 5), y: T - 8, 'text-anchor': anc, class: 'vl' }, lbl);
+    svg(b, out);
+    $('c4v').textContent = 'At ask ' + yrs(R.low.fullPb(S.land)) + ' / ' + yrs(R.high.fullPb(S.land));
+    legend('lgPb', [['Payback, low case (capped at 40 yrs)', C.b3], ['Payback, high case', C.blue], ['3-5 yr target band', 'rgba(253,173,63,.45)']]);
+  }
+
+  /* ---------- tables ---------- */
+  function tr(cells, c) { return '<tr' + (c ? ' class="' + c + '"' : '') + '>' + cells.map(function (x, i) { return i === 0 ? '<td class="lbl">' + x + '</td>' : '<td class="n">' + x + '</td>'; }).join('') + '</tr>'; }
+  function th(cells) { return '<thead><tr>' + cells.map(function (x, i) { return '<th' + (i ? ' class="n"' : '') + '>' + x + '</th>'; }).join('') + '</tr></thead>'; }
+  function grp(t, n) { return '<tr class="grp"><td colspan="' + n + '">' + t + '</td></tr>'; }
+  function two(label, k, basis, c, fmt) { fmt = fmt || function (v) { return neg(v, money(v)); }; return tr([label, fmt(R.low[k]), fmt(R.high[k]), basis || ''], c); }
+  function renderTables() {
+    var L = R.low, H = R.high;
+    $('tSite').innerHTML = th(['Line item', 'Low', 'High', 'Basis']) + '<tbody>' +
+      tr(['Gross site area', sf(S.gross), sf(S.gross), 'Survey']) +
+      two('Pole clearance area', 'poleArea', 'Poles × 7,854 sf', '', sf) + two('Usable area', 'usable', 'Gross − pole clearance − pond − setbacks', 'sub', sf) +
+      two('Maximum spaces', 'maxSpaces', 'Usable ÷ sf per space', '', n0) + two('Planned spaces', 'spaces', 'Planned, capped at maximum', 'sub', n0) +
+      two('Envelope left after pond', 'envLeft', 'Envelope − pond; negative = pond does not fit', '', function (v) { return neg(v, sf(v)); }) + '</tbody>';
+    var src = function (r) { return [['Loan', r.loan], ['Equity', r.equity]]; };
+    $('tSources').innerHTML = th(['Source', 'Low', 'High', '% of total']) + '<tbody>' + src(L).map(function (s, i) { var h = src(H)[i]; return tr([s[0], money(s[1]), money(h[1]), pct(s[1] / L.tpc, 1)]); }).join('') + tr(['Total sources', money(L.tpc), money(H.tpc), '100.0%'], 'tot') + '</tbody>';
+    $('tUses').innerHTML = th(['Use', 'Amount', '% of total']) + '<tbody>' +
+      tr(['Land purchase price', money(L.land), pct(L.land / L.tpc, 1)]) + tr(['Closing costs', money(L.closing), pct(L.closing / L.tpc, 1)]) +
+      tr(['Hard costs before contingency', money(L.hardSub), pct(L.hardSub / L.tpc, 1)]) + tr(['Contingency', money(L.cont), pct(L.cont / L.tpc, 1)]) +
+      tr(['Soft costs', money(L.soft), pct(L.soft / L.tpc, 1)]) + tr(['Total project cost', money(L.tpc), '100.0%'], 'tot') +
+      tr(['Cost per space (low / high)', money(L.tpcSp) + ' / ' + money(H.tpcSp), '']) + tr(['Hard cost per space (low / high)', money(L.hardSp) + ' / ' + money(H.hardSp), 'vs $2,100-$6,000']) + '</tbody>';
+    $('srcTot').textContent = money(L.tpc); $('useTot').textContent = money(L.tpc);
+
+    var pctRow = function (label, k, basis, c) { return tr([label, basis, neg(L[k], money(L[k])), neg(H[k], money(H[k])), L.egr ? pct(L[k] / L.egr, 1) : '—', H.egr ? pct(H[k] / H.egr, 1) : '—'], c); };
+    $('tBudget').innerHTML = th(['Line item', 'Basis', 'Low', 'High', 'Low % EGR', 'High % EGR']) + '<tbody>' +
+      grp('Revenue', 6) + tr(['Gross potential revenue (365 days, 100%)', 'Spaces × rate × 365', money(L.gpr), money(H.gpr), '', '']) +
+      pctRow('Academic-term revenue', 'rAcad', S.dAcad + ' days × ' + pct(S.oAcad, 0)) + pctRow('Summer / break revenue', 'rSumm', S.dSumm + ' days × ' + pct(S.oSumm, 0)) + pctRow('Event revenue', 'rEvt', S.dEvt + ' days × ' + pct(S.oEvt, 0) + ' × ' + S.evtMult + 'x') +
+      pctRow('Seasonal gross revenue', 'seas', '', 'sub') + pctRow('Idle-day and vacancy loss vs ceiling', 'idle', 'Seasonal − GPR') + pctRow('Collection loss', 'collLoss', pct(S.coll, 1) + ' of seasonal') + pctRow('Effective gross revenue (EGR)', 'egr', '', 'sub') +
+      grp('Operating expenses', 6) + pctRow('Property tax', 'tax', 'Cost × ' + pct(S.assess, 0) + ' × ' + S.mill + ' millage') + pctRow('Insurance incl. utility liability', 'ins', money(S.ins) + ' / yr') +
+      pctRow('Maintenance / sweeping / restriping', 'maint', money(S.maint) + ' / space') + pctRow('Lighting power', 'power', money(S.power) + ' / yr') + pctRow('Payment app / enforcement', 'app', pct(S.appPct, 1) + ' of EGR') +
+      pctRow('Management', 'mgmt', pct(S.mgmtPct, 1) + ' of EGR') + pctRow('Reserves', 'resv', money(S.resv) + ' / space') + pctRow('Total operating expenses', 'opex', '', 'sub') +
+      pctRow('Net operating income', 'noi', 'EGR − opex', 'tot') + '</tbody>';
+
+    function pf(r, name) {
+      var P = r.proForma, cols = P.length + 1;
+      var row = function (lab, k, c, fmt) { return tr([lab].concat(P.map(function (a, i) { var v = a[k]; if (v == null || (i === 5 && k !== 'egr' && k !== 'opex' && k !== 'noi')) return ''; return fmt ? fmt(v) : neg(v, money(v)); })), c); };
+      return grp(name + ' case', cols + 1) + tr(['Year 0 (cost / equity)', neg(-r.tpc, money(-r.tpc)) + ' / ' + neg(-r.equity, money(-r.equity)), '', '', '', '', '']) +
+        row('Effective gross revenue', 'egr') + row('Operating expenses', 'opex') + row('Net operating income', 'noi', 'sub') +
+        row('Sale proceeds (net)', 'sale') + row('Unlevered cash flow', 'ucf', 'sub') + row('Debt service', 'ds') + row('Loan payoff at exit', 'payoff') + row('Levered cash flow', 'lcf', 'tot');
+    }
+    $('pfNote').textContent = 'Revenue +' + pct(S.gRev, 1) + ' / yr; opex +' + pct(S.gOpx, 1) + ' / yr; exit at end of Year 5 on Year-6 NOI';
+    $('tAnnual').innerHTML = th(['$', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6 (fwd)']) + '<tbody>' + pf(L, 'Low') + pf(H, 'High') + '</tbody>';
+
+    $('tRet').innerHTML = th(['Metric', 'Low', 'High', 'Calculation']) + '<tbody>' +
+      two('Total project cost', 'tpc', 'Land + hard + soft') + two('Year-1 NOI', 'noi', 'EGR − opex') +
+      two('Unlevered yield on cost', 'yoc', 'Year-1 NOI ÷ total project cost', 'sub', function (v) { return pct(v); }) +
+      two('Value at exit (net of sale costs)', 'exitValue', 'Year-6 NOI ÷ exit cap × (1 − sale %)') + two('Implied value at exit cap on Year-1 NOI', 'impliedValue', 'Year-1 NOI ÷ exit cap') +
+      two('Cash-on-cash Year 1 (levered)', 'cocLev', '(NOI − debt service) ÷ equity', '', function (v) { return neg(v, pct(v, 1)); }) +
+      two('Unlevered IRR (5-yr hold)', 'irrU', 'IRR of unlevered cash flows', 'sub', function (v) { return neg(v, pct(v)); }) +
+      two('Levered IRR (5-yr hold)', 'irrL', 'IRR of levered cash flows; n.m. = all flows negative', '', function (v) { return neg(v, pct(v, 1)); }) +
+      two('Unlevered equity multiple', 'multiple', 'Total inflows ÷ total project cost', '', x2) +
+      two('Simple payback', 'payback', 'Total project cost ÷ Year-1 NOI', 'sub', yrs) +
+      two('Max land price at ' + S.tPb + '-yr payback', 'maxLandPb', '(NOI × target − hard − soft) ÷ (1 + closing %)') +
+      two('Max land price at ' + pct(S.tYoc, 0) + ' yield on cost', 'maxLandYoc', '(NOI ÷ target − hard − soft) ÷ (1 + closing %)') + '</tbody>';
+
+    $('tSensMax').innerHTML = th(['Target payback', 'Quick: low', 'Quick: high', 'Full: low', 'Full: high']) + '<tbody>' + [3, 4, 5].map(function (t) {
+      return tr([t + ' years', money(L.quickMax(t)), money(H.quickMax(t)), money(L.fullMax(t)), money(H.fullMax(t))], t === S.tPb ? 'hl' : '');
+    }).join('') + '</tbody>';
+    $('tSensPb').innerHTML = th(['Land price', 'Quick: low', 'Quick: high', 'Full: low', 'Full: high']) + '<tbody>' + [0, 50000, 100000, 150000, 225000, 300000, 375000].map(function (lp) {
+      var f = function (v) { return v == null ? 'never' : v.toFixed(1); };
+      return tr([money(lp), f(L.quickPb(lp)), f(H.quickPb(lp)), f(L.fullPb(lp)), f(H.fullPb(lp))], lp === S.land ? 'hl' : '');
+    }).join('') + '</tbody>';
+  }
+
+  function renderCharts() { chartUses(); chartNoi(); chartRev(); chartPb(); }
+  function recalc() {
+    var ok = ALL.every(function (f) { var v = S[f.p]; return Array.isArray(v) ? v.every(isFinite) : isFinite(v); }) && S.cap > 0 && S.amort >= 1 && S.tYoc > 0;
+    if (!ok) return;
+    R = M.compute(S);
+    renderKpis(); renderCharts(); renderTables();
+  }
+  var rz = null; window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (R) renderCharts(); }, 120); });
+  $('yr').textContent = new Date().getFullYear();
+  buildInputs(); recalc();
+})();
+</script>
+</body>
+</html>

@@ -22,4 +22,7 @@ Mezzanine debt, floating-rate construction debt, the retail module, the detailed
 ## Miami Beach Condo Rental Model (separate page)
 `miami_condo_rental_model.html` is a separate, standalone model for a single two-bedroom Miami Beach condo held as a rental. It does not load or change the apartment model's files. Engine: `js/miami_condo_rental_model.js`; UI: `js/miami_condo_rental_app.js`; styles: `css/miami_condo_rental_model.css`. It covers purchase price, financing or all cash, monthly rent, HOA, property tax, HO-6 insurance, maintenance reserve, vacancy, management and closing costs, and outputs monthly and annual cash flow, NOI, cap rate, cash-on-cash, break-even rent, DSCR and an annual pro forma. Defaults are editable Miami Beach / Florida starting assumptions, not sourced facts. Check: `node validation/miami_condo_rental_model.test.js`.
 
+## Parking Lot Site Evaluation Model (separate page)
+`parking_lot_site_model.html` is a separate, self-contained page (inline styles and scripts) that evaluates a surface parking lot on College Park Rd Lots 1 & 2, Conway SC, under Santee Cooper transmission easements, in a low and a high case. It does not load or change the apartment or condo model files. Defaults are editable starting assumptions from the Parking Lot Site Evaluation Model workbook; inputs tagged ASSUMPTION are placeholders.
+
 For illustration and education only. Not investment, tax, legal or lending advice.
