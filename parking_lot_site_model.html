@@ -141,6 +141,10 @@ svg .axis{stroke:rgba(255,255,255,.18)}
 /* parking-lot additions */
 .pairin{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .pairin .box{padding:0 10px}
+.fld .sl{display:flex;align-items:center;gap:6px;min-width:0}.fld .sl input[type=range]{flex:1 1 auto;min-width:0;margin:6px 0 0}.fld .sl .case{margin:6px 0 0}
+.fld .hint.ref{color:var(--soft);line-height:1.45}.fld .hint.ref a{color:var(--blue2)}
+.est.pend{color:#1a1206;background:#c9c9c9}
+@media(max-width:520px){input[type=range]{height:30px}input[type=range]::-webkit-slider-thumb{width:24px;height:24px;margin-top:-9px}}
 .fld .case{color:var(--blue2);font-size:11.5px;font-weight:500;margin-right:6px}
 .kpi .v{white-space:normal;overflow:visible;line-height:1.25}
 .kpi .v i{font-style:normal;color:var(--mute);font-weight:400}
@@ -253,7 +257,7 @@ svg .axis{stroke:rgba(255,255,255,.18)}
           </ul>
         </div>
       </div>
-      <div class="card"><div class="card-h"><h3>Alternative: medical or office pad</h3><span class="note">Not modeled; no figures assumed for returns</span></div>
+      <div class="card"><div class="card-h"><h3>Alternative: medical or office pad</h3><span class="note">Modeled in Step Five</span></div>
         <ul class="facts">
           <li><b>Zoning.</b> Conway's P district permits offices and medical / dental offices by right. Stand-alone parking needs a special exception (UDO §5.1.33). New buildings may cover at most 30% of the lot.</li>
           <li><b>Layout.</b> A building would sit on the roughly 10,665 sf pad outside the easements, with its parking in the easement, subject to Santee Cooper's written consent. A realistic footprint is about 4,000-6,000 sf (estimate), depending on whether stormwater goes in an underground vault or a surface basin. Two stories is the cleanest option.</li>
@@ -263,12 +267,30 @@ svg .axis{stroke:rgba(255,255,255,.18)}
       </div>
     </div>
   </section>
+
+  <!-- 5. Scenarios: office use, shared-parking split, premium layer -->
+  <section class="sec" id="scenarios">
+    <div class="sec-head"><div><span class="eyebrow">Step Five</span><h2><span class="pill">Scenarios</span>Office, Split <span class="accent">and Premium</span></h2></div></div>
+    <div class="stack">
+      <div class="card"><div class="card-h"><h3>Office-use scenario</h3><span class="note" id="offNote"></span></div><div class="tw scroll"><table class="t" id="tOffice"></table></div>
+        <p class="assump">Office or medical building on the buildable pad outside the Santee Cooper easements, alongside (not replacing) the parking lot case above. Capped = no shared parking, building held to the 4,000-6,000 sf range. Uncapped = shared parking with the on-site lot, so the full buildable sf can be used. Office pad site work, utilities and building stormwater are not included. Build cost, soft costs, vacancy, non-recoverable opex and the cap rate are estimates or ASSUMPTION placeholders; rents are Conway general-office asks ($12-$16 / sf NNN), with medical office ($21.60-$32.00 / sf) as a reference.</p></div>
+      <div class="card"><div class="card-h"><h3>Split view: office + parking</h3><span class="note">Low / high; without and with the premium layer</span></div><div class="tw scroll"><table class="t" id="tSplit"></table></div></div>
+      <div class="card"><div class="card-h"><h3>Notes on the office and shared parking</h3><span class="tag">ESTIMATE</span></div>
+        <ul class="facts">
+          <li><b>Parking minimum.</b> Shared parking still has to satisfy the office minimum of 1 space per 300 sf (about <span id="pmin36">36</span> spaces at the full buildable sf, computed live). The lot has to supply them, likely through a shared-parking agreement or city approval, and they may overlap paid daytime parking. Reserved spaces are taken out of paid parking all year here, which is conservative for evenings, weekends and game days.</li>
+          <li><b>Footprint.</b> Conway's P district caps a new building's footprint at 30% of the lot (about 17.7K sf here), which is a separate limit. The memos put a realistic one-story footprint at about 4,000-6,000 sf with a surface stormwater basin, or about 6,000 sf with an underground vault, so 10,665 sf is an upper bound. Two stories is the cleanest fit. The stormwater pond or vault area still applies and can't go in the easement.</li>
+          <li><b>Premium event layer.</b> Premium revenue = spaces × occupancy × premium rate × days for each venue, added to normal seasonal revenue, which is unchanged. Premium days may coincide with normal busy days; per Michael, the premium is treated as incremental income. Only Brooks Stadium football has defaults: 6 home games in <a href="https://goccusports.com/news/2025/2/28/football-announces-2025-schedule" target="_blank" rel="noopener">2025</a> and <a href="https://goccusports.com/news/2026/3/13/coastal-football-reveals-2026-schedule-with-six-home-games-and-national-tv-matchups" target="_blank" rel="noopener">2026</a>; low rate $20.83 = the $125 GG / YY <a href="https://goccusports.com/documents/download/2026/3/12/2026_Football_Parking_Pricing.pdf" target="_blank" rel="noopener">2026 season pass</a> ÷ 6 games; high rate $25 = GG lot per car (<a href="https://roadtocfb.com/2024/11/14/coastal-carolina-chanticleers-college-football-game-day-2024/" target="_blank" rel="noopener">Road To CFB, Nov 2024</a>); occupancy 75% is an assumption. Other venues are pending research, with days set to 0.</li>
+          <li><b>Build cost (estimate).</b> <a href="https://www.rsmeans.com/resources/cost-to-build-an-office" target="_blank" rel="noopener">RSMeans</a> 1-story office $235-$375 / sf (2025, national); <a href="https://buildgenius.app/construction-costs/south-carolina" target="_blank" rel="noopener">BuildGenius</a> 2026 South Carolina office $198 / sf; <a href="https://www.mastt.com/blogs/construction-cost-estimator" target="_blank" rel="noopener">Mastt</a> 2026 low-rise office $240-$440 / sf, soft costs typically 10-15% of hard costs. No Conway bid was found.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 </main>
 
 <footer class="foot">
   <div class="w">
     <p><b>How it works.</b> Year-1 figures drive the key metrics. Usable area = gross area − pole clearance (poles × π × 50 ft²) − stormwater pond − setbacks; spaces = usable area ÷ sf per space, capped at the plan. Revenue = spaces × daily rate × busy days × occupancy by season (academic term, summer / break, events), less collection loss = effective gross revenue (EGR). NOI = EGR − property tax, insurance, maintenance, lighting power, payment app / enforcement, management and reserves. Yield on cost = NOI ÷ total project cost; simple payback = total project cost ÷ NOI. The 5-year hold grows EGR and opex each year and sells at the end of Year 5 on Year-6 NOI ÷ exit cap, less sale costs. Max land price solves for the price that meets the target payback after closing costs, hard costs and soft costs.</p>
-    <p><b>What is not included.</b> Income taxes and depreciation (all returns are pre-tax); the office or medical pad scenario in the buildable envelope (building cost, office parking, pad value or ground rent); and an operator lease structure (fixed rent or a revenue share), since the model is owner-operated as shown.</p>
+    <p><b>What is not included.</b> Income taxes and depreciation (all returns are pre-tax); office pad site work, utilities and building stormwater (Step Five covers building cost, rent and value); and an operator lease structure (fixed rent or a revenue share), since the model is owner-operated as shown.</p>
     <p>For illustration and education only. Not investment, tax, legal or lending advice. Check every output against your own underwriting before relying on it.</p>
     <p>© <span id="yr"></span> Bespoke Underwriting</p>
   </div>
@@ -290,7 +312,7 @@ svg .axis{stroke:rgba(255,255,255,.18)}
       rate: [5, 10], dAcad: 150, oAcad: 0.75, dSumm: 40, oSumm: 0.50, dEvt: 10, oEvt: 0.75, evtMult: 1.0, coll: 0.03,
       assess: 0.06, mill: 0.25, ins: 3000, maint: 40, power: 1200, appPct: 0.10, mgmtPct: 0.05, resv: 25,
       gRev: 0.03, gOpx: 0.03, cap: 0.08, salePct: 0.03, ltc: 0.50, int: 0.075, amort: 20,
-      tYoc: 0.10, tPb: 4
+      tYoc: 0.10, tPb: 4, pr_fb_rate: [20.83, 25.0], pr_fb_days: [6, 6], pr_fb_occ: [0.75, 0.75], pr_bb_rate: [0, 0], pr_bb_days: [0, 0], pr_bb_occ: [0, 0], pr_bsb_rate: [0, 0], pr_bsb_days: [0, 0], pr_bsb_occ: [0, 0], pr_arts_rate: [0, 0], pr_arts_days: [0, 0], pr_arts_occ: [0, 0], pr_grad_rate: [0, 0], pr_grad_days: [0, 0], pr_grad_occ: [0, 0], pr_move_rate: [0, 0], pr_move_days: [0, 0], pr_move_occ: [0, 0], pr_fest_rate: [0, 0], pr_fest_days: [0, 0], pr_fest_occ: [0, 0], pr_fair_rate: [0, 0], pr_fair_days: [0, 0], pr_fair_occ: [0, 0], pr_hosp_rate: [0, 0], pr_hosp_days: [0, 0], pr_hosp_occ: [0, 0], off_share: true, off_build: [null, null], off_capsf: [4000, 6000], off_rr: [0.85, 0.85], off_cost: [235, 198], off_rent: [12, 16], off_soft: [0.15, 0.10], off_vac: [0.10, 0.05], off_nonrec: [0.10, 0.05], off_cap: [0.08, 0.08], off_psf: [300, 300]
     };
   }
   var POLE_SF = Math.PI * 50 * 50;
@@ -361,11 +383,40 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     r.beSpaces = null;
     return r;
   }
-  function compute(input) {
-    var I = Object.assign(defaults(), input || {});
-    return { inputs: I, low: computeCase(pick(I, 0)), high: computeCase(pick(I, 1)) };
+
+  /* Office scenario, shared-parking split and premium event layer. Base-case fields above are untouched. */
+  var PREM_KEYS = ["fb", "bb", "bsb", "arts", "grad", "move", "fest", "fair", "hosp"];
+  function office(I, cap) {
+    var o = {}, build = I.off_build == null ? I.envelope : I.off_build;
+    o.gfa = cap ? Math.min(I.off_capsf, build) : build; o.rsf = o.gfa * I.off_rr;
+    o.pmin = I.off_psf > 0 ? Math.ceil(+(o.gfa / I.off_psf).toFixed(9)) : 0; o.fpcap = 0.3 * I.gross; o.fp2 = o.gfa / 2;
+    o.pgi = o.rsf * I.off_rent; o.vac = -o.pgi * I.off_vac; o.egi = o.pgi + o.vac; o.nonrec = -o.egi * I.off_nonrec; o.noi = o.egi + o.nonrec;
+    o.land = I.land * (1 + I.closePct); o.hard = o.gfa * I.off_cost; o.soft = o.hard * I.off_soft; o.tpc = o.land + o.hard + o.soft;
+    o.val = I.off_cap > 0 ? o.noi / I.off_cap : NaN; o.yoc = o.tpc ? o.noi / o.tpc : NaN; o.margin = o.val - o.tpc; o.pb = o.noi > 0 ? o.tpc / o.noi : null;
+    return o;
   }
-  var API = { defaults: defaults, compute: compute, computeCase: computeCase, pick: pick, irr: irr, POLE_SF: POLE_SF };
+  function extras(I, r) {
+    var x = { offCap: office(I, true), offUn: office(I, false) }, sel = I.off_share ? x.offUn : x.offCap, pc = I.appPct + I.mgmtPct;
+    x.sel = sel; x.planned = r.spaces; x.resv = I.off_share ? sel.pmin : 0; x.sell = Math.max(0, x.planned - x.resv);
+    x.prsp = PREM_KEYS.reduce(function (a, k) { return a + I['pr_' + k + '_rate'] * I['pr_' + k + '_days'] * I['pr_' + k + '_occ']; }, 0);
+    x.prfb = I.pr_fb_rate * I.pr_fb_days * I.pr_fb_occ;
+    var nf = I.rate * (I.dAcad * I.oAcad + I.dSumm * I.oSumm + I.evtMult * I.dEvt * I.oEvt);
+    var a = { rev: r.seas, egr: r.egr, noi: r.noi, tpc: r.tpc }; a.val = a.noi / I.cap; a.prem = x.planned * x.prsp; a.revw = a.rev + a.prem;
+    a.egrw = a.revw * (1 - I.coll); a.noiw = a.noi + (a.egrw - a.egr) * (1 - pc); a.valw = a.noiw / I.cap;
+    var b = { rev: x.sell * nf }; b.egr = b.rev * (1 - I.coll); b.opx = r.tax + I.ins + I.power + (I.maint + I.resv) * x.sell + b.egr * pc; b.noi = b.egr - b.opx; b.val = b.noi / I.cap;
+    b.prem = x.sell * x.prsp; b.revw = b.rev + b.prem; b.egrw = b.revw * (1 - I.coll); b.noiw = b.noi + (b.egrw - b.egr) * (1 - pc); b.valw = b.noiw / I.cap;
+    var c = { noi: sel.noi, val: sel.val, inc: sel.hard + sel.soft };
+    var d = { noi: b.noi + c.noi, val: b.val + c.val, noiw: b.noiw + c.noi, valw: b.valw + c.val, tpc: a.tpc + c.inc }; d.yoc = d.tpc ? d.noi / d.tpc : NaN; d.marg = d.val - d.tpc;
+    var n = { noi: d.noi - a.noi, val: d.val - a.val, noiw: d.noiw - a.noiw, valw: d.valw - a.valw, tpc: d.tpc - a.tpc };
+    x.a = a; x.b = b; x.c = c; x.d = d; x.n = n;
+    return x;
+  }
+  function compute(input) {
+    var I = Object.assign(defaults(), input || {}), lo = pick(I, 0), hi = pick(I, 1), L = computeCase(lo), H = computeCase(hi);
+    L.x = extras(lo, L); H.x = extras(hi, H);
+    return { inputs: I, low: L, high: H };
+  }
+  var API = { defaults: defaults, compute: compute, computeCase: computeCase, extras: extras, office: office, pick: pick, irr: irr, POLE_SF: POLE_SF };
   if (typeof module !== 'undefined' && module.exports) module.exports = API; else root.ParkingLotSiteModel = API;
 })(this);
 </script>
@@ -387,87 +438,1102 @@ svg .axis{stroke:rgba(255,255,255,.18)}
   function neg(v, s) { return v != null && v < -0.005 ? '<span class="neg">' + s + '</span>' : s; }
 
   /* ---------- inputs ---------- */
+  /* Inputs are data-driven: each group lists fields with slider min / max / step (basis = why that range).
+     To feature a group later, reorder GROUPS or add a 'featured' flag; rendering does not depend on order. */
   var GROUPS = [
-    { title: 'Site and usable area', note: 'Survey: Lots 1 & 2 combined', fields: [
-      { p: 'gross', label: 'Gross site area', f: 'n', unit: 'sf', min: 20000, max: 80000, step: 100, slider: true, hint: 'Survey, 1.35 ac ± (58,857 sf)' },
-      { p: 'envelope', label: 'Buildable envelope outside easements', f: 'n', unit: 'sf', min: 0, max: 30000, step: 100, slider: true, hint: 'Survey outline, about 10,700 sf' },
-      { p: 'poles', label: 'Transmission poles on site', f: 'n', unit: 'poles', pair: true, hint: 'Count; planning estimate, 2-4; each clears π × 50 ft² ≈ 7,854 sf' },
-      { p: 'pond', label: 'Stormwater pond area', f: 'n', unit: 'sf', pair: true, hint: 'sf; planning estimate; must sit outside the easement' },
-      { p: 'setback', label: 'Setbacks and landscape buffers', f: 'n', unit: 'sf', est: true, hint: 'Not yet netted from the survey' },
-      { p: 'sfsp', label: 'Area per space (stall + aisle)', f: 'n', unit: 'sf', pair: true, hint: 'sf per space; planning estimate, 300-350 sf' },
-      { p: 'spaces', label: 'Planned spaces', f: 'n', unit: 'spaces', pair: true, hint: 'Spaces; capped at the computed maximum' }
-    ] },
-    { title: 'Land and hard costs', fields: [
-      { p: 'land', label: 'Land purchase price', f: '$', min: 0, max: 400000, step: 5000, slider: true, hint: 'Asking price (cut from $375,000), MLS 2527856' },
-      { p: 'closePct', label: 'Closing costs', f: '%', est: true, hint: '% of land price' },
-      { p: 'paving', label: 'Paving, base and grading', f: '$', min: 50000, max: 300000, step: 5000, slider: true, hint: 'Planning allowance; check vs SC $2.50-$6.58 / sf' },
-      { p: 'storm', label: 'Stormwater detention / water quality', f: '$', est: true },
-      { p: 'light', label: 'Lighting (max 12 ft, outside wire zone)', f: '$', hint: 'Low end of $20K-$50K planning range' },
-      { p: 'signs', label: 'Signage', f: '$', est: true },
-      { p: 'stripe', label: 'Striping and wheel stops', f: '$', est: true },
-      { p: 'permits', label: 'Permits and fees', f: '$', est: true },
-      { p: 'design', label: 'Design and engineering', f: '$', est: true },
-      { p: 'contPct', label: 'Contingency', f: '%', est: true, hint: '% of hard costs above' }
-    ] },
-    { title: 'Soft costs', fields: [
-      { p: 'legal', label: 'Legal', f: '$', est: true },
-      { p: 'survey', label: 'Survey (boundary, topo, easement)', f: '$', est: true },
-      { p: 'appraisal', label: 'Appraisal', f: '$', est: true },
-      { p: 'title', label: 'Title insurance and search', f: '$', est: true },
-      { p: 'phase1', label: 'Environmental Phase I', f: '$', est: true },
-      { p: 'encroach', label: 'Utility encroachment / consent application', f: '$', est: true }
-    ] },
-    { title: 'Revenue', note: 'Seasonality near Coastal Carolina University (CCU)', fields: [
-      { p: 'rate', label: 'Rate per space per day', f: '$', pair: true, hint: '$ per day; planning estimate, $5-$10' },
-      { p: 'dAcad', label: 'Academic-term busy days', f: 'n', unit: 'days', est: true },
-      { p: 'oAcad', label: 'Occupancy, academic-term days', f: '%', est: true },
-      { p: 'dSumm', label: 'Summer / break busy days', f: 'n', unit: 'days', est: true },
-      { p: 'oSumm', label: 'Occupancy, summer / break days', f: '%', est: true },
-      { p: 'dEvt', label: 'Event days', f: 'n', unit: 'days', est: true },
-      { p: 'oEvt', label: 'Occupancy, event days', f: '%', est: true },
-      { p: 'evtMult', label: 'Event-day rate multiplier', f: 'n', unit: 'x', est: true },
-      { p: 'coll', label: 'Collection loss', f: '%', est: true, hint: '% of revenue (non-payment, refunds)' }
-    ] },
-    { title: 'Operating expenses', fields: [
-      { p: 'assess', label: 'Assessment ratio (SC commercial)', f: '%', est: true, hint: 'Verify with Horry County Assessor' },
-      { p: 'mill', label: 'Millage (decimal; 0.250 = 250 mills)', f: 'n', est: true, hint: 'Use the actual tax-district millage' },
-      { p: 'ins', label: 'Insurance incl. utility-required liability', f: '$', unit: '/ yr', est: true },
-      { p: 'maint', label: 'Maintenance, sweeping, restriping', f: '$', unit: '/ space / yr', est: true },
-      { p: 'power', label: 'Lighting power', f: '$', unit: '/ yr', est: true },
-      { p: 'appPct', label: 'Payment app / enforcement', f: '%', est: true, hint: '% of effective gross revenue' },
-      { p: 'mgmtPct', label: 'Management', f: '%', est: true, hint: '% of effective gross revenue' },
-      { p: 'resv', label: 'Reserves (sealcoat / resurfacing)', f: '$', unit: '/ space / yr', est: true }
-    ] },
-    { title: 'Growth, exit, financing and targets', fields: [
-      { p: 'gRev', label: 'Revenue growth', f: '%', est: true, hint: 'per year' },
-      { p: 'gOpx', label: 'Opex growth', f: '%', est: true, hint: 'per year' },
-      { p: 'cap', label: 'Exit cap rate', f: '%', est: true },
-      { p: 'salePct', label: 'Sale costs at exit', f: '%', est: true },
-      { p: 'ltc', label: 'Loan-to-cost', f: '%', min: 0, max: 0.8, step: 0.05, slider: true, est: true, hint: '0% = all cash' },
-      { p: 'int', label: 'Loan interest rate', f: '%', est: true },
-      { p: 'amort', label: 'Amortization', f: 'n', unit: 'years', est: true },
-      { p: 'tYoc', label: 'Target yield on cost', f: '%', hint: 'Your hurdle (placeholder)' },
-      { p: 'tPb', label: 'Target payback', f: 'n', unit: 'years', hint: 'Sweet spot 3-5 years' }
-    ] }
-  ];
+ {
+  "id": "key",
+  "title": "Key drivers",
+  "note": "The few inputs that set the property's value",
+  "fields": [
+   {
+    "p": "spaces",
+    "label": "Planned spaces",
+    "f": "n",
+    "unit": "spaces",
+    "pair": true,
+    "hint": "Spaces; capped at the computed maximum",
+    "min": 0,
+    "max": 200,
+    "step": 1,
+    "basis": "Plan 50-80; memo 100-130/acre gross; capped at computed max"
+   },
+   {
+    "p": "envelope",
+    "label": "Buildable sf (envelope outside easements)",
+    "f": "n",
+    "unit": "sf",
+    "hint": "Survey outline, about 10,665 sf; also the office scenario's buildable sf",
+    "min": 0,
+    "max": 20000,
+    "step": 1,
+    "basis": "Survey outline ~10,665 sf; 30% P-district footprint cap ~17.7K sf"
+   },
+   {
+    "p": "land",
+    "label": "Land cost (purchase price)",
+    "f": "$",
+    "hint": "Asking price (cut from $375,000), MLS 2527856",
+    "min": 0,
+    "max": 225000,
+    "step": 5000,
+    "basis": "$0 to the $225,000 ask (per Michael)"
+   },
+   {
+    "p": "paving",
+    "label": "Paving, base and grading",
+    "f": "$",
+    "hint": "Planning allowance; check vs SC $2.50-$6.58 / sf",
+    "min": 50000,
+    "max": 300000,
+    "step": 5000,
+    "basis": "SC $2.50-$6.58/sf on ~17.5K-24K sf paved, up to full-acre quotes"
+   },
+   {
+    "p": "storm",
+    "label": "Stormwater / drainage (site-specific)",
+    "f": "$",
+    "hint": "Your $30,000 default (not a bid); replace with a civil engineer's estimate",
+    "note": true,
+    "min": 0,
+    "max": 300000,
+    "step": 1000,
+    "basis": "Spans sourced reference ~$13K-$294K (Wins $0.75-$5.00/sf; vault/chamber $/cf)"
+   },
+   {
+    "p": "light",
+    "label": "Lighting (max 12 ft, outside wire zone)",
+    "f": "$",
+    "hint": "Low end of $20K-$50K planning range",
+    "min": 0,
+    "max": 60000,
+    "step": 1000,
+    "basis": "Memo planning range $18K-$60K"
+   },
+   {
+    "p": "rate",
+    "label": "Daily rate per space",
+    "f": "$",
+    "pair": true,
+    "hint": "$ per day; planning estimate, $5-$10",
+    "min": 0,
+    "max": 25,
+    "step": 0.5,
+    "basis": "Planning $5-$10/day; CCU GG game-day $25/car as ceiling reference"
+   },
+   {
+    "p": "oAcad",
+    "label": "Occupancy, academic-term days",
+    "f": "%",
+    "est": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%"
+   },
+   {
+    "p": "oSumm",
+    "label": "Occupancy, summer / break days",
+    "f": "%",
+    "est": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%"
+   },
+   {
+    "p": "oEvt",
+    "label": "Occupancy, event days",
+    "f": "%",
+    "est": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%"
+   }
+  ]
+ },
+ {
+  "id": "site",
+  "title": "Site and usable area",
+  "note": "Survey: Lots 1 & 2 combined",
+  "fields": [
+   {
+    "p": "gross",
+    "label": "Gross site area",
+    "f": "n",
+    "unit": "sf",
+    "hint": "Survey, 1.35 ac \u00b1 (58,857 sf)",
+    "min": 20000,
+    "max": 80000,
+    "step": 1,
+    "basis": "Survey 58,857 sf; wide band for what-if"
+   },
+   {
+    "p": "poles",
+    "label": "Transmission poles on site",
+    "f": "n",
+    "unit": "poles",
+    "pair": true,
+    "hint": "Count; planning estimate, 2-4; each clears \u03c0 \u00d7 50 ft\u00b2 \u2248 7,854 sf",
+    "min": 0,
+    "max": 8,
+    "step": 1,
+    "basis": "Planning estimate 2-4 poles; survey to locate"
+   },
+   {
+    "p": "pond",
+    "label": "Stormwater pond area",
+    "f": "n",
+    "unit": "sf",
+    "pair": true,
+    "hint": "sf; planning estimate; must sit outside the easement",
+    "min": 0,
+    "max": 10000,
+    "step": 100,
+    "basis": "Memo: surface basin ~2,000-5,000 sf"
+   },
+   {
+    "p": "setback",
+    "label": "Setbacks and landscape buffers",
+    "f": "n",
+    "unit": "sf",
+    "est": true,
+    "hint": "Not yet netted from the survey",
+    "min": 0,
+    "max": 20000,
+    "step": 100,
+    "basis": "Not yet netted from survey"
+   },
+   {
+    "p": "sfsp",
+    "label": "Area per space (stall + aisle)",
+    "f": "n",
+    "unit": "sf",
+    "pair": true,
+    "hint": "sf per space; planning estimate, 300-350 sf",
+    "min": 250,
+    "max": 400,
+    "step": 5,
+    "basis": "Planning factor 300-350 sf/space incl. aisles"
+   }
+  ]
+ },
+ {
+  "id": "hard",
+  "title": "Land and hard costs",
+  "fields": [
+   {
+    "p": "closePct",
+    "label": "Closing costs",
+    "f": "%",
+    "est": true,
+    "hint": "% of land price",
+    "min": 0,
+    "max": 0.05,
+    "step": 0.0025,
+    "basis": "Typical 0-5% of price"
+   },
+   {
+    "p": "signs",
+    "label": "Signage",
+    "f": "$",
+    "est": true,
+    "min": 0,
+    "max": 10000,
+    "step": 250,
+    "basis": "Placeholder band"
+   },
+   {
+    "p": "stripe",
+    "label": "Striping and wheel stops",
+    "f": "$",
+    "est": true,
+    "min": 0,
+    "max": 20000,
+    "step": 500,
+    "basis": "Wins 100-space paint $4.5K-$12K"
+   },
+   {
+    "p": "permits",
+    "label": "Permits and fees",
+    "f": "$",
+    "est": true,
+    "min": 0,
+    "max": 25000,
+    "step": 500,
+    "basis": "Placeholder band"
+   },
+   {
+    "p": "design",
+    "label": "Design and engineering",
+    "f": "$",
+    "est": true,
+    "min": 0,
+    "max": 50000,
+    "step": 1000,
+    "basis": "Placeholder band (5-10% of construction)"
+   },
+   {
+    "p": "contPct",
+    "label": "Contingency",
+    "f": "%",
+    "est": true,
+    "hint": "% of hard costs above",
+    "min": 0,
+    "max": 0.25,
+    "step": 0.01,
+    "basis": "0-25% of hard costs"
+   }
+  ]
+ },
+ {
+  "id": "soft",
+  "title": "Soft costs",
+  "fields": [
+   {
+    "p": "legal",
+    "label": "Legal",
+    "f": "$",
+    "est": true,
+    "min": 0,
+    "max": 20000,
+    "step": 500,
+    "basis": "Placeholder band"
+   },
+   {
+    "p": "survey",
+    "label": "Survey (boundary, topo, easement)",
+    "f": "$",
+    "est": true,
+    "min": 0,
+    "max": 15000,
+    "step": 500,
+    "basis": "Placeholder band"
+   },
+   {
+    "p": "appraisal",
+    "label": "Appraisal",
+    "f": "$",
+    "est": true,
+    "min": 0,
+    "max": 10000,
+    "step": 500,
+    "basis": "Placeholder band"
+   },
+   {
+    "p": "title",
+    "label": "Title insurance and search",
+    "f": "$",
+    "est": true,
+    "min": 0,
+    "max": 5000,
+    "step": 100,
+    "basis": "Placeholder band"
+   },
+   {
+    "p": "phase1",
+    "label": "Environmental Phase I",
+    "f": "$",
+    "est": true,
+    "min": 0,
+    "max": 10000,
+    "step": 500,
+    "basis": "Placeholder band"
+   },
+   {
+    "p": "encroach",
+    "label": "Utility encroachment / consent application",
+    "f": "$",
+    "est": true,
+    "min": 0,
+    "max": 5000,
+    "step": 100,
+    "basis": "Placeholder band"
+   }
+  ]
+ },
+ {
+  "id": "rev",
+  "title": "Revenue",
+  "note": "Seasonality near Coastal Carolina University (CCU)",
+  "fields": [
+   {
+    "p": "dAcad",
+    "label": "Academic-term busy days",
+    "f": "n",
+    "unit": "days",
+    "est": true,
+    "min": 0,
+    "max": 250,
+    "step": 1,
+    "basis": "Academic calendar"
+   },
+   {
+    "p": "dSumm",
+    "label": "Summer / break busy days",
+    "f": "n",
+    "unit": "days",
+    "est": true,
+    "min": 0,
+    "max": 120,
+    "step": 1,
+    "basis": "Summer / break days"
+   },
+   {
+    "p": "dEvt",
+    "label": "Event days",
+    "f": "n",
+    "unit": "days",
+    "est": true,
+    "min": 0,
+    "max": 30,
+    "step": 1,
+    "basis": "Event days"
+   },
+   {
+    "p": "evtMult",
+    "label": "Event-day rate multiplier",
+    "f": "n",
+    "unit": "x",
+    "est": true,
+    "min": 0.5,
+    "max": 4,
+    "step": 0.05,
+    "basis": "Event rate multiplier"
+   },
+   {
+    "p": "coll",
+    "label": "Collection loss",
+    "f": "%",
+    "est": true,
+    "hint": "% of revenue (non-payment, refunds)",
+    "min": 0,
+    "max": 0.1,
+    "step": 0.005,
+    "basis": "0-10% of revenue"
+   }
+  ]
+ },
+ {
+  "id": "opx",
+  "title": "Operating expenses",
+  "fields": [
+   {
+    "p": "assess",
+    "label": "Assessment ratio (SC commercial)",
+    "f": "%",
+    "est": true,
+    "hint": "Verify with Horry County Assessor",
+    "min": 0.04,
+    "max": 0.105,
+    "step": 0.005,
+    "basis": "SC 4% / 6% / 10.5% assessment classes"
+   },
+   {
+    "p": "mill",
+    "label": "Millage (decimal; 0.250 = 250 mills)",
+    "f": "n",
+    "est": true,
+    "hint": "Use the actual tax-district millage",
+    "min": 0.1,
+    "max": 0.5,
+    "step": 0.005,
+    "basis": "100-500 mills"
+   },
+   {
+    "p": "ins",
+    "label": "Insurance incl. utility-required liability",
+    "f": "$",
+    "unit": "/ yr",
+    "est": true,
+    "min": 0,
+    "max": 10000,
+    "step": 100,
+    "basis": "Placeholder band"
+   },
+   {
+    "p": "maint",
+    "label": "Maintenance, sweeping, restriping",
+    "f": "$",
+    "unit": "/ space / yr",
+    "est": true,
+    "min": 0,
+    "max": 150,
+    "step": 5,
+    "basis": "$/space/yr"
+   },
+   {
+    "p": "power",
+    "label": "Lighting power",
+    "f": "$",
+    "unit": "/ yr",
+    "est": true,
+    "min": 0,
+    "max": 5000,
+    "step": 100,
+    "basis": "$/yr"
+   },
+   {
+    "p": "appPct",
+    "label": "Payment app / enforcement",
+    "f": "%",
+    "est": true,
+    "hint": "% of effective gross revenue",
+    "min": 0,
+    "max": 0.2,
+    "step": 0.005,
+    "basis": "% of EGR"
+   },
+   {
+    "p": "mgmtPct",
+    "label": "Management",
+    "f": "%",
+    "est": true,
+    "hint": "% of effective gross revenue",
+    "min": 0,
+    "max": 0.15,
+    "step": 0.005,
+    "basis": "% of EGR"
+   },
+   {
+    "p": "resv",
+    "label": "Reserves (sealcoat / resurfacing)",
+    "f": "$",
+    "unit": "/ space / yr",
+    "est": true,
+    "min": 0,
+    "max": 100,
+    "step": 5,
+    "basis": "$/space/yr"
+   }
+  ]
+ },
+ {
+  "id": "fin",
+  "title": "Growth, exit, financing and targets",
+  "fields": [
+   {
+    "p": "gRev",
+    "label": "Revenue growth",
+    "f": "%",
+    "est": true,
+    "hint": "per year",
+    "min": 0,
+    "max": 0.06,
+    "step": 0.0025,
+    "basis": "per year"
+   },
+   {
+    "p": "gOpx",
+    "label": "Opex growth",
+    "f": "%",
+    "est": true,
+    "hint": "per year",
+    "min": 0,
+    "max": 0.06,
+    "step": 0.0025,
+    "basis": "per year"
+   },
+   {
+    "p": "cap",
+    "label": "Exit cap rate",
+    "f": "%",
+    "est": true,
+    "min": 0.05,
+    "max": 0.12,
+    "step": 0.0025,
+    "basis": "Exit cap band"
+   },
+   {
+    "p": "salePct",
+    "label": "Sale costs at exit",
+    "f": "%",
+    "est": true,
+    "min": 0,
+    "max": 0.06,
+    "step": 0.0025,
+    "basis": "Sale costs"
+   },
+   {
+    "p": "ltc",
+    "label": "Loan-to-cost",
+    "f": "%",
+    "est": true,
+    "hint": "0% = all cash",
+    "min": 0,
+    "max": 0.8,
+    "step": 0.05,
+    "basis": "0% = all cash"
+   },
+   {
+    "p": "int",
+    "label": "Loan interest rate",
+    "f": "%",
+    "est": true,
+    "min": 0.04,
+    "max": 0.12,
+    "step": 0.0025,
+    "basis": "Loan rate band"
+   },
+   {
+    "p": "amort",
+    "label": "Amortization",
+    "f": "n",
+    "unit": "years",
+    "est": true,
+    "min": 5,
+    "max": 30,
+    "step": 1,
+    "basis": "years"
+   },
+   {
+    "p": "tYoc",
+    "label": "Target yield on cost",
+    "f": "%",
+    "hint": "Your hurdle (placeholder)",
+    "min": 0.05,
+    "max": 0.2,
+    "step": 0.005,
+    "basis": "Your hurdle"
+   },
+   {
+    "p": "tPb",
+    "label": "Target payback",
+    "f": "n",
+    "unit": "years",
+    "hint": "Sweet spot 3-5 years",
+    "min": 1,
+    "max": 15,
+    "step": 0.5,
+    "basis": "Sweet spot 3-5 years"
+   }
+  ]
+ },
+ {
+  "id": "prem",
+  "title": "Premium event layer",
+  "note": "Additive to normal revenue; per space \u00d7 occupancy \u00d7 rate \u00d7 days",
+  "fields": [
+   {
+    "p": "pr_fb_rate",
+    "label": "Brooks Stadium football: premium rate",
+    "f": "$",
+    "unit": "/ space / day",
+    "pair": true,
+    "min": 0,
+    "max": 50,
+    "step": 0.01,
+    "basis": "$0-$50 per space per day",
+    "hint": "Low $20.83 = CCU $125 season pass \u00f7 6 home games; high $25 = GG lot per car (2024)"
+   },
+   {
+    "p": "pr_fb_days",
+    "label": "Brooks Stadium football: days",
+    "f": "n",
+    "unit": "days",
+    "pair": true,
+    "min": 0,
+    "max": 30,
+    "step": 1,
+    "basis": "0-30 days",
+    "hint": "6 home games in 2025 and 2026"
+   },
+   {
+    "p": "pr_fb_occ",
+    "label": "Brooks Stadium football: occupancy",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%",
+    "est": true,
+    "hint": "Same 75% as the model's event days"
+   },
+   {
+    "p": "pr_bb_rate",
+    "label": "CCU basketball (HTC Center): premium rate",
+    "f": "$",
+    "unit": "/ space / day",
+    "pair": true,
+    "min": 0,
+    "max": 50,
+    "step": 0.01,
+    "basis": "$0-$50 per space per day",
+    "hint": "Pending research",
+    "pend": true
+   },
+   {
+    "p": "pr_bb_days",
+    "label": "CCU basketball (HTC Center): days",
+    "f": "n",
+    "unit": "days",
+    "pair": true,
+    "min": 0,
+    "max": 30,
+    "step": 1,
+    "basis": "0-30 days",
+    "hint": "Pending research; 0 until sourced",
+    "pend": true
+   },
+   {
+    "p": "pr_bb_occ",
+    "label": "CCU basketball (HTC Center): occupancy",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%",
+    "est": false,
+    "hint": "Pending research",
+    "pend": true
+   },
+   {
+    "p": "pr_bsb_rate",
+    "label": "CCU baseball: premium rate",
+    "f": "$",
+    "unit": "/ space / day",
+    "pair": true,
+    "min": 0,
+    "max": 50,
+    "step": 0.01,
+    "basis": "$0-$50 per space per day",
+    "hint": "Pending research",
+    "pend": true
+   },
+   {
+    "p": "pr_bsb_days",
+    "label": "CCU baseball: days",
+    "f": "n",
+    "unit": "days",
+    "pair": true,
+    "min": 0,
+    "max": 30,
+    "step": 1,
+    "basis": "0-30 days",
+    "hint": "Pending research; 0 until sourced",
+    "pend": true
+   },
+   {
+    "p": "pr_bsb_occ",
+    "label": "CCU baseball: occupancy",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%",
+    "est": false,
+    "hint": "Pending research",
+    "pend": true
+   },
+   {
+    "p": "pr_arts_rate",
+    "label": "Auditorium / performing arts: premium rate",
+    "f": "$",
+    "unit": "/ space / day",
+    "pair": true,
+    "min": 0,
+    "max": 50,
+    "step": 0.01,
+    "basis": "$0-$50 per space per day",
+    "hint": "Pending research",
+    "pend": true
+   },
+   {
+    "p": "pr_arts_days",
+    "label": "Auditorium / performing arts: days",
+    "f": "n",
+    "unit": "days",
+    "pair": true,
+    "min": 0,
+    "max": 30,
+    "step": 1,
+    "basis": "0-30 days",
+    "hint": "Pending research; 0 until sourced",
+    "pend": true
+   },
+   {
+    "p": "pr_arts_occ",
+    "label": "Auditorium / performing arts: occupancy",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%",
+    "est": false,
+    "hint": "Pending research",
+    "pend": true
+   },
+   {
+    "p": "pr_grad_rate",
+    "label": "Commencement: premium rate",
+    "f": "$",
+    "unit": "/ space / day",
+    "pair": true,
+    "min": 0,
+    "max": 50,
+    "step": 0.01,
+    "basis": "$0-$50 per space per day",
+    "hint": "Pending research",
+    "pend": true
+   },
+   {
+    "p": "pr_grad_days",
+    "label": "Commencement: days",
+    "f": "n",
+    "unit": "days",
+    "pair": true,
+    "min": 0,
+    "max": 30,
+    "step": 1,
+    "basis": "0-30 days",
+    "hint": "Pending research; 0 until sourced",
+    "pend": true
+   },
+   {
+    "p": "pr_grad_occ",
+    "label": "Commencement: occupancy",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%",
+    "est": false,
+    "hint": "Pending research",
+    "pend": true
+   },
+   {
+    "p": "pr_move_rate",
+    "label": "Move-in: premium rate",
+    "f": "$",
+    "unit": "/ space / day",
+    "pair": true,
+    "min": 0,
+    "max": 50,
+    "step": 0.01,
+    "basis": "$0-$50 per space per day",
+    "hint": "Pending research",
+    "pend": true
+   },
+   {
+    "p": "pr_move_days",
+    "label": "Move-in: days",
+    "f": "n",
+    "unit": "days",
+    "pair": true,
+    "min": 0,
+    "max": 30,
+    "step": 1,
+    "basis": "0-30 days",
+    "hint": "Pending research; 0 until sourced",
+    "pend": true
+   },
+   {
+    "p": "pr_move_occ",
+    "label": "Move-in: occupancy",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%",
+    "est": false,
+    "hint": "Pending research",
+    "pend": true
+   },
+   {
+    "p": "pr_fest_rate",
+    "label": "Downtown Conway festivals: premium rate",
+    "f": "$",
+    "unit": "/ space / day",
+    "pair": true,
+    "min": 0,
+    "max": 50,
+    "step": 0.01,
+    "basis": "$0-$50 per space per day",
+    "hint": "Pending research",
+    "pend": true
+   },
+   {
+    "p": "pr_fest_days",
+    "label": "Downtown Conway festivals: days",
+    "f": "n",
+    "unit": "days",
+    "pair": true,
+    "min": 0,
+    "max": 30,
+    "step": 1,
+    "basis": "0-30 days",
+    "hint": "Pending research; 0 until sourced",
+    "pend": true
+   },
+   {
+    "p": "pr_fest_occ",
+    "label": "Downtown Conway festivals: occupancy",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%",
+    "est": false,
+    "hint": "Pending research",
+    "pend": true
+   },
+   {
+    "p": "pr_fair_rate",
+    "label": "Fairgrounds: premium rate",
+    "f": "$",
+    "unit": "/ space / day",
+    "pair": true,
+    "min": 0,
+    "max": 50,
+    "step": 0.01,
+    "basis": "$0-$50 per space per day",
+    "hint": "Pending research",
+    "pend": true
+   },
+   {
+    "p": "pr_fair_days",
+    "label": "Fairgrounds: days",
+    "f": "n",
+    "unit": "days",
+    "pair": true,
+    "min": 0,
+    "max": 30,
+    "step": 1,
+    "basis": "0-30 days",
+    "hint": "Pending research; 0 until sourced",
+    "pend": true
+   },
+   {
+    "p": "pr_fair_occ",
+    "label": "Fairgrounds: occupancy",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%",
+    "est": false,
+    "hint": "Pending research",
+    "pend": true
+   },
+   {
+    "p": "pr_hosp_rate",
+    "label": "Hospital / retail overflow: premium rate",
+    "f": "$",
+    "unit": "/ space / day",
+    "pair": true,
+    "min": 0,
+    "max": 50,
+    "step": 0.01,
+    "basis": "$0-$50 per space per day",
+    "hint": "Pending research",
+    "pend": true
+   },
+   {
+    "p": "pr_hosp_days",
+    "label": "Hospital / retail overflow: days",
+    "f": "n",
+    "unit": "days",
+    "pair": true,
+    "min": 0,
+    "max": 30,
+    "step": 1,
+    "basis": "0-30 days",
+    "hint": "Pending research; 0 until sourced",
+    "pend": true
+   },
+   {
+    "p": "pr_hosp_occ",
+    "label": "Hospital / retail overflow: occupancy",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%",
+    "est": false,
+    "hint": "Pending research",
+    "pend": true
+   }
+  ]
+ },
+ {
+  "id": "office",
+  "title": "Office scenario",
+  "note": "Building on the buildable pad; results in Step Five",
+  "fields": [
+   {
+    "p": "off_share",
+    "label": "Shared parking with on-site lot",
+    "f": "bool",
+    "hint": "On: reserved office spaces come out of paid parking and the office uses the full buildable sf. Off: no spaces reserved; office capped."
+   },
+   {
+    "p": "off_build",
+    "label": "Buildable sf",
+    "f": "n",
+    "pair": true,
+    "min": 0,
+    "max": 20000,
+    "step": 1,
+    "basis": "Linked to the buildable envelope (survey ~10,665 sf). Upper bound: memo puts a realistic footprint at ~4-6K sf (surface basin) or ~6K sf (underground vault).",
+    "hint": "Linked to buildable sf above; move to override",
+    "est": false,
+    "unit": "sf",
+    "link": "envelope"
+   },
+   {
+    "p": "off_capsf",
+    "label": "Building sf cap without shared parking",
+    "f": "n",
+    "pair": true,
+    "min": 0,
+    "max": 12000,
+    "step": 100,
+    "basis": "Memo estimate: realistic footprint ~4,000-6,000 sf (P-zone memo, Nov 19 2026)",
+    "hint": "Memo estimate: realistic footprint ~4,000-6,000 sf",
+    "est": false,
+    "unit": "sf",
+    "estimate": true
+   },
+   {
+    "p": "off_rr",
+    "label": "Rentable ratio (rentable / building sf)",
+    "f": "%",
+    "pair": true,
+    "min": 0.7,
+    "max": 0.95,
+    "step": 0.01,
+    "basis": "Rentable sf = building sf x ratio",
+    "hint": "Rentable sf = building sf \u00d7 ratio",
+    "est": true
+   },
+   {
+    "p": "off_cost",
+    "label": "Build cost per building sf",
+    "f": "$",
+    "pair": true,
+    "min": 100,
+    "max": 450,
+    "step": 1,
+    "basis": "ESTIMATE. Low = RSMeans 1-story office $235-$375/sf (2025 national, low end); high = BuildGenius 2026 South Carolina office $198/sf. Mastt 2026 low-rise office $240-$440/sf. No Conway bid found.",
+    "hint": "ESTIMATE: RSMeans 1-story $235-$375; SC $198 (BuildGenius 2026)",
+    "est": false,
+    "unit": "/sf",
+    "estimate": true
+   },
+   {
+    "p": "off_rent",
+    "label": "Rent per rentable sf per year (NNN)",
+    "f": "$",
+    "pair": true,
+    "min": 8,
+    "max": 40,
+    "step": 0.25,
+    "basis": "Conway general office $12-$16/sf NNN (French Collins $12; Husted Rd $16). Medical reference $21.60-$32.00/sf (lease type varies).",
+    "hint": "Conway office $12-$16 NNN; medical $21.60-$32 reference",
+    "est": false,
+    "unit": "/sf/yr"
+   },
+   {
+    "p": "off_soft",
+    "label": "Soft costs (% of building hard cost)",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 0.3,
+    "step": 0.005,
+    "basis": "Mastt 2026: soft costs typically 10-15% of hard costs",
+    "hint": "Mastt 2026: typically 10-15% of hard",
+    "est": false,
+    "estimate": true
+   },
+   {
+    "p": "off_vac",
+    "label": "Vacancy and credit loss",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 0.25,
+    "step": 0.005,
+    "basis": "ASSUMPTION - replace. Only sourced figure: Myrtle Beach metro office 1.8% (Q4 2024, CoStar via KEY Group), not a current Conway rate.",
+    "hint": "Only sourced: Myrtle Beach office 1.8% (Q4 2024)",
+    "est": true
+   },
+   {
+    "p": "off_nonrec",
+    "label": "Owner non-recoverable opex / NNN leakage (% of EGI)",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 0.25,
+    "step": 0.005,
+    "basis": "ASSUMPTION - replace (management, reserves, unrecovered CAM)",
+    "hint": "Management, reserves, unrecovered CAM",
+    "est": true
+   },
+   {
+    "p": "off_cap",
+    "label": "Office cap rate",
+    "f": "%",
+    "pair": true,
+    "min": 0.05,
+    "max": 0.12,
+    "step": 0.0025,
+    "basis": "ASSUMPTION - replace",
+    "hint": "Office cap rate",
+    "est": true
+   },
+   {
+    "p": "off_psf",
+    "label": "Building sf per required parking space",
+    "f": "n",
+    "pair": true,
+    "min": 150,
+    "max": 400,
+    "step": 1,
+    "basis": "Conway UDO Table 8.3: professional office minimum 1 per 300 sf GFA (max 1 per 187.5)",
+    "hint": "UDO Table 8.3: 1 per 300 sf minimum",
+    "est": false,
+    "unit": "sf/space"
+   }
+  ]
+ }
+];
+  var NOTES = {"storm": "Reference range (estimate, not a bid): about $13K-$175K, up to ~$294K at the top of the drainage layer on the full site. Drainage $0.75-$5.00/sf \u00d7 17,500-24,000 sf paved = $13,125-$120,000; underground storage for the water-quality volume (1,042-3,333 cf) at $12-$40/cf = $12,504-$133,320; bioretention $15-$35/sf \u00d7 3,000-5,000 sf = $45,000-$175,000; SCDES permit fee $125. Sources: <a href=\"https://winsparking.com/parking-lot-cost-per-square-foot\" target=\"_blank\" rel=\"noopener\">Wins Parking, cost per sf (Oct 2026)</a>, <a href=\"https://calichi.com/blog/cost-estimating-site-civil-work/\" target=\"_blank\" rel=\"noopener\">Calichi, site civil unit costs (Apr 2026)</a>, <a href=\"https://des.sc.gov/programs/bureau-water/stormwater/stormwater-construction-activities/1-2-acres-land-disturbance\" target=\"_blank\" rel=\"noopener\">SCDES, 1-2 acres land disturbance</a>, <a href=\"https://pavegauge.com/parking-lot-paving-cost-per-square-foot/\" target=\"_blank\" rel=\"noopener\">PaveGauge, parking lot cost per sf</a>, <a href=\"https://www.horrycountysc.gov/media/4wqkxbxg/horry-county-sw-design-manual_rev2024.pdf\" target=\"_blank\" rel=\"noopener\">Horry County SW Design Manual (2024)</a>."};
   var ALL = []; GROUPS.forEach(function (g) { g.fields.forEach(function (f) { ALL.push(f); }); });
   function fmtIn(f, v) { if (v == null || v === '') return ''; if (f.f === '$') return numIn(v); if (f.f === '%') return String(+(v * 100).toFixed(4)); return numIn(v); }
   function parseIn(f, t) { if (String(t).trim() === '') return null; var v = parseFloat(String(t).replace(/[^0-9.\-]/g, '')); if (!isFinite(v)) return null; return f.f === '%' ? v / 100 : v; }
   function boxHTML(f, id, v, di, tag) {
     return '<div class="box">' + (tag ? '<span class="case">' + tag + '</span>' : '') + (f.f === '$' ? '<span class="unit" style="margin:0 4px 0 0">$</span>' : '') + '<input type="text" id="' + id + '" data-i="' + di + '" inputmode="decimal" value="' + esc(fmtIn(f, v)) + '">' + (f.f === '%' ? '<span class="unit">%</span>' : f.unit && !tag ? '<span class="unit">' + esc(f.unit) + '</span>' : '') + '</div>';
   }
+  /* Slider + number box for every input. Pairs get one slider per case. Booleans render as an on / off switch. */
+  function shown(f, c) { var v = c == null ? S[f.p] : S[f.p][c]; return v == null && f.link ? S[f.link] : v; }
+  function sliderHTML(f, di, v, tag) {
+    return '<div class="sl">' + (tag ? '<span class="case">' + tag + '</span>' : '') + '<input type="range" data-r="' + di + '" min="' + f.min + '" max="' + f.max + '" step="' + f.step + '" value="' + v + '" aria-label="' + esc(f.label) + (tag ? ' ' + tag : '') + ' slider" title="Range ' + esc(f.basis || '') + '"></div>';
+  }
   function fieldHTML(f, i) {
-    var id = 'f' + i, v = S[f.p], tag = f.est ? '<span class="est">ASSUMPTION</span>' : '';
-    var lab = '<label for="' + id + (f.pair ? 'a' : '') + '">' + esc(f.label) + tag + '</label>', box;
-    if (f.pair) box = '<div class="pairin">' + boxHTML(f, id + 'a', v[0], i + ':0', 'Low') + boxHTML(f, id + 'b', v[1], i + ':1', 'High') + '</div>';
-    else box = boxHTML(f, id, v, i);
-    var sl = f.slider && !f.pair ? '<input type="range" data-r="' + i + '" min="' + f.min + '" max="' + f.max + '" step="' + f.step + '" value="' + v + '" aria-label="' + esc(f.label) + ' slider">' : '';
-    var hint = f.hint ? '<div class="hint">' + esc(f.hint) + '</div>' : '';
-    return '<div class="fld" data-fld="' + i + '">' + lab + box + sl + hint + '</div>';
+    var id = 'f' + i, tag = f.pend ? '<span class="est pend">PENDING RESEARCH</span>' : f.estimate ? '<span class="est">ESTIMATE</span>' : f.est ? '<span class="est">ASSUMPTION</span>' : '';
+    var hint = f.hint ? '<div class="hint">' + esc(f.hint) + '</div>' : '', note = f.note && NOTES[f.p] ? '<div class="hint ref">' + NOTES[f.p] + '</div>' : '';
+    if (f.f === 'bool') return '<div class="fld" data-fld="' + i + '"><label>' + esc(f.label) + '</label><div class="tog" role="group" aria-label="' + esc(f.label) + '"><button type="button" data-b="' + i + '" data-v="1" aria-pressed="' + !!S[f.p] + '">On</button><button type="button" data-b="' + i + '" data-v="0" aria-pressed="' + !S[f.p] + '">Off</button></div>' + hint + '</div>';
+    var lab = '<label for="' + id + (f.pair ? 'a' : '') + '">' + esc(f.label) + tag + '</label>', box, sl;
+    if (f.pair) {
+      box = '<div class="pairin">' + boxHTML(f, id + 'a', shown(f, 0), i + ':0', 'Low') + boxHTML(f, id + 'b', shown(f, 1), i + ':1', 'High') + '</div>';
+      sl = '<div class="pairin">' + sliderHTML(f, i + ':0', shown(f, 0), 'Low') + sliderHTML(f, i + ':1', shown(f, 1), 'High') + '</div>';
+    } else { box = boxHTML(f, id, shown(f), i); sl = sliderHTML(f, i, shown(f)); }
+    return '<div class="fld" data-fld="' + i + '">' + lab + box + sl + hint + note + '</div>';
   }
   function buildInputs() {
     $('inputGroups').innerHTML = GROUPS.map(function (g) {
-      return '<div class="card"><div class="card-h"><h3>' + esc(g.title) + '</h3>' + (g.note ? '<span class="note">' + esc(g.note) + '</span>' : '') + '</div><div class="fields">' + g.fields.map(function (f) { return fieldHTML(f, ALL.indexOf(f)); }).join('') + '</div></div>';
+      return '<div class="card" data-group="' + g.id + '"><div class="card-h"><h3>' + esc(g.title) + '</h3>' + (g.note ? '<span class="note">' + esc(g.note) + '</span>' : '') + '</div><div class="fields">' + g.fields.map(function (f) { return fieldHTML(f, ALL.indexOf(f)); }).join('') + '</div></div>';
     }).join('');
   }
 
@@ -480,14 +1546,26 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     var t = e.target, d = t.dataset;
     if (d.i != null) {
       var f = ALL[+String(d.i).split(':')[0]], v = parseIn(f, t.value); if (v == null) return;
-      setVal(d.i, v); var r = document.querySelector('[data-r="' + d.i + '"]'); if (r) r.value = v; schedule();
+      setVal(d.i, v); var r = document.querySelector('[data-r="' + d.i + '"]'); if (r) r.value = v; syncLinked(); schedule();
     } else if (d.r != null) {
-      var f2 = ALL[+d.r], v2 = +t.value; S[f2.p] = v2; var inp = $('f' + d.r); if (inp) inp.value = fmtIn(f2, v2); schedule();
+      var v2 = +t.value, f2 = setVal(d.r, v2); var inp = $(boxId(d.r)); if (inp) inp.value = fmtIn(f2, v2); syncLinked(); schedule();
     }
+  });
+  function boxId(di) { var p = String(di).split(':'); return 'f' + p[0] + (p.length > 1 ? (p[1] === '0' ? 'a' : 'b') : ''); }
+  /* Linked inputs (office buildable sf follows the buildable envelope until moved). */
+  function syncLinked() {
+    ALL.forEach(function (f, i) {
+      if (!f.link) return;
+      [0, 1].forEach(function (c) { if (S[f.p][c] != null) return; var v = S[f.link], b = $(boxId(i + ':' + c)), r = document.querySelector('[data-r="' + i + ':' + c + '"]'); if (b && document.activeElement !== b) b.value = fmtIn(f, v); if (r) r.value = v; });
+    });
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-b]'); if (!b) return; var f = ALL[+b.dataset.b]; S[f.p] = b.dataset.v === '1';
+    b.parentNode.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); schedule();
   });
   document.addEventListener('change', function (e) {
     var t = e.target, d = t.dataset;
-    if (t.tagName === 'INPUT' && t.type === 'text' && d.i != null) t.value = fmtIn(ALL[+String(d.i).split(':')[0]], getVal(d.i));
+    if (t.tagName === 'INPUT' && t.type === 'text' && d.i != null) { var ff = ALL[+String(d.i).split(':')[0]], gv = getVal(d.i); t.value = fmtIn(ff, gv == null && ff.link ? S[ff.link] : gv); }
   });
   $('resetBtn').addEventListener('click', function () { S = M.defaults(); buildInputs(); recalc(); });
   $('menuBtn').addEventListener('click', function () { var sb = $('sitebar'), o = sb.classList.toggle('open'); this.setAttribute('aria-expanded', o); });
@@ -657,12 +1735,47 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     }).join('') + '</tbody>';
   }
 
+
+  /* ---------- Step Five: office scenario and split view ---------- */
+  function renderScen() {
+    var L = R.low.x, H = R.high.x, on = !!S.off_share;
+    var four = function (lab, k, fmt, basis, c) { fmt = fmt || function (v) { return neg(v, money(v)); }; return tr([lab, fmt(L.offCap[k]), fmt(H.offCap[k]), fmt(L.offUn[k]), fmt(H.offUn[k]), basis || ''], c); };
+    var nn = function (v) { return n0(v); }, ss = function (v) { return sf(v); };
+    $('tOffice').innerHTML = th(['Line item', 'Capped: low', 'Capped: high', 'Uncapped: low', 'Uncapped: high', 'Basis']) + '<tbody>' +
+      four('Building sf (GFA)', 'gfa', ss, 'Capped: min(cap, buildable); uncapped: buildable') + four('Rentable sf', 'rsf', ss, 'GFA × rentable ratio') +
+      four('Office parking minimum (spaces)', 'pmin', nn, 'Round up GFA ÷ sf per space (1 per 300 sf)') + four('P-district footprint cap (30%)', 'fpcap', ss, '30% × gross site') + four('Footprint if two stories', 'fp2', ss, 'GFA ÷ 2') +
+      four('Potential gross rent', 'pgi', null, 'Rentable sf × rent (NNN)') + four('Vacancy and credit loss', 'vac', null, 'PGR × vacancy') + four('Effective gross income', 'egi', null, '', 'sub') +
+      four('Owner non-recoverable opex', 'nonrec', null, 'EGI × non-recoverable %') + four('Stabilized NOI', 'noi', null, 'EGI − non-recoverable', 'tot') +
+      four('Land + closing', 'land', null, 'Same land input') + four('Building hard cost', 'hard', null, 'GFA × build cost / sf') + four('Soft costs', 'soft', null, 'Hard × soft %') +
+      four('Total project cost', 'tpc', null, 'Land + hard + soft', 'tot') + four('Value at cap', 'val', null, 'NOI ÷ office cap', 'tot') +
+      four('Yield on cost', 'yoc', function (v) { return pct(v); }, 'NOI ÷ total project cost') + four('Value minus cost (margin)', 'margin', null, 'Value − total project cost', 'tot') +
+      four('Simple payback', 'pb', yrs, 'Total project cost ÷ NOI', 'tot') + '</tbody>';
+    $('offNote').textContent = on ? 'Shared parking ON: split uses the uncapped office' : 'Shared parking OFF: split uses the capped office';
+    var lh2 = function (lab, o, k, fmt, basis, c) { fmt = fmt || function (v) { return neg(v, money(v)); }; return tr([lab, fmt(L[o][k]), fmt(H[o][k]), basis || ''], c); };
+    var top = function (lab, k, fmt, basis, c) { return tr([lab, fmt(L[k]), fmt(H[k]), basis || ''], c); };
+    var m2 = function (v) { return '$' + (+v).toFixed(2); };
+    $('tSplit').innerHTML = th(['Line item', 'Low', 'High', 'Basis']) + '<tbody>' +
+      grp('Shared parking', 4) + tr(['Shared parking with on-site lot', on ? 'On' : 'Off', on ? 'On' : 'Off', 'Toggle in the Office scenario inputs']) +
+      top('Planned paid spaces (base)', 'planned', n0, 'Site yield, capped at maximum') + tr(['Office building sf (per toggle)', sf(L.sel.gfa), sf(H.sel.gfa), on ? 'Uncapped' : 'Capped']) +
+      tr(['Office parking minimum', n0(L.sel.pmin), n0(H.sel.pmin), '1 per 300 sf, rounded up']) + top('Reserved office spaces', 'resv', n0, on ? 'Office minimum' : '0 when off') + top('Sellable paid spaces', 'sell', n0, 'Planned − reserved, floored at 0', 'sub') +
+      grp('Premium event layer', 4) + top('Premium revenue per space per year', 'prsp', m2, 'Σ rate × days × occupancy') + top('of which Brooks Stadium football', 'prfb', m2, 'Rate × days × occupancy') +
+      grp('(a) 100% parking lot: base case, unchanged', 4) + lh2('Seasonal revenue (without premium)', 'a', 'rev') + lh2('NOI without premium', 'a', 'noi', null, 'Base case', 'sub') + lh2('Value without premium', 'a', 'val', null, 'NOI ÷ exit cap', 'sub') +
+      lh2('Premium revenue', 'a', 'prem', null, 'Planned spaces × premium') + lh2('Total revenue with premium', 'a', 'revw') + lh2('NOI with premium', 'a', 'noiw', null, '+ premium net of collection, app and management %', 'sub') + lh2('Value with premium', 'a', 'valw', null, 'NOI ÷ exit cap', 'sub') + lh2('Total project cost', 'a', 'tpc') +
+      grp('(b) Parking lot with the office space draw', 4) + lh2('Seasonal revenue (without premium)', 'b', 'rev', null, 'Sellable spaces') + lh2('Operating expenses', 'b', 'opx', null, 'Per-space items on sellable spaces') + lh2('NOI without premium', 'b', 'noi', null, '', 'sub') + lh2('Value without premium', 'b', 'val', null, 'NOI ÷ exit cap', 'sub') +
+      lh2('Premium revenue', 'b', 'prem', null, 'Sellable × premium') + lh2('Total revenue with premium', 'b', 'revw') + lh2('NOI with premium', 'b', 'noiw', null, '', 'sub') + lh2('Value with premium', 'b', 'valw', null, '', 'sub') +
+      grp('(c) Office ' + (on ? '(uncapped)' : '(capped)'), 4) + lh2('Office stabilized NOI', 'c', 'noi', null, '', 'sub') + lh2('Office value at cap', 'c', 'val', null, 'NOI ÷ office cap', 'sub') + lh2('Office incremental cost', 'c', 'inc', null, 'Building hard + soft (land is in the parking cost)') +
+      grp('(d) Combined split: (b) + (c)', 4) + lh2('NOI without premium', 'd', 'noi', null, '', 'sub') + lh2('Value without premium', 'd', 'val', null, '', 'sub') + lh2('NOI with premium', 'd', 'noiw', null, '', 'sub') + lh2('Value with premium', 'd', 'valw', null, '', 'sub') +
+      lh2('Total project cost', 'd', 'tpc', null, 'Parking cost + office incremental') + lh2('Yield on cost without premium', 'd', 'yoc', function (v) { return pct(v); }) + lh2('Value minus cost without premium', 'd', 'marg') +
+      grp('Net effect: (d) − (a)', 4) + lh2('NOI without premium', 'n', 'noi', null, '', 'tot') + lh2('Value without premium', 'n', 'val', null, '', 'tot') + lh2('NOI with premium', 'n', 'noiw', null, '', 'tot') + lh2('Value with premium', 'n', 'valw', null, '', 'tot') + lh2('Total project cost', 'n', 'tpc', null, '', 'tot') + '</tbody>';
+    $('pmin36').textContent = n0(L.offUn.pmin) + (H.offUn.pmin !== L.offUn.pmin ? ' / ' + n0(H.offUn.pmin) : '');
+  }
   function renderCharts() { chartUses(); chartNoi(); chartRev(); chartPb(); }
   function recalc() {
-    var ok = ALL.every(function (f) { var v = S[f.p]; return Array.isArray(v) ? v.every(isFinite) : isFinite(v); }) && S.cap > 0 && S.amort >= 1 && S.tYoc > 0;
+    var fin = function (f, v) { return (v == null && f.link) || isFinite(v); };
+    var ok = ALL.every(function (f) { if (f.f === 'bool') return true; var v = S[f.p]; return Array.isArray(v) ? v.every(function (x) { return fin(f, x); }) : fin(f, v); }) && S.cap > 0 && S.amort >= 1 && S.tYoc > 0;
     if (!ok) return;
     R = M.compute(S);
-    renderKpis(); renderCharts(); renderTables();
+    renderKpis(); renderCharts(); renderTables(); renderScen();
   }
   var rz = null; window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (R) renderCharts(); }, 120); });
   $('yr').textContent = new Date().getFullYear();
