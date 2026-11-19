@@ -19,4 +19,7 @@ With the A.CRE sample inputs, the engine matches the workbook's cached values. S
 ## Not included
 Mezzanine debt, floating-rate construction debt, the retail module, the detailed operating-expense and detailed lease-up tabs, detail-method budget lines, the double (co-GP) promote, the residual land value tool, the solve-for-mill-rate helper, and the add/delete-item macros. Permanent-loan mode is implemented, but the template ships with it off, so it was not checked against the workbook.
 
+## Miami Beach Condo Rental Model (separate page)
+`miami_condo_rental_model.html` is a separate, standalone model for a single two-bedroom Miami Beach condo held as a rental. It does not load or change the apartment model's files. Engine: `js/miami_condo_rental_model.js`; UI: `js/miami_condo_rental_app.js`; styles: `css/miami_condo_rental_model.css`. It covers purchase price, financing or all cash, monthly rent, HOA, property tax, HO-6 insurance, maintenance reserve, vacancy, management and closing costs, and outputs monthly and annual cash flow, NOI, cap rate, cash-on-cash, break-even rent, DSCR and an annual pro forma. Defaults are editable Miami Beach / Florida starting assumptions, not sourced facts. Check: `node validation/miami_condo_rental_model.test.js`.
+
 For illustration and education only. Not investment, tax, legal or lending advice.

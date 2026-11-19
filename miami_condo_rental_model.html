@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Bespoke Underwriting Miami Beach Condo Rental Model</title>
+<meta name="description" content="Single two-bedroom Miami Beach condo rental underwriting in the browser: purchase, financing, rent, HOA, taxes, insurance, cash flow, cap rate, cash-on-cash and break-even rent.">
+<link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap">
+<link rel="stylesheet" href="css/miami_condo_rental_model.css">
+</head>
+<body>
+<header class="sitebar" id="sitebar">
+  <div class="w sitebar-in">
+    <a class="brand" href="https://bespokeunderwriting.com/"><img src="icons/bu-mark.png" alt="" width="40" height="40">Bespoke Underwriting</a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="https://bespokeunderwriting.com/">Home</a>
+      <a href="./">Apartment Model</a>
+      <a href="miami_condo_rental_model.html" aria-current="page">Condo Rental Model</a>
+      <a href="https://bespokeunderwriting.com/whitepaper/">White Paper</a>
+      <a href="https://bespokeunderwriting.com/#pricing">Pricing</a>
+      <a href="https://bespokeunderwriting.com/#contact">Contact</a>
+    </nav>
+    <a class="cta" href="https://bespokeunderwriting.com/#contact">Get in touch</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main class="w">
+  <section class="hero">
+    <h1>Bespoke Underwriting <span class="accent">Miami Beach Condo Rental Model</span></h1>
+    <p class="lede">Rental underwriting for a single two-bedroom Miami Beach condo: purchase and closing costs, financing or all cash, rent, HOA, property tax, insurance, reserves and management. Every output recalculates as you edit an input.</p>
+  </section>
+
+  <!-- 1. Inputs -->
+  <section class="sec" id="inputs">
+    <div class="sec-head">
+      <div><span class="eyebrow">Step One</span><h2><span class="pill">Inputs</span>Condo <span class="accent">Assumptions</span></h2></div>
+    </div>
+    <div class="stack">
+      <div class="card">
+        <div class="card-h"><h3>Default assumptions</h3><span class="note">Miami Beach / Florida, two-bedroom condo</span></div>
+        <div class="input-bar">
+          <p class="assump"><b>These defaults are starting assumptions, not sourced facts.</b> Price $400,000 and rent $2,750 / month are the scenario inputs. HOA $800 / month, HO-6 insurance $2,600 / year, a 5% maintenance reserve, 8% vacancy and 10% management are typical-range assumptions for a Miami Beach two-bedroom. Property tax at 1.9% of price approximates a Miami-Dade non-homestead millage applied to the purchase price. Closing costs at 3% approximate Florida buyer costs, including mortgage documentary stamps (0.35%) and intangible tax (0.2%) when financed; lower it for an all-cash purchase. Replace each one with building-specific figures (HOA budget, special assessments, insurance quote, tax estimate) before relying on the results.</p>
+          <button type="button" class="btn" id="resetBtn">Reset defaults</button>
+        </div>
+      </div>
+      <div id="inputGroups" class="stack"></div>
+    </div>
+  </section>
+
+  <!-- 2. KPIs -->
+  <section class="sec" id="results">
+    <div class="sec-head">
+      <div><span class="eyebrow">Step Two</span><h2><span class="pill">Results</span>Key <span class="accent">Metrics</span></h2></div>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <p class="kpi-def" id="kpiDef"></p>
+  </section>
+
+  <!-- 3. Charts -->
+  <section class="sec" id="charts">
+    <div class="sec-head"><div><span class="eyebrow">Step Three</span><h2><span class="pill">Charts</span>Rent, Operations <span class="accent">and Financing</span></h2></div></div>
+    <div class="charts">
+      <div class="card chart-card"><div class="card-h"><h3>Where the Monthly Rent Goes</h3><span class="v" id="c1v"></span></div><div class="chart" id="chRent"></div></div>
+      <div class="card chart-card"><div class="card-h"><h3>Annual Operations</h3><span class="v" id="c2v"></span></div><div class="chart" id="chOps"></div><div class="legend" id="lgOps"></div></div>
+      <div class="card chart-card"><div class="card-h"><h3>Mortgage Balance</h3><span class="v" id="c3v"></span></div><div class="chart" id="chLoan"></div><div class="legend" id="lgLoan"></div></div>
+      <div class="card chart-card"><div class="card-h"><h3>Monthly Cash Flow by Rent</h3><span class="v" id="c4v"></span></div><div class="chart" id="chBe"></div><div class="legend" id="lgBe"></div></div>
+    </div>
+  </section>
+
+  <!-- 4. Tables -->
+  <section class="sec" id="tables">
+    <div class="sec-head"><div><span class="eyebrow">Step Four</span><h2><span class="pill">Tables</span>Detail <span class="accent">Schedules</span></h2></div></div>
+    <div class="stack">
+      <div class="pair">
+        <div class="card"><div class="card-h"><h3>Sources</h3><span class="v" id="srcTot"></span></div><div class="tw scroll"><table class="t" id="tSources"></table></div></div>
+        <div class="card"><div class="card-h"><h3>Uses</h3><span class="v" id="useTot"></span></div><div class="tw scroll"><table class="t" id="tUses"></table></div></div>
+      </div>
+      <div class="card"><div class="card-h"><h3>Monthly operating budget</h3><span class="note">Year 1</span></div><div class="tw scroll"><table class="t" id="tBudget"></table></div></div>
+      <div class="card"><div class="card-h"><h3>Annual pro forma</h3><span class="note" id="pfNote"></span></div><div class="tw scroll"><table class="t" id="tAnnual"></table></div></div>
+      <div class="card"><div class="card-h"><h3>Returns</h3><span class="note">Year 1, pre-tax</span></div><div class="tw scroll"><table class="t" id="tRet"></table></div></div>
+      <div class="pair">
+        <div class="card"><div class="card-h"><h3>Sensitivity: monthly rent</h3><span class="note">Year 1, other inputs held</span></div><div class="tw scroll"><table class="t tight" id="tSensRent"></table></div></div>
+        <div class="card"><div class="card-h"><h3>Sensitivity: purchase price</h3><span class="note">Year 1, other inputs held</span></div><div class="tw scroll"><table class="t tight" id="tSensPrice"></table></div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="w">
+    <p><b>How it works.</b> Year-1 figures drive the key metrics. NOI = collected rent minus management, maintenance reserve, HOA, property tax and insurance (before debt service). Cap rate = NOI ÷ purchase price. Cash-on-cash = annual pre-tax cash flow ÷ (down payment + closing costs). Break-even rent is solved directly: the monthly rent at which year-1 cash flow is zero, given vacancy and the percent-of-rent costs.</p>
+    <p><b>What is not included.</b> Income taxes and depreciation, special assessments, appreciation and sale proceeds, furnished or seasonal rental pricing, short-term rental rules, and building-specific association restrictions on leasing.</p>
+    <p>For illustration and education only. Not investment, tax, legal or lending advice. Check every output against your own underwriting before relying on it.</p>
+    <p>© <span id="yr"></span> Bespoke Underwriting</p>
+  </div>
+</footer>
+<script src="js/miami_condo_rental_model.js"></script>
+<script src="js/miami_condo_rental_app.js"></script>
+</body>
+</html>
