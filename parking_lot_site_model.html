@@ -279,7 +279,7 @@ svg .axis{stroke:rgba(255,255,255,.18)}
         <ul class="facts">
           <li><b>Parking minimum.</b> Shared parking still has to satisfy the office minimum of 1 space per 300 sf (about <span id="pmin36">36</span> spaces at the full buildable sf, computed live). The lot has to supply them, likely through a shared-parking agreement or city approval, and they may overlap paid daytime parking. Reserved spaces are taken out of paid parking all year here, which is conservative for evenings, weekends and game days.</li>
           <li><b>Footprint.</b> Conway's P district caps a new building's footprint at 30% of the lot (about 17.7K sf here), which is a separate limit. The memos put a realistic one-story footprint at about 4,000-6,000 sf with a surface stormwater basin, or about 6,000 sf with an underground vault, so 10,665 sf is an upper bound. Two stories is the cleanest fit. The stormwater pond or vault area still applies and can't go in the easement.</li>
-          <li><b>Premium event layer.</b> Premium revenue = spaces × occupancy × premium rate × days for each venue, added to normal seasonal revenue, which is unchanged. Premium days may coincide with normal busy days; per Michael, the premium is treated as incremental income. Only Brooks Stadium football has defaults: 6 home games in <a href="https://goccusports.com/news/2025/2/28/football-announces-2025-schedule" target="_blank" rel="noopener">2025</a> and <a href="https://goccusports.com/news/2026/3/13/coastal-football-reveals-2026-schedule-with-six-home-games-and-national-tv-matchups" target="_blank" rel="noopener">2026</a>; low rate $20.83 = the $125 GG / YY <a href="https://goccusports.com/documents/download/2026/3/12/2026_Football_Parking_Pricing.pdf" target="_blank" rel="noopener">2026 season pass</a> ÷ 6 games; high rate $25 = GG lot per car (<a href="https://roadtocfb.com/2024/11/14/coastal-carolina-chanticleers-college-football-game-day-2024/" target="_blank" rel="noopener">Road To CFB, Nov 2024</a>); occupancy 75% is an assumption. Other venues are pending research, with days set to 0.</li>
+          <li><b>Premium event layer.</b> Premium revenue = spaces × occupancy × premium rate × days for each venue, added to normal seasonal revenue, which is unchanged. Premium days may coincide with normal busy days; per Michael, the premium is treated as incremental income. On by default: Brooks Stadium football, 6 home games in <a href="https://goccusports.com/news/2025/2/28/football-announces-2025-schedule" target="_blank" rel="noopener">2025</a> and <a href="https://goccusports.com/news/2026/3/13/coastal-football-reveals-2026-schedule-with-six-home-games-and-national-tv-matchups" target="_blank" rel="noopener">2026</a> (Family Weekend and Homecoming fall on game days), at $20.83 (the $125 GG / YY <a href="https://goccusports.com/documents/download/2026/3/12/2026_Football_Parking_Pricing.pdf" target="_blank" rel="noopener">2026 season pass</a> ÷ 6) and $25 (GG lot per car, <a href="https://roadtocfb.com/2024/11/14/coastal-carolina-chanticleers-college-football-game-day-2024/" target="_blank" rel="noopener">Road To CFB, Nov 2024</a>); CCU baseball, 31 home days at the official <a href="https://goccusports.com/news/2026/2/20/baseball-know-before-you-go-parking-information" target="_blank" rel="noopener">2026 $10 general rate</a> ($25 premium lot; free GG walk-in also offered); and commencement, 5 days, where official parking is free, so the rate is an estimate. Other venues default to 0 days with the research count in their note. Occupancy rates are assumptions. <b>Competition:</b> the lot competes with free or already-priced campus lots.</li>
           <li><b>Build cost (estimate).</b> <a href="https://www.rsmeans.com/resources/cost-to-build-an-office" target="_blank" rel="noopener">RSMeans</a> 1-story office $235-$375 / sf (2025, national); <a href="https://buildgenius.app/construction-costs/south-carolina" target="_blank" rel="noopener">BuildGenius</a> 2026 South Carolina office $198 / sf; <a href="https://www.mastt.com/blogs/construction-cost-estimator" target="_blank" rel="noopener">Mastt</a> 2026 low-rise office $240-$440 / sf, soft costs typically 10-15% of hard costs. No Conway bid was found.</li>
         </ul>
       </div>
@@ -312,7 +312,7 @@ svg .axis{stroke:rgba(255,255,255,.18)}
       rate: [5, 10], dAcad: 150, oAcad: 0.75, dSumm: 40, oSumm: 0.50, dEvt: 10, oEvt: 0.75, evtMult: 1.0, coll: 0.03,
       assess: 0.06, mill: 0.25, ins: 3000, maint: 40, power: 1200, appPct: 0.10, mgmtPct: 0.05, resv: 25,
       gRev: 0.03, gOpx: 0.03, cap: 0.08, salePct: 0.03, ltc: 0.50, int: 0.075, amort: 20,
-      tYoc: 0.10, tPb: 4, pr_fb_rate: [20.83, 25.0], pr_fb_days: [6, 6], pr_fb_occ: [0.75, 0.75], pr_bb_rate: [0, 0], pr_bb_days: [0, 0], pr_bb_occ: [0, 0], pr_bsb_rate: [0, 0], pr_bsb_days: [0, 0], pr_bsb_occ: [0, 0], pr_arts_rate: [0, 0], pr_arts_days: [0, 0], pr_arts_occ: [0, 0], pr_grad_rate: [0, 0], pr_grad_days: [0, 0], pr_grad_occ: [0, 0], pr_move_rate: [0, 0], pr_move_days: [0, 0], pr_move_occ: [0, 0], pr_fest_rate: [0, 0], pr_fest_days: [0, 0], pr_fest_occ: [0, 0], pr_fair_rate: [0, 0], pr_fair_days: [0, 0], pr_fair_occ: [0, 0], pr_hosp_rate: [0, 0], pr_hosp_days: [0, 0], pr_hosp_occ: [0, 0], off_share: true, off_build: [null, null], off_capsf: [4000, 6000], off_rr: [0.85, 0.85], off_cost: [235, 198], off_rent: [12, 16], off_soft: [0.15, 0.10], off_vac: [0.10, 0.05], off_nonrec: [0.10, 0.05], off_cap: [0.08, 0.08], off_psf: [300, 300]
+      tYoc: 0.10, tPb: 4, pr_fb_rate: [20.83, 25.0], pr_fb_days: [6, 6], pr_fb_occ: [0.75, 0.75], pr_bsb_rate: [10.0, 10.0], pr_bsb_days: [31, 31], pr_bsb_occ: [0.5, 0.75], pr_grad_rate: [5.0, 10.0], pr_grad_days: [5, 5], pr_grad_occ: [0.5, 0.75], pr_soc_rate: [5.0, 10.0], pr_soc_days: [0, 0], pr_soc_occ: [0.5, 0.75], pr_bb_rate: [5.0, 10.0], pr_bb_days: [0, 0], pr_bb_occ: [0.5, 0.75], pr_sb_rate: [5.0, 10.0], pr_sb_days: [0, 0], pr_sb_occ: [0.5, 0.75], pr_vb_rate: [5.0, 10.0], pr_vb_days: [0, 0], pr_vb_occ: [0.5, 0.75], pr_arts_rate: [5.0, 10.0], pr_arts_days: [0, 0], pr_arts_occ: [0.5, 0.75], pr_fest_rate: [5.0, 10.0], pr_fest_days: [0, 0], pr_fest_occ: [0.5, 0.75], pr_move_rate: [5.0, 10.0], pr_move_days: [0, 0], pr_move_occ: [0.5, 0.75], pr_fair_rate: [0.0, 0.0], pr_fair_days: [0, 0], pr_fair_occ: [0.0, 0.0], pr_hosp_rate: [0.0, 0.0], pr_hosp_days: [0, 0], pr_hosp_occ: [0.0, 0.0], off_share: true, off_build: [null, null], off_capsf: [4000, 6000], off_rr: [0.85, 0.85], off_cost: [235, 198], off_rent: [12, 16], off_soft: [0.15, 0.10], off_vac: [0.10, 0.05], off_nonrec: [0.10, 0.05], off_cap: [0.08, 0.08], off_psf: [300, 300]
     };
   }
   var POLE_SF = Math.PI * 50 * 50;
@@ -385,7 +385,7 @@ svg .axis{stroke:rgba(255,255,255,.18)}
   }
 
   /* Office scenario, shared-parking split and premium event layer. Base-case fields above are untouched. */
-  var PREM_KEYS = ["fb", "bb", "bsb", "arts", "grad", "move", "fest", "fair", "hosp"];
+  var PREM_KEYS = ["fb", "bsb", "grad", "soc", "bb", "sb", "vb", "arts", "fest", "move", "fair", "hosp"];
   function office(I, cap) {
     var o = {}, build = I.off_build == null ? I.envelope : I.off_build;
     o.gfa = cap ? Math.min(I.off_capsf, build) : build; o.rsf = o.gfa * I.off_rr;
@@ -1025,7 +1025,8 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     "max": 50,
     "step": 0.01,
     "basis": "$0-$50 per space per day",
-    "hint": "Low $20.83 = CCU $125 season pass \u00f7 6 home games; high $25 = GG lot per car (2024)"
+    "hint": "Low $20.83 = CCU 2026 GG/YY season pass $125 / 6 home games (calc); high $25 = GG lot per car (Road To CFB, Nov 2024)",
+    "estimate": false
    },
    {
     "p": "pr_fb_days",
@@ -1034,10 +1035,10 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     "unit": "days",
     "pair": true,
     "min": 0,
-    "max": 30,
+    "max": 40,
     "step": 1,
-    "basis": "0-30 days",
-    "hint": "6 home games in 2025 and 2026"
+    "basis": "0-40 days",
+    "hint": "6 home games in 2025 and 2026 (goccusports.com); Family Weekend (Oct 3) and Homecoming (Nov 7) fall on game days, not added again"
    },
    {
     "p": "pr_fb_occ",
@@ -1048,8 +1049,119 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     "max": 1,
     "step": 0.01,
     "basis": "0-100%",
-    "est": true,
-    "hint": "Same 75% as the model's event days"
+    "hint": "ASSUMPTION - replace: same 75% as the model's event days",
+    "est": true
+   },
+   {
+    "p": "pr_bsb_rate",
+    "label": "CCU baseball (Springs Brooks Stadium): premium rate",
+    "f": "$",
+    "unit": "/ space / day",
+    "pair": true,
+    "min": 0,
+    "max": 50,
+    "step": 0.01,
+    "basis": "$0-$50 per space per day",
+    "hint": "Official 2026 general public rate $10/day (YY, J, M, O, P); QQ premium $25/day if available; CCU also offers free walk-in parking in the GG lot",
+    "estimate": false
+   },
+   {
+    "p": "pr_bsb_days",
+    "label": "CCU baseball (Springs Brooks Stadium): days",
+    "f": "n",
+    "unit": "days",
+    "pair": true,
+    "min": 0,
+    "max": 40,
+    "step": 1,
+    "basis": "0-40 days",
+    "hint": "31 home games in the published 2027 home slate (CCU athletics)"
+   },
+   {
+    "p": "pr_bsb_occ",
+    "label": "CCU baseball (Springs Brooks Stadium): occupancy",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%",
+    "hint": "ASSUMPTION - replace: reuses the model's summer (50%) and event-day (75%) occupancy",
+    "est": true
+   },
+   {
+    "p": "pr_grad_rate",
+    "label": "Commencement (HTC Center: CCU + HGTC): premium rate",
+    "f": "$",
+    "unit": "/ space / day",
+    "pair": true,
+    "min": 0,
+    "max": 50,
+    "step": 0.01,
+    "basis": "$0-$50 per space per day",
+    "hint": "ESTIMATE (no paid rate found): set equal to the model's regular daily rate ($5 / $10), not sourced; official commencement parking is free (complimentary, no permit)",
+    "estimate": true
+   },
+   {
+    "p": "pr_grad_days",
+    "label": "Commencement (HTC Center: CCU + HGTC): days",
+    "f": "n",
+    "unit": "days",
+    "pair": true,
+    "min": 0,
+    "max": 40,
+    "step": 1,
+    "basis": "0-40 days",
+    "hint": "5 days in 2026: CCU May 7-9, CCU Dec 12, HGTC May 12"
+   },
+   {
+    "p": "pr_grad_occ",
+    "label": "Commencement (HTC Center: CCU + HGTC): occupancy",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%",
+    "hint": "ASSUMPTION - replace: reuses the model's summer (50%) and event-day (75%) occupancy",
+    "est": true
+   },
+   {
+    "p": "pr_soc_rate",
+    "label": "CCU soccer (men's + women's): premium rate",
+    "f": "$",
+    "unit": "/ space / day",
+    "pair": true,
+    "min": 0,
+    "max": 50,
+    "step": 0.01,
+    "basis": "$0-$50 per space per day",
+    "hint": "ESTIMATE (no paid rate found): set equal to the model's regular daily rate ($5 / $10), not sourced",
+    "estimate": true
+   },
+   {
+    "p": "pr_soc_days",
+    "label": "CCU soccer (men's + women's): days",
+    "f": "n",
+    "unit": "days",
+    "pair": true,
+    "min": 0,
+    "max": 40,
+    "step": 1,
+    "basis": "0-40 days",
+    "hint": "Research count: 21 home dates in 2026 (W 10, M 8 + 3 exhibitions); complex ~0.2-0.4 mi away, walkable. Default 0 days - slide up to include"
+   },
+   {
+    "p": "pr_soc_occ",
+    "label": "CCU soccer (men's + women's): occupancy",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%",
+    "hint": "ASSUMPTION - replace: reuses the model's summer (50%) and event-day (75%) occupancy",
+    "est": true
    },
    {
     "p": "pr_bb_rate",
@@ -1061,8 +1173,8 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     "max": 50,
     "step": 0.01,
     "basis": "$0-$50 per space per day",
-    "hint": "Pending research",
-    "pend": true
+    "hint": "ESTIMATE (no paid rate found): set equal to the model's regular daily rate ($5 / $10), not sourced",
+    "estimate": true
    },
    {
     "p": "pr_bb_days",
@@ -1071,11 +1183,10 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     "unit": "days",
     "pair": true,
     "min": 0,
-    "max": 30,
+    "max": 40,
     "step": 1,
-    "basis": "0-30 days",
-    "hint": "Pending research; 0 until sourced",
-    "pend": true
+    "basis": "0-40 days",
+    "hint": "Research count: 2026-27 men's 16 home + women's 14 HTC games; no paid rate printed. Default 0 days"
    },
    {
     "p": "pr_bb_occ",
@@ -1086,13 +1197,12 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     "max": 1,
     "step": 0.01,
     "basis": "0-100%",
-    "est": false,
-    "hint": "Pending research",
-    "pend": true
+    "hint": "ASSUMPTION - replace: reuses the model's summer (50%) and event-day (75%) occupancy",
+    "est": true
    },
    {
-    "p": "pr_bsb_rate",
-    "label": "CCU baseball: premium rate",
+    "p": "pr_sb_rate",
+    "label": "CCU softball (St. John Stadium): premium rate",
     "f": "$",
     "unit": "/ space / day",
     "pair": true,
@@ -1100,38 +1210,73 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     "max": 50,
     "step": 0.01,
     "basis": "$0-$50 per space per day",
-    "hint": "Pending research",
-    "pend": true
+    "hint": "ESTIMATE (no paid rate found): set equal to the model's regular daily rate ($5 / $10), not sourced",
+    "estimate": true
    },
    {
-    "p": "pr_bsb_days",
-    "label": "CCU baseball: days",
+    "p": "pr_sb_days",
+    "label": "CCU softball (St. John Stadium): days",
     "f": "n",
     "unit": "days",
     "pair": true,
     "min": 0,
-    "max": 30,
+    "max": 40,
     "step": 1,
-    "basis": "0-30 days",
-    "hint": "Pending research; 0 until sourced",
-    "pend": true
+    "basis": "0-40 days",
+    "hint": "Research count: 30 home games in 2027; unique days likely low-20s (ESTIMATE, tournaments). Default 0 days"
    },
    {
-    "p": "pr_bsb_occ",
-    "label": "CCU baseball: occupancy",
+    "p": "pr_sb_occ",
+    "label": "CCU softball (St. John Stadium): occupancy",
     "f": "%",
     "pair": true,
     "min": 0,
     "max": 1,
     "step": 0.01,
     "basis": "0-100%",
-    "est": false,
-    "hint": "Pending research",
-    "pend": true
+    "hint": "ASSUMPTION - replace: reuses the model's summer (50%) and event-day (75%) occupancy",
+    "est": true
+   },
+   {
+    "p": "pr_vb_rate",
+    "label": "CCU volleyball (HTC Center): premium rate",
+    "f": "$",
+    "unit": "/ space / day",
+    "pair": true,
+    "min": 0,
+    "max": 50,
+    "step": 0.01,
+    "basis": "$0-$50 per space per day",
+    "hint": "ESTIMATE (no paid rate found): set equal to the model's regular daily rate ($5 / $10), not sourced",
+    "estimate": true
+   },
+   {
+    "p": "pr_vb_days",
+    "label": "CCU volleyball (HTC Center): days",
+    "f": "n",
+    "unit": "days",
+    "pair": true,
+    "min": 0,
+    "max": 40,
+    "step": 1,
+    "basis": "0-40 days",
+    "hint": "Research count: 15 HTC volleyball dates in 2026. Default 0 days"
+   },
+   {
+    "p": "pr_vb_occ",
+    "label": "CCU volleyball (HTC Center): occupancy",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%",
+    "hint": "ASSUMPTION - replace: reuses the model's summer (50%) and event-day (75%) occupancy",
+    "est": true
    },
    {
     "p": "pr_arts_rate",
-    "label": "Auditorium / performing arts: premium rate",
+    "label": "Wheelwright Auditorium / performing arts: premium rate",
     "f": "$",
     "unit": "/ space / day",
     "pair": true,
@@ -1139,112 +1284,32 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     "max": 50,
     "step": 0.01,
     "basis": "$0-$50 per space per day",
-    "hint": "Pending research",
-    "pend": true
+    "hint": "ESTIMATE (no paid rate found): set equal to the model's regular daily rate ($5 / $10), not sourced",
+    "estimate": true
    },
    {
     "p": "pr_arts_days",
-    "label": "Auditorium / performing arts: days",
+    "label": "Wheelwright Auditorium / performing arts: days",
     "f": "n",
     "unit": "days",
     "pair": true,
     "min": 0,
-    "max": 30,
+    "max": 40,
     "step": 1,
-    "basis": "0-30 days",
-    "hint": "Pending research; 0 until sourced",
-    "pend": true
+    "basis": "0-40 days",
+    "hint": "Research count: ~15 Wheelwright performance days (fall 2026); only sold-out nights are realistic. Default 0 days"
    },
    {
     "p": "pr_arts_occ",
-    "label": "Auditorium / performing arts: occupancy",
+    "label": "Wheelwright Auditorium / performing arts: occupancy",
     "f": "%",
     "pair": true,
     "min": 0,
     "max": 1,
     "step": 0.01,
     "basis": "0-100%",
-    "est": false,
-    "hint": "Pending research",
-    "pend": true
-   },
-   {
-    "p": "pr_grad_rate",
-    "label": "Commencement: premium rate",
-    "f": "$",
-    "unit": "/ space / day",
-    "pair": true,
-    "min": 0,
-    "max": 50,
-    "step": 0.01,
-    "basis": "$0-$50 per space per day",
-    "hint": "Pending research",
-    "pend": true
-   },
-   {
-    "p": "pr_grad_days",
-    "label": "Commencement: days",
-    "f": "n",
-    "unit": "days",
-    "pair": true,
-    "min": 0,
-    "max": 30,
-    "step": 1,
-    "basis": "0-30 days",
-    "hint": "Pending research; 0 until sourced",
-    "pend": true
-   },
-   {
-    "p": "pr_grad_occ",
-    "label": "Commencement: occupancy",
-    "f": "%",
-    "pair": true,
-    "min": 0,
-    "max": 1,
-    "step": 0.01,
-    "basis": "0-100%",
-    "est": false,
-    "hint": "Pending research",
-    "pend": true
-   },
-   {
-    "p": "pr_move_rate",
-    "label": "Move-in: premium rate",
-    "f": "$",
-    "unit": "/ space / day",
-    "pair": true,
-    "min": 0,
-    "max": 50,
-    "step": 0.01,
-    "basis": "$0-$50 per space per day",
-    "hint": "Pending research",
-    "pend": true
-   },
-   {
-    "p": "pr_move_days",
-    "label": "Move-in: days",
-    "f": "n",
-    "unit": "days",
-    "pair": true,
-    "min": 0,
-    "max": 30,
-    "step": 1,
-    "basis": "0-30 days",
-    "hint": "Pending research; 0 until sourced",
-    "pend": true
-   },
-   {
-    "p": "pr_move_occ",
-    "label": "Move-in: occupancy",
-    "f": "%",
-    "pair": true,
-    "min": 0,
-    "max": 1,
-    "step": 0.01,
-    "basis": "0-100%",
-    "est": false,
-    "hint": "Pending research",
-    "pend": true
+    "hint": "ASSUMPTION - replace: reuses the model's summer (50%) and event-day (75%) occupancy",
+    "est": true
    },
    {
     "p": "pr_fest_rate",
@@ -1256,8 +1321,8 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     "max": 50,
     "step": 0.01,
     "basis": "$0-$50 per space per day",
-    "hint": "Pending research",
-    "pend": true
+    "hint": "ESTIMATE (no paid rate found): set equal to the model's regular daily rate ($5 / $10), not sourced",
+    "estimate": true
    },
    {
     "p": "pr_fest_days",
@@ -1266,11 +1331,10 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     "unit": "days",
     "pair": true,
     "min": 0,
-    "max": 30,
+    "max": 40,
     "step": 1,
-    "basis": "0-30 days",
-    "hint": "Pending research; 0 until sourced",
-    "pend": true
+    "basis": "0-40 days",
+    "hint": "Research count: ~15-25 days a year (ESTIMATE); 3.4-3.6 mi away, no shuttle, weak fit. Default 0 days"
    },
    {
     "p": "pr_fest_occ",
@@ -1281,13 +1345,12 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     "max": 1,
     "step": 0.01,
     "basis": "0-100%",
-    "est": false,
-    "hint": "Pending research",
-    "pend": true
+    "hint": "ASSUMPTION - replace: reuses the model's summer (50%) and event-day (75%) occupancy",
+    "est": true
    },
    {
-    "p": "pr_fair_rate",
-    "label": "Fairgrounds: premium rate",
+    "p": "pr_move_rate",
+    "label": "CCU move-in: premium rate",
     "f": "$",
     "unit": "/ space / day",
     "pair": true,
@@ -1295,34 +1358,70 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     "max": 50,
     "step": 0.01,
     "basis": "$0-$50 per space per day",
-    "hint": "Pending research",
-    "pend": true
+    "hint": "ESTIMATE (no paid rate found): set equal to the model's regular daily rate ($5 / $10), not sourced",
+    "estimate": true
    },
    {
-    "p": "pr_fair_days",
-    "label": "Fairgrounds: days",
+    "p": "pr_move_days",
+    "label": "CCU move-in: days",
     "f": "n",
     "unit": "days",
     "pair": true,
     "min": 0,
-    "max": 30,
+    "max": 40,
     "step": 1,
-    "basis": "0-30 days",
-    "hint": "Pending research; 0 until sourced",
-    "pend": true
+    "basis": "0-40 days",
+    "hint": "Aug 12-16, 2026 (5 appointment days); better treated as an occupancy bump than a premium rate. Default 0 days"
    },
    {
-    "p": "pr_fair_occ",
-    "label": "Fairgrounds: occupancy",
+    "p": "pr_move_occ",
+    "label": "CCU move-in: occupancy",
     "f": "%",
     "pair": true,
     "min": 0,
     "max": 1,
     "step": 0.01,
     "basis": "0-100%",
-    "est": false,
-    "hint": "Pending research",
-    "pend": true
+    "hint": "ASSUMPTION - replace: reuses the model's summer (50%) and event-day (75%) occupancy",
+    "est": true
+   },
+   {
+    "p": "pr_fair_rate",
+    "label": "Fairgrounds (Horry County Rural Civic Center): premium rate",
+    "f": "$",
+    "unit": "/ space / day",
+    "pair": true,
+    "min": 0,
+    "max": 50,
+    "step": 0.01,
+    "basis": "$0-$50 per space per day",
+    "hint": "Excluded: no venue yet",
+    "estimate": false
+   },
+   {
+    "p": "pr_fair_days",
+    "label": "Fairgrounds (Horry County Rural Civic Center): days",
+    "f": "n",
+    "unit": "days",
+    "pair": true,
+    "min": 0,
+    "max": 40,
+    "step": 1,
+    "basis": "0-40 days",
+    "hint": "Excluded: the Rural Civic Center is still in design (county news, Aug 2026), west side of Conway. Kept at 0",
+    "excl": true
+   },
+   {
+    "p": "pr_fair_occ",
+    "label": "Fairgrounds (Horry County Rural Civic Center): occupancy",
+    "f": "%",
+    "pair": true,
+    "min": 0,
+    "max": 1,
+    "step": 0.01,
+    "basis": "0-100%",
+    "hint": "Excluded",
+    "est": false
    },
    {
     "p": "pr_hosp_rate",
@@ -1334,8 +1433,8 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     "max": 50,
     "step": 0.01,
     "basis": "$0-$50 per space per day",
-    "hint": "Pending research",
-    "pend": true
+    "hint": "Not an event source",
+    "estimate": false
    },
    {
     "p": "pr_hosp_days",
@@ -1344,11 +1443,11 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     "unit": "days",
     "pair": true,
     "min": 0,
-    "max": 30,
+    "max": 40,
     "step": 1,
-    "basis": "0-30 days",
-    "hint": "Pending research; 0 until sourced",
-    "pend": true
+    "basis": "0-40 days",
+    "hint": "Conway Medical Center is everyday demand along 501, not a premium-event source. Kept at 0",
+    "excl": true
    },
    {
     "p": "pr_hosp_occ",
@@ -1359,9 +1458,8 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     "max": 1,
     "step": 0.01,
     "basis": "0-100%",
-    "est": false,
-    "hint": "Pending research",
-    "pend": true
+    "hint": "Not an event source",
+    "est": false
    }
   ]
  },
@@ -1521,7 +1619,7 @@ svg .axis{stroke:rgba(255,255,255,.18)}
     return '<div class="sl">' + (tag ? '<span class="case">' + tag + '</span>' : '') + '<input type="range" data-r="' + di + '" min="' + f.min + '" max="' + f.max + '" step="' + f.step + '" value="' + v + '" aria-label="' + esc(f.label) + (tag ? ' ' + tag : '') + ' slider" title="Range ' + esc(f.basis || '') + '"></div>';
   }
   function fieldHTML(f, i) {
-    var id = 'f' + i, tag = f.pend ? '<span class="est pend">PENDING RESEARCH</span>' : f.estimate ? '<span class="est">ESTIMATE</span>' : f.est ? '<span class="est">ASSUMPTION</span>' : '';
+    var id = 'f' + i, tag = f.excl ? '<span class="est pend">EXCLUDED</span>' : f.estimate ? '<span class="est">ESTIMATE</span>' : f.est ? '<span class="est">ASSUMPTION</span>' : '';
     var hint = f.hint ? '<div class="hint">' + esc(f.hint) + '</div>' : '', note = f.note && NOTES[f.p] ? '<div class="hint ref">' + NOTES[f.p] + '</div>' : '';
     if (f.f === 'bool') return '<div class="fld" data-fld="' + i + '"><label>' + esc(f.label) + '</label><div class="tog" role="group" aria-label="' + esc(f.label) + '"><button type="button" data-b="' + i + '" data-v="1" aria-pressed="' + !!S[f.p] + '">On</button><button type="button" data-b="' + i + '" data-v="0" aria-pressed="' + !S[f.p] + '">Off</button></div>' + hint + '</div>';
     var lab = '<label for="' + id + (f.pair ? 'a' : '') + '">' + esc(f.label) + tag + '</label>', box, sl;
